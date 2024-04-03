@@ -1,67 +1,59 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
+/**
+ * @author Jakob Garcia
+ */
 public class Deck {
-	public ArrayList<Card> deck = new ArrayList<Card>();
+
+	private ArrayList<Card> cardDeck;
+	private int deckTop;
 
 	public Deck() {
-		for(int i = 0; i < 10; i++) {
-			deck.add(new Card(Rank.DEUCE, Suit.CLUBS));
-			deck.add(new Card(Rank.THREE, Suit.CLUBS));
-			deck.add(new Card(Rank.FOUR, Suit.CLUBS));
-			deck.add(new Card(Rank.FIVE, Suit.CLUBS));
-			deck.add(new Card(Rank.SIX, Suit.CLUBS));
-			deck.add(new Card(Rank.SEVEN, Suit.CLUBS));
-			deck.add(new Card(Rank.EIGHT, Suit.CLUBS));
-			deck.add(new Card(Rank.NINE, Suit.CLUBS));
-			deck.add(new Card(Rank.TEN, Suit.CLUBS));
-			deck.add(new Card(Rank.JACK, Suit.CLUBS));
-			deck.add(new Card(Rank.QUEEN, Suit.CLUBS));
-			deck.add(new Card(Rank.KING, Suit.CLUBS));
-			deck.add(new Card(Rank.ACE, Suit.CLUBS));
-	
-			deck.add(new Card(Rank.DEUCE, Suit.DIAMONDS));
-			deck.add(new Card(Rank.THREE, Suit.DIAMONDS));
-			deck.add(new Card(Rank.FOUR, Suit.DIAMONDS));
-			deck.add(new Card(Rank.FIVE, Suit.DIAMONDS));
-			deck.add(new Card(Rank.SIX, Suit.DIAMONDS));
-			deck.add(new Card(Rank.SEVEN, Suit.DIAMONDS));
-			deck.add(new Card(Rank.EIGHT, Suit.DIAMONDS));
-			deck.add(new Card(Rank.NINE, Suit.DIAMONDS));
-			deck.add(new Card(Rank.TEN, Suit.DIAMONDS));
-			deck.add(new Card(Rank.JACK, Suit.DIAMONDS));
-			deck.add(new Card(Rank.QUEEN, Suit.DIAMONDS));
-			deck.add(new Card(Rank.KING, Suit.DIAMONDS));
-			deck.add(new Card(Rank.ACE, Suit.DIAMONDS));
-	
-			deck.add(new Card(Rank.DEUCE, Suit.HEARTS));
-			deck.add(new Card(Rank.THREE, Suit.HEARTS));
-			deck.add(new Card(Rank.FOUR, Suit.HEARTS));
-			deck.add(new Card(Rank.FIVE, Suit.HEARTS));
-			deck.add(new Card(Rank.SIX, Suit.HEARTS));
-			deck.add(new Card(Rank.SEVEN, Suit.HEARTS));
-			deck.add(new Card(Rank.EIGHT, Suit.HEARTS));
-			deck.add(new Card(Rank.NINE, Suit.HEARTS));
-			deck.add(new Card(Rank.TEN, Suit.HEARTS));
-			deck.add(new Card(Rank.JACK, Suit.HEARTS));
-			deck.add(new Card(Rank.QUEEN, Suit.HEARTS));
-			deck.add(new Card(Rank.KING, Suit.HEARTS));
-			deck.add(new Card(Rank.ACE, Suit.HEARTS));
-	
-			deck.add(new Card(Rank.DEUCE, Suit.SPADES));
-			deck.add(new Card(Rank.THREE, Suit.SPADES));
-			deck.add(new Card(Rank.FOUR, Suit.SPADES));
-			deck.add(new Card(Rank.FIVE, Suit.SPADES));
-			deck.add(new Card(Rank.SIX, Suit.SPADES));
-			deck.add(new Card(Rank.SEVEN, Suit.SPADES));
-			deck.add(new Card(Rank.EIGHT, Suit.SPADES));
-			deck.add(new Card(Rank.NINE, Suit.SPADES));
-			deck.add(new Card(Rank.TEN, Suit.SPADES));
-			deck.add(new Card(Rank.JACK, Suit.SPADES));
-			deck.add(new Card(Rank.QUEEN, Suit.SPADES));
-			deck.add(new Card(Rank.KING, Suit.SPADES));
-			deck.add(new Card(Rank.ACE, Suit.SPADES));
-		}	
+		// Generate an ArrayList of all 52 cards in a standard deck but for 10 decks
+		cardDeck = new ArrayList<Card>();
+		deckTop = 0;
+		Rank[] ranks = { Rank.DEUCE, Rank.THREE, Rank.FOUR, Rank.FIVE, Rank.SIX, Rank.SEVEN, Rank.EIGHT, Rank.NINE,
+				Rank.TEN, Rank.JACK, Rank.QUEEN, Rank.KING, Rank.ACE };
+		Suit[] suits = { Suit.SPADES, Suit.CLUBS, Suit.DIAMONDS, Suit.HEARTS };
+		for (int i = 0; i < 10; i++) {
+			for (Suit suit : suits) {
+				for (Rank rank : ranks) {
+					cardDeck.add(new Card(rank, suit));
+				}
+			}
+			Collections.shuffle(cardDeck);
+		}
+	}
+
+	public Deck(int deckAmount) {
+		// Generate an ArrayList of all 52 cards in a standard deck for a specified
+		// amount of decks
+		cardDeck = new ArrayList<Card>();
+		deckTop = 0;
+		Rank[] ranks = { Rank.DEUCE, Rank.THREE, Rank.FOUR, Rank.FIVE, Rank.SIX, Rank.SEVEN, Rank.EIGHT, Rank.NINE,
+				Rank.TEN, Rank.JACK, Rank.QUEEN, Rank.KING, Rank.ACE };
+		Suit[] suits = { Suit.SPADES, Suit.CLUBS, Suit.DIAMONDS, Suit.HEARTS };
+		for (int i = 0; i < deckAmount; i++) {
+			for (Suit suit : suits) {
+				for (Rank rank : ranks) {
+					cardDeck.add(new Card(rank, suit));
+				}
+			}
+			Collections.shuffle(cardDeck);
+		}
+	}
+
+	public Card getTopCard() {
+		Card topCard = cardDeck.get(deckTop);
+		deckTop++;
+		return topCard;
+	}
+
+	public void resetDeck() {
+		deckTop = 0;
+		Collections.shuffle(cardDeck);
 	}
 }
