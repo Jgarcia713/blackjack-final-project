@@ -24,8 +24,9 @@ public class Deck {
 					cardDeck.add(new Card(rank, suit));
 				}
 			}
-			Collections.shuffle(cardDeck);
 		}
+		Collections.shuffle(cardDeck);
+
 	}
 
 	public Deck(int deckAmount) {
@@ -42,8 +43,9 @@ public class Deck {
 					cardDeck.add(new Card(rank, suit));
 				}
 			}
-			Collections.shuffle(cardDeck);
 		}
+		Collections.shuffle(cardDeck);
+
 	}
 
 	public Card getTopCard() {
