@@ -1,20 +1,97 @@
 package model;
 
-public class BlackjackHand implements Comparable<BlackjackHand> {
-	private Card[] hand = new Card[2];
+import java.util.ArrayList;
 
-	@Override
-	public int compareTo(BlackjackHand o) { // Need logic for ace 1/11
-		// TODO Auto-generated method stub
-		return 0;
+public class BlackjackHand implements Comparable<BlackjackHand> {
+	private ArrayList<Card> hand;
+	private boolean busted;
+	private int total;
+
+	public BlackjackHand() {
+		hand = new ArrayList<>();
+		busted = false;
+		total = 0;
 	}
 
-	public void add(Card dealtCard) {
+	/*
+	 * compares to Hand totals returning > 0 if this hand total is more, 0 if they
+	 * are equal, and < 0 if other hand total is more
+	 */
+	@Override
+	public int compareTo(BlackjackHand otherHand) { 
 		// TODO Auto-generated method stub
-		if (hand[0] == null) {
-			hand[0] = dealtCard;
+		return total - otherHand.getTotal();
+	}
+
+	/*
+	 * returns true if hand is a "blackJack" hand ie (has 2 cards,
+	 *  an ace and total == 21)
+	 */
+	public boolean isBlackJack() {
+		int aceIndex = aceIndex();
+		return (hand.size() == 2 && total == 21 && aceIndex != -1);
+	}
+
+	/*
+	 * returns true if hand value == 21
+	 */
+	public boolean isTwentyOne() {
+		return total == 21;
+	}
+
+	/*
+	 * Deals a card to current hand updating the hand, total, and boolean busted if
+	 * total > 21
+	 */
+	public void dealCard(Card dealtCard) {
+		// TODO Auto-generated method stub
+
+		// add card to hand
+		hand.add(dealtCard);
+		total += dealtCard.getValue();
+
+		// if total over 21 check for aces
+		if (total + dealtCard.getValue() > 21) {
+
+			// replace aces value with one, one at a time until no more aces
+			// with a value of 11 or total is under 21
+			int aceIndex = this.aceIndex();
+			while (aceIndex != -1 && total > 21) {
+
+				hand.remove(aceIndex);
+				total -= 10;
+				hand.add(aceIndex, new Card(Rank.ONE, dealtCard.getSuit()));
+				aceIndex = this.aceIndex();
+			}
+
+			if (total > 21) {
+				busted = true;
+			}
 		}
-		hand[1] = dealtCard;
+	}
+
+	/*
+	 * returns -1 if no ace is present else returns index of first ace
+	 */
+	private int aceIndex() {
+		for (int i = 0; i < hand.size(); i++) {
+			if (hand.get(i).getValue() == 11) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public boolean isBusted() {
+		return busted;
+	}
+
+	public ArrayList<Card> getHand() {
+		return hand;
 	}
 
 }
