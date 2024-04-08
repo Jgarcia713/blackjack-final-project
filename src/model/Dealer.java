@@ -10,26 +10,28 @@ public class Dealer {
 	private Deck deck;
 	private ArrayList<Player> players;
 	private BlackjackHand dealerHand;
-	private double moneyPot;
+	private double[] bets;
 
+	//
 	public Dealer(ArrayList<Player> players) {
-		// The dealer controls the card Deck, money, and interacts with Players
 		deck = new Deck();
 		this.players = players;
-		moneyPot = 0;
+		bets = new double[players.size()];
 		dealerHand = new BlackjackHand();
 	}
 
 	public void dealCards() {
 		// deal Cards to each Player and store community Cards
-		dealerHand.add(deck.getTopCard());
 		for (Player player : players) {
 			player.receiveCards(deck.getTopCard());
 		}
-		dealerHand.add(deck.getTopCard());
+		dealerHand.dealCard(deck.getTopCard());
+
 		for (Player player : players) {
 			player.receiveCards(deck.getTopCard());
 		}
+		dealerHand.dealCard(deck.getTopCard());
+
 	}
 
 	public void reshuffle() {

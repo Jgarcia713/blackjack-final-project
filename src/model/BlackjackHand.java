@@ -18,12 +18,11 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 	 * are equal, and < 0 if other hand total is more
 	 */
 	@Override
-	public int compareTo(BlackjackHand otherHand) { 
-		// TODO Auto-generated method stub
+	public int compareTo(BlackjackHand otherHand) {
 		return total - otherHand.getTotal();
 	}
 
-	/*
+	/*-
 	 * returns true if hand is a "blackJack" hand ie (has 2 cards,
 	 *  an ace and total == 21)
 	 */
@@ -44,8 +43,6 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 	 * total > 21
 	 */
 	public void dealCard(Card dealtCard) {
-		// TODO Auto-generated method stub
-
 		// add card to hand
 		hand.add(dealtCard);
 		total += dealtCard.getValue();
