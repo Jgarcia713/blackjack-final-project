@@ -8,58 +8,62 @@ import java.util.ArrayList;
 public class Dealer {
 
 	private Deck deck;
-	private ArrayList<Player> players;
+	private ArrayList<BlackjackPlayer> players;
 	private BlackjackHand dealerHand;
-	private double[] bets;
 
-	//
-	public Dealer(ArrayList<Player> players) {
+	public Dealer(ArrayList<BlackjackPlayer> players) {
 		deck = new Deck();
 		this.players = players;
-		bets = new double[players.size()];
 		dealerHand = new BlackjackHand();
 	}
 
+	/*
+	 * Deal a card to each player and then to the dealer
+	 */
 	public void dealCards() {
-		// deal Cards to each Player and store community Cards
-		for (Player player : players) {
+		for (BlackjackPlayer player : players) {
 			player.receiveCards(deck.getTopCard());
 		}
 		dealerHand.dealCard(deck.getTopCard());
 
-		for (Player player : players) {
+		for (BlackjackPlayer player : players) {
 			player.receiveCards(deck.getTopCard());
 		}
 		dealerHand.dealCard(deck.getTopCard());
 
 	}
 
+	/*
+	 * Reshuffle the deck and clear Player cards
+	 */
 	public void reshuffle() {
 		// Reset the Deck and shuffle. Also, clear all Player Cards.
 		deck.resetDeck();
-		for (Player player : players) {
+		for (BlackjackPlayer player : players) {
 			player.discardCards();
 		}
 	}
 
-	public void collectAnte() {
-		// Collect ante from each Player and store into pot
-		for (Player player : players) {
-			moneyPot += player.placeBet(2.0);
+	/*
+	 * Collect a bet from each Player and store that number
+	 */
+	public void collectBet(ArrayList<Double> bets) {
+		for (int i = 0; i < bets.size(); i++) {
+			players.get(i).placeBet(bets.get(i), false);
 		}
 	}
 
-	public void payWinners(ArrayList<Player> winners) {
-		// Pay the winning Player(s) the pot amount, dividing as necessary
-		double payout = (int) ((moneyPot / winners.size()) * 100.0) / 100.0;
-		for (Player player : winners) {
-			player.receivePayout(payout);
+	/*
+	 * Pay the winning Player(s) based on their bets. If they got Blackjack, they
+	 * get 1.5x their bet
+	 */
+	public void payWinners(ArrayList<BlackjackPlayer> winners) {
+		for (BlackjackPlayer player : winners) {
+			if (player.hasBlackjack())
+				player.receivePayout(true);
+			else
+				player.receivePayout(false);
 		}
-		moneyPot = 0;
-	}
-
-	public double checkPot() {
-		return moneyPot;
 	}
 
 }
