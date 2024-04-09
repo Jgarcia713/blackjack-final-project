@@ -1,5 +1,38 @@
 package model;
 
-public class Game {
+import java.util.ArrayList;
 
+public class Game {
+	public static void main(String[] args) {
+		Player p1 = new Player("p1", true);
+		Player c1 = new Player("c1", false);
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(p1);
+		players.add(c1);
+		System.out.println(p1);
+		System.out.println(c1);
+
+		Dealer dealer = new Dealer(players);
+
+		for (Player player : players) {
+			dealer.collectBet(player, 20); // collect bet from each player
+		}
+		dealer.dealCards(); // deal cards to each player and the dealer
+		if (dealer.hasTwentyOne()) {
+			return;
+		}
+
+		p1.hit(dealer.dealSingleCard()); // This would be changed to prompt for input using the actions enum
+		c1.hit(dealer.dealSingleCard()); // Would need a loop similar to the dealer hit
+		while (!dealer.hit()) { // hit until >= 16
+			System.out.println(dealer.isFolded());
+		}
+		System.out.println("p1 total:" + p1.getHandTotal());
+		System.out.println("c1 total:" + c1.getHandTotal());
+		System.out.println("dealer total:" + dealer.getTotal());
+
+		dealer.payWinners(); // pays all winners. Does nothing if dealer won
+		System.out.println(p1);
+		System.out.println(c1);
+	}
 }

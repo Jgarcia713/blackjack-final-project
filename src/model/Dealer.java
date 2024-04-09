@@ -53,6 +53,10 @@ public class Dealer {
 		return folded;
 	}
 
+	public int getTotal() {
+		return dealerHand.getTotal();
+	}
+
 	/*
 	 * Reshuffle the deck and clear Player cards
 	 */
@@ -77,9 +81,18 @@ public class Dealer {
 	 * Pay the winning Player(s) based on their bets. If they got Blackjack, they
 	 * get 1.5x their bet
 	 */
-	public void payWinner(Player player) {
-		player.receivePayout();
+	public void payWinners() {
+		for (Player player : players) {
 
+			if (player.isBusted())
+				continue;
+			if (dealerHand.isBusted())
+				player.receivePayout(false);
+			else if (player.getHandTotal() == dealerHand.getTotal())
+				player.receivePayout(true);
+			else if (player.getHandTotal() > dealerHand.getTotal())
+				player.receivePayout(false);
+		}
 	}
 
 	/*
@@ -87,6 +100,10 @@ public class Dealer {
 	 */
 	public Card dealSingleCard() {
 		return deck.getTopCard();
+	}
+
+	public boolean hasTwentyOne() {
+		return dealerHand.isBlackJack();
 	}
 
 }
