@@ -16,19 +16,25 @@ public class BlackjackConsole {
         // hard coding in one player and one computer for now.
         game.addPlayer("p1", true);
         game.addPlayer("c1", false);
-        game.startRound();
-
-        while (!game.isGameOver) {
-            System.out.println(game.getActivePlayer() + "\nWhat would you like to do? ('hit'/'stand'/'double')");
-            String userResponse = scanner.nextLine();
-            try {
-                Actions action = Actions.valueOf(userResponse.toUpperCase());
-                game.makeMove(action);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Invalid action!");
+        boolean keepPlaying = true;
+        while (keepPlaying) {
+            game.startRound();
+            while (!game.isGameOver) {
+                System.out.println(game.getActivePlayer() + "\nWhat would you like to do? ('hit'/'stand'/'double')");
+                String userResponse = scanner.nextLine();
+                try {
+                    Actions action = Actions.valueOf(userResponse.toUpperCase());
+                    game.makeMove(action);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid action!");
+                }
+            }
+            displayResults();
+            System.out.println("Play another round? (y = yes, anything else = no)");
+            if (!scanner.nextLine().equals("y")) {
+                keepPlaying = false;
             }
         }
-        displayResults();
     }
 
     private static void displayResults() {

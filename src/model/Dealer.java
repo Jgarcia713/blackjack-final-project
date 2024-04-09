@@ -9,8 +9,8 @@ import java.util.ArrayList;
  */
 public class Dealer {
 
-	private Deck deck;
-	private ArrayList<Player> players;
+	private final Deck deck;
+	private final ArrayList<Player> players;
 	private BlackjackHand dealerHand;
 	private boolean folded = false; // indicates if the dealer has folded
 	private final int minScore = 16;
@@ -29,9 +29,12 @@ public class Dealer {
 	 * Deal a card to each player and then to the dealer
 	 */
 	public void dealCards() {
+
 		for (Player player : players) {
+			player.discardCards();
 			player.receiveCards(deck.getTopCard());
 		}
+
 		dealerHand.dealCard(deck.getTopCard());
 
 		for (Player player : players) {
@@ -50,7 +53,7 @@ public class Dealer {
 		return folded;
 	}
 	public void hitUntilMinScore() {
-		while (dealerHand.getTotal() >= minScore) { // hit until >= minScore
+		while (dealerHand.getTotal() <= minScore) { // hit until >= minScore
 			dealerHand.dealCard((this.dealSingleCard())); // dealer deals themself a card
 		}
 	}

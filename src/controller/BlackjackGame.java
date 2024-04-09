@@ -26,30 +26,28 @@ public class BlackjackGame {
     }
 
     /**
-    starts a round by collecting everyone's bets and dealing out cards.
-    @apiNote currently uses a fixed bet of 20. Eventually need players to choose their own bets
-    @return boolean that represents whether the dealer has already won.
-    */
-    public boolean startRound() {
+     * starts a round by collecting everyone's bets and dealing out cards.
+     *
+     * @apiNote currently uses a fixed bet of 20. Eventually need players to choose their own bets
+     */
+    public void startRound() {
         // sets up iterator and assigns activePlayer to the first player
         try {
             iterator = players.iterator();
             activePlayer = iterator.next();
         } catch (NoSuchElementException e) {
             System.out.println("ERROR: No players have been added to the game!");
-            return true;
+            return;
         }
         isGameOver = false; // reset isGameOver flag
-
+        dealer.dealCards();
         for (Player player : players) {
             dealer.collectBet(player, 20); // collect bet from each player
         }
         dealer.dealCards(); // deal cards to each player and the dealer
         if (dealer.hasTwentyOne()) {
             isGameOver = true;
-            return true;
         }
-        return false;
     }
 
     /**
