@@ -51,19 +51,23 @@ public class Player {
 	/*
 	 * Receive payout for this bet
 	 */
-	public void receivePayout() {
+	public void receivePayout(boolean draw) {
 		// Receive pay-out
-		if (split) {
-			if (splitHand.isBlackJack())
-				balance += splitBet * 1.5;
-			else
-				balance += splitBet;
-		} else {
 
-			if (hand.isBlackJack())
-				balance += bet * 1.5;
+		if (split) {
+			if (draw)
+				balance += splitBet;
+			else if (splitHand.isBlackJack())
+				balance += splitBet * 2.5;
 			else
+				balance += splitBet * 2;
+		} else {
+			if (draw)
 				balance += bet;
+			else if (hand.isBlackJack())
+				balance += bet * 2.5;
+			else
+				balance += bet * 2;
 		}
 	}
 
@@ -150,6 +154,12 @@ public class Player {
 		return bet;
 	}
 
+	public int getHandTotal() {
+		if (split)
+			return splitHand.getTotal();
+		return hand.getTotal();
+	}
+
 	public void fold() {
 		folded = true;
 	}
@@ -160,6 +170,11 @@ public class Player {
 
 	public boolean isSplit() {
 		return split;
+	}
+	
+	@Override
+	public String toString() {
+		return playerName + " " + balance;
 	}
 
 }
