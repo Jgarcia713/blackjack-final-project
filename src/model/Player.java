@@ -173,6 +173,6 @@ public class Player {
 		return split;
 	}
 	@Override
-	public String toString() { return playerName + " " + balance + "\n" + hand; }
+	public String toString() { return playerName + "\nBalance: " + balance + "\n" + hand + "\nTotal Score: " + hand.getTotal(); }
 
 }

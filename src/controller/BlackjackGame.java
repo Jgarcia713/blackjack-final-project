@@ -1,5 +1,6 @@
 package controller;
 
+import model.BlackjackHand;
 import model.Dealer;
 import model.Player;
 
@@ -56,10 +57,15 @@ public class BlackjackGame {
      * If we want to do online networking, we probably need to verify that the request came from the correct player,
      * but depends on how it's setup.
      * @param action string input from user saying what their move is.
+     * @return bool stating whether player bust
      */
-    public void makeMove(Actions action) {
+    public boolean makeMove(Actions action) {
         if (action == Actions.HIT) {
             activePlayer.hit(dealer.dealSingleCard());
+            if (activePlayer.isBusted()) {
+                activePlayer = iterator.next();
+                return true;
+            }
         }
         else if (action == Actions.STAND) {
             if (iterator.hasNext()) {
@@ -78,6 +84,7 @@ public class BlackjackGame {
         else if (action == Actions.SPLIT) {
             //TODO: fill out if statement
         }
+        return false;
     }
 
     /**
@@ -93,4 +100,5 @@ public class BlackjackGame {
     public Player getActivePlayer() {
         return activePlayer;
     }
+    public String dealerString() { return dealer.toString(); }
 }

@@ -53,7 +53,7 @@ public class Dealer {
 		return folded;
 	}
 	public void hitUntilMinScore() {
-		while (dealerHand.getTotal() <= minScore) { // hit until >= minScore
+		while (dealerHand.getTotal() < minScore) { // hit until >= minScore
 			dealerHand.dealCard((this.dealSingleCard())); // dealer deals themself a card
 		}
 	}
@@ -114,5 +114,7 @@ public class Dealer {
 		return dealerHand.isBlackJack();
 	}
 
-	public ArrayList<Player> getPlayers() { return players; }
+	public BlackjackHand getHand() { return dealerHand; }
+	@Override
+	public String toString() { return "DEALER:\n" + dealerHand + "\nTotal Score: " + dealerHand.getTotal(); }
 }
