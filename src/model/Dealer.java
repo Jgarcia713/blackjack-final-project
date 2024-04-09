@@ -14,7 +14,7 @@ public class Dealer {
 	private BlackjackHand dealerHand;
 	private boolean folded = false; // indicates if the dealer has folded
 
-	/*
+	/**
 	 * Initialize the dealer and their hand. Depends on a list of players from the
 	 * Game
 	 */
@@ -24,7 +24,7 @@ public class Dealer {
 		dealerHand = new BlackjackHand();
 	}
 
-	/*
+	/**
 	 * Deal a card to each player and then to the dealer
 	 */
 	public void dealCards() {
@@ -39,7 +39,7 @@ public class Dealer {
 		dealerHand.dealCard(deck.getTopCard());
 	}
 
-	/*
+	/**
 	 * Allows the dealer to continue hitting until bust or above 16
 	 */
 	public boolean hit() {
@@ -57,7 +57,7 @@ public class Dealer {
 		return dealerHand.getTotal();
 	}
 
-	/*
+	/**
 	 * Reshuffle the deck and clear Player cards
 	 */
 	public void reshuffle() {
@@ -70,14 +70,14 @@ public class Dealer {
 		}
 	}
 
-	/*
+	/**
 	 * Collect a bet from each Player. Depends on the Game
 	 */
 	public void collectBet(Player player, double amount) {
 		player.placeBet(amount);
 	}
 
-	/*
+	/**
 	 * Pay the winning Player(s) based on their bets. If they got Blackjack, they
 	 * get 1.5x their bet
 	 */
@@ -95,7 +95,7 @@ public class Dealer {
 		}
 	}
 
-	/*
+	/**
 	 * Used so the game can deal a card to a player
 	 */
 	public Card dealSingleCard() {
@@ -106,4 +106,5 @@ public class Dealer {
 		return dealerHand.isBlackJack();
 	}
 
+	public ArrayList<Player> getPlayers() { return players; }
 }

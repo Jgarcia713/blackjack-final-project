@@ -14,6 +14,7 @@ public class Player {
 	private double splitBet = 0; // second bet for splitting
 	private boolean folded = false; // indicates if the player has folded
 	private boolean split = false;
+	private boolean hasCompletedTurn = false;
 	private boolean isPlayer; // indicates whether or not the player is a computer
 
 	// Construct a player with a name and indicate whether it is a computer
@@ -173,8 +174,6 @@ public class Player {
 	}
 	
 	@Override
-	public String toString() {
-		return playerName + " " + balance;
-	}
+	public String toString() { return playerName + " " + balance; }
 
 }

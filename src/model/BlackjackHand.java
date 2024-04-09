@@ -13,7 +13,7 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 		total = 0;
 	}
 
-	/*
+	/**
 	 * compares to Hand totals returning > 0 if this hand total is more, 0 if they
 	 * are equal, and < 0 if other hand total is more
 	 */
@@ -22,7 +22,7 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 		return total - otherHand.getTotal();
 	}
 
-	/*-
+	/**
 	 * returns true if hand is a "blackJack" hand ie (has 2 cards,
 	 *  an ace and total == 21)
 	 */
@@ -31,28 +31,28 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 		return (hand.size() == 2 && total == 21 && aceIndex != -1);
 	}
 
-	/*
+	/**
 	 * returns true if hand value == 21
 	 */
 	public boolean isTwentyOne() {
 		return total == 21;
 	}
 
-	/*
+	/**
 	 * Returns true if the hand can be split (both cards are equal value)
 	 */
 	public boolean canSplit() {
 		return hand.get(0).compareTo(hand.get(1)) == 0;
 	}
 
-	/*
+	/**
 	 * Returns the second card so the hand can be split
 	 */
 	public Card split() {
 		return hand.remove(1);
 	}
 
-	/*
+	/**
 	 * Deals a card to current hand updating the hand, total, and boolean busted if
 	 * total > 21
 	 */
@@ -81,7 +81,7 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 		}
 	}
 
-	/*
+	/**
 	 * returns -1 if no ace is present else returns index of first ace
 	 */
 	private int aceIndex() {
@@ -105,4 +105,5 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 		return hand;
 	}
 
+	public String toString() { return hand.toString(); }
 }

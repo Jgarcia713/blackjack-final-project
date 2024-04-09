@@ -1,9 +1,14 @@
-package model;
+package controller;
+
+import controller_view.BlackjackConsole;
+import model.Dealer;
+import model.Player;
 
 import java.util.ArrayList;
 
 public class Game {
 	public static void main(String[] args) {
+		BlackjackConsole view = new BlackjackConsole();
 		Player p1 = new Player("p1", true);
 		Player c1 = new Player("c1", false);
 		ArrayList<Player> players = new ArrayList<Player>();
