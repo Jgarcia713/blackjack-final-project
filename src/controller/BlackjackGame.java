@@ -68,18 +68,19 @@ public class BlackjackGame {
 		if (action == Actions.HIT) {
 			activePlayer.hit(dealer.dealSingleCard());
 			if (activePlayer.isBusted()) {
-				activePlayer = iterator.next();
+				if (iterator.hasNext()) {
+					activePlayer = iterator.next();
+				}
+				else {
+					endRound();
+				}
 				return true;
 			}
 		} else if (action == Actions.STAND) {
 			if (iterator.hasNext()) {
 				activePlayer = iterator.next();
 			} else {
-				// round over, have dealer play its turn, payout winners, and change isGameOver
-				// flag
-				playDealersTurn();
-				dealer.payWinners();
-				isGameOver = true;
+				endRound();
 			}
 		} else if (action == Actions.DOUBLE) {
 			// TODO: fill out if statement
@@ -89,6 +90,17 @@ public class BlackjackGame {
 		return false;
 	}
 
+	/**
+	 * performs necessary actions after all players have completed their turns.
+	 * 		1. dealer plays their turn
+	 * 		2. dealer pays out to winners
+	 * 		3. set isGameOver flag to true
+	 */
+	private void endRound() {
+		playDealersTurn();
+		dealer.payWinners();
+		isGameOver = true;
+	}
 	/**
 	 * tells dealer to hit until it has reached the minimum score requirement.
 	 */
