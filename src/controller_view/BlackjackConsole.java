@@ -6,10 +6,11 @@ import model.Player;
 import java.util.ArrayList;
 import java.util.Scanner;
 import model.Actions;
+
 public class BlackjackConsole {
 
-    private static BlackjackGame game;
-    private static Scanner scanner = new Scanner(System.in);
+	private static BlackjackGame game;
+	private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         game = new BlackjackGame();

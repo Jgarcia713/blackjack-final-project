@@ -39,16 +39,16 @@ public class Card implements Comparable<Card> {
 		if (suit == Suit.SPADES)
 			suitIcon = '\u2660';
 		String cardValue;
-		if (this.rank.getValue() <= 10) {
+		if (this.rank.getNum() <= 10) {
 			cardValue = "" + this.rank.getValue();
 		} else {
-			if (this.rank.getValue() <= 11) {
+			if (this.rank.getNum() <= 11) {
 				cardValue = "J";
 			} else {
-				if (this.rank.getValue() <= 12) {
+				if (this.rank.getNum() <= 12) {
 					cardValue = "Q";
 				} else {
-					if (this.rank.getValue() <= 13) {
+					if (this.rank.getNum() <= 13) {
 						cardValue = "K";
 					} else {
 						cardValue = "A";
