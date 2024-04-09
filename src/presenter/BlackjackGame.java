@@ -1,6 +1,5 @@
-package controller;
+package presenter;
 
-import model.BlackjackHand;
 import model.Dealer;
 import model.Player;
 
@@ -56,7 +55,8 @@ public class BlackjackGame {
 	}
 
 	/**
-	 * given a string input of a move type, will perform the correct action
+	 * given a string input of a move type, will perform the correct action.
+	 * 		Will also update activePlayer and/or end the round as necessary.
 	 *
 	 * @apiNote Currently assumes that the active player is the one who made a move.
 	 *          If we want to do online networking, we probably need to verify that
