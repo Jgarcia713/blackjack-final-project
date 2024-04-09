@@ -34,5 +34,12 @@ public class Game {
 		dealer.payWinners(); // pays all winners. Does nothing if dealer won
 		System.out.println(p1);
 		System.out.println(c1);
+
+		// splitting has to be handled more by the game, but essentially I have a
+		// boolean attribute for whether we're handling splits. If the user splits, run
+		// a separate while loop to handle the split first, then once they fold on the
+		// split, turn split off, turn fold off, and then handle their original hand
+
+		// TODO handle resetting 
 	}
 }
