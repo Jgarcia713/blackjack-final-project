@@ -29,7 +29,7 @@ public class Dealer {
 	 * Deal a card to each player and then to the dealer
 	 */
 	public void dealCards() {
-
+		dealerHand = new BlackjackHand();
 		for (Player player : players) {
 			player.discardCards();
 			player.receiveCards(deck.getTopCard());
@@ -52,11 +52,13 @@ public class Dealer {
 			folded = true;
 		return folded;
 	}
+
 	public void hitUntilMinScore() {
 		while (dealerHand.getTotal() <= minScore) { // hit until >= minScore
 			dealerHand.dealCard((this.dealSingleCard())); // dealer deals themself a card
 		}
 	}
+
 	public boolean isFolded() {
 		return folded;
 	}
@@ -114,5 +116,11 @@ public class Dealer {
 		return dealerHand.isBlackJack();
 	}
 
-	public ArrayList<Player> getPlayers() { return players; }
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+
+	public ArrayList<Card> getDealerHand() {
+		return dealerHand.getHand();
+	}
 }
