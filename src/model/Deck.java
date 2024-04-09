@@ -58,4 +58,8 @@ public class Deck {
 		deckTop = 0;
 		Collections.shuffle(cardDeck);
 	}
+
+	public double deckAmountUsed() {
+		return deckTop * 1.0 / cardDeck.size();
+	}
 }

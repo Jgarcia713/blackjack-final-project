@@ -5,25 +5,161 @@ package model;
  * 
  * @author Jakob Garcia
  */
-public class Player extends BlackjackPlayer {
+public class Player {
+	private double balance;
+	private BlackjackHand hand; // main hand of Blackjack
+	private BlackjackHand splitHand; // second hand for splitting
+	private String playerName;
+	private double bet = 0; // main bet
+	private double splitBet = 0; // second bet for splitting
+	private boolean folded = false; // indicates if the player has folded
+	private boolean split = false;
+	private boolean isPlayer; // indicates whether or not the player is a computer
 
-	public Player(String name) {
-		super(name);
-		isPlayer = true;
+	// Construct a player with a name and indicate whether it is a computer
+	public Player(String name, boolean isPlayer) {
+		balance = 100.00;
+		playerName = name;
+		hand = new BlackjackHand();
+		this.isPlayer = isPlayer;
 	}
 
-	public Player(String name, double balance) {
-		super(name, balance);
-		isPlayer = true;
+	// Construct a player with a given balance and whether it is a computer
+	public Player(String name, double bal, boolean isPlayer) {
+		balance = bal;
+		playerName = name;
+		hand = new BlackjackHand();
+		this.isPlayer = isPlayer;
+
 	}
 
 	/*
-	 * Place the bets to the dealer for this round of blackjack
+	 * Receive cards from the dealer, and add them to their BlackjackHand
 	 */
-	public void placeBet(double amount, boolean split) {
+	public void receiveCards(Card dealtCard) {
+		hand.dealCard(dealtCard);
+	}
+
+	/*
+	 * Place the bets for this round of blackjack
+	 */
+	public void placeBet(double amount) {
 		balance -= amount;
 		bet = amount;
 	}
-	
-	// TODO add methods for hitting, double downs, and splitting?
+
+	/*
+	 * Receive payout for this bet
+	 */
+	public void receivePayout() {
+		// Receive pay-out
+		if (split) {
+			if (splitHand.isBlackJack())
+				balance += splitBet * 1.5;
+			else
+				balance += splitBet;
+		} else {
+
+			if (hand.isBlackJack())
+				balance += bet * 1.5;
+			else
+				balance += bet;
+		}
+	}
+
+	/*
+	 * Allows the player to hit and receive a card. Requires the Game to pass the
+	 * card from the dealer
+	 */
+	public boolean hit(Card card) {
+		if (split) {
+			splitHand.dealCard(card);
+			if (splitHand.isBusted())
+				folded = true;
+			return splitHand.isBusted();
+		} else {
+			hand.dealCard(card);
+			if (hand.isBusted())
+				folded = true;
+			return hand.isBusted();
+		}
+	}
+
+	/*
+	 * Allows the player to double down and receive a card. Requires the Game to
+	 * pass the card from the dealer. Returns true if busted
+	 */
+	public boolean doubleDown(Card card) {
+		if (split) {
+			balance -= bet;
+			splitBet *= 2;
+			splitHand.dealCard(card);
+			folded = true;
+			return splitHand.isBusted();
+		} else {
+			balance -= bet;
+			bet *= 2;
+			hand.dealCard(card);
+			folded = true;
+			return hand.isBusted();
+		}
+	}
+
+	/*
+	 * Allows the player to split once and play two hands. Requires the game to
+	 * handle swapping between both hands
+	 */
+	public void split() {
+		splitHand = new BlackjackHand();
+		splitHand.dealCard(hand.split());
+		split = true;
+		balance -= bet;
+		splitBet = bet;
+	}
+
+	/*
+	 * Resets values needed for next game
+	 */
+	public void discardCards() {
+		folded = false;
+		split = false;
+		hand = new BlackjackHand();
+	}
+
+	public double checkBalance() {
+		return balance;
+	}
+
+	public String getName() {
+		return playerName;
+	}
+
+	public boolean hasBlackjack() {
+		return hand.isBlackJack();
+	}
+
+	public boolean isBusted() {
+		return hand.isBusted();
+	}
+
+	public boolean isPlayer() {
+		return isPlayer;
+	}
+
+	public double getBet() {
+		return bet;
+	}
+
+	public void fold() {
+		folded = true;
+	}
+
+	public boolean isFolded() {
+		return folded;
+	}
+
+	public boolean isSplit() {
+		return split;
+	}
+
 }

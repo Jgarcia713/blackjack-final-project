@@ -10,10 +10,15 @@ import java.util.ArrayList;
 public class Dealer {
 
 	private Deck deck;
-	private ArrayList<BlackjackPlayer> players;
+	private ArrayList<Player> players;
 	private BlackjackHand dealerHand;
+	private boolean folded = false; // indicates if the dealer has folded
 
-	public Dealer(ArrayList<BlackjackPlayer> players) {
+	/*
+	 * Initialize the dealer and their hand. Depends on a list of players from the
+	 * Game
+	 */
+	public Dealer(ArrayList<Player> players) {
 		deck = new Deck();
 		this.players = players;
 		dealerHand = new BlackjackHand();
@@ -23,18 +28,30 @@ public class Dealer {
 	 * Deal a card to each player and then to the dealer
 	 */
 	public void dealCards() {
-		for (BlackjackPlayer player : players) {
+		for (Player player : players) {
 			player.receiveCards(deck.getTopCard());
 		}
 		dealerHand.dealCard(deck.getTopCard());
 
-		for (BlackjackPlayer player : players) {
+		for (Player player : players) {
 			player.receiveCards(deck.getTopCard());
 		}
 		dealerHand.dealCard(deck.getTopCard());
 	}
-	
-	
+
+	/*
+	 * Allows the dealer to continue hitting until bust or above 16
+	 */
+	public boolean hit() {
+		dealerHand.dealCard(this.dealSingleCard());
+		if (dealerHand.isBusted() || dealerHand.getTotal() >= 16)
+			folded = true;
+		return folded;
+	}
+
+	public boolean isFolded() {
+		return folded;
+	}
 
 	/*
 	 * Reshuffle the deck and clear Player cards
@@ -42,31 +59,34 @@ public class Dealer {
 	public void reshuffle() {
 		// Reset the Deck and shuffle. Also, clear all Player Cards.
 		deck.resetDeck();
-		for (BlackjackPlayer player : players) {
+		folded = false;
+		dealerHand = new BlackjackHand();
+		for (Player player : players) {
 			player.discardCards();
 		}
 	}
 
 	/*
-	 * Collect a bet from each Player and store that number
+	 * Collect a bet from each Player. Depends on the Game
 	 */
-	public void collectBet(ArrayList<Double> bets) {
-		for (int i = 0; i < bets.size(); i++) {
-			players.get(i).placeBet(bets.get(i), false);
-		}
+	public void collectBet(Player player, double amount) {
+		player.placeBet(amount);
 	}
 
 	/*
 	 * Pay the winning Player(s) based on their bets. If they got Blackjack, they
 	 * get 1.5x their bet
 	 */
-	public void payWinners(ArrayList<BlackjackPlayer> winners) {
-		for (BlackjackPlayer player : winners) {
-			if (player.hasBlackjack())
-				player.receivePayout(true);
-			else
-				player.receivePayout(false);
-		}
+	public void payWinner(Player player) {
+		player.receivePayout();
+
+	}
+
+	/*
+	 * Used so the game can deal a card to a player
+	 */
+	public Card dealSingleCard() {
+		return deck.getTopCard();
 	}
 
 }
