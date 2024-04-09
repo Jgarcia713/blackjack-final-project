@@ -29,6 +29,9 @@ public class Dealer {
 	 * Deal a card to each player and then to the dealer
 	 */
 	public void dealCards() {
+		if (deck.deckAmountUsed() >= 0.5)
+			deck.resetDeck();
+
 		dealerHand = new BlackjackHand();
 		for (Player player : players) {
 			player.discardCards();
