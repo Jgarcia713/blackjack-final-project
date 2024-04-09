@@ -86,7 +86,7 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 	 */
 	private int aceIndex() {
 		for (int i = 0; i < hand.size(); i++) {
-			if (hand.get(i).getValue() == 14) {
+			if (hand.get(i).getValue() == 11) {
 				return i;
 			}
 		}
