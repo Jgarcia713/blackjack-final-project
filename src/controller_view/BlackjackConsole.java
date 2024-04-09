@@ -13,9 +13,10 @@ public class BlackjackConsole {
 
     public static void main(String[] args) {
         game = new BlackjackGame();
+        // hard coding in one player and one computer for now.
         game.addPlayer("p1", true);
         game.addPlayer("c1", false);
-        boolean isGameOver = game.startRound();
+        game.startRound();
 
         while (!game.isGameOver) {
             System.out.println(game.getActivePlayer() + "\nWhat would you like to do? ('hit'/'stand'/'double')");
@@ -31,6 +32,8 @@ public class BlackjackConsole {
     }
 
     private static void displayResults() {
-
+        for (Player player : game.getPlayers()) {
+            System.out.println(player);
+        }
     }
 }

@@ -172,8 +172,7 @@ public class Player {
 	public boolean isSplit() {
 		return split;
 	}
-	
 	@Override
-	public String toString() { return playerName + " " + balance; }
+	public String toString() { return playerName + " " + balance + "\n" + hand; }
 
 }

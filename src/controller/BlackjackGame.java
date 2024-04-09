@@ -39,6 +39,7 @@ public class BlackjackGame {
             System.out.println("ERROR: No players have been added to the game!");
             return true;
         }
+        isGameOver = false; // reset isGameOver flag
 
         for (Player player : players) {
             dealer.collectBet(player, 20); // collect bet from each player
@@ -67,19 +68,25 @@ public class BlackjackGame {
                 activePlayer = iterator.next();
             }
             else {
+                // round over, have dealer play its turn, payout winners, and change isGameOver flag
+                playDealersTurn();
                 dealer.payWinners();
                 isGameOver = true;
             }
         }
         else if (action == Actions.DOUBLE) {
-
+            //TODO: fill out if statement
         }
         else if (action == Actions.SPLIT) {
-
+            //TODO: fill out if statement
         }
     }
-    private void playDealersTurn() {
 
+    /**
+     * tells dealer to hit until it has reached the minimum score requirement.
+     */
+    private void playDealersTurn() {
+        dealer.hitUntilMinScore();
     }
     public ArrayList<Player> getPlayers() {
         return players;
