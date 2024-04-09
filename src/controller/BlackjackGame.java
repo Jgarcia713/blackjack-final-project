@@ -57,15 +57,37 @@ public class BlackjackGame {
 
 	/**
 	 * given a string input of a move type, will perform the correct action
+	 *
 	 * @apiNote Currently assumes that the active player is the one who made a move.
-	 * 
 	 *          If we want to do online networking, we probably need to verify that
 	 *          the request came from the correct player, but depends on how it's
 	 *          setup.
 	 * @param action string input from user saying what their move is.
-     * @return bool stating whether player bust
 	 */
-     
+	public boolean makeMove(Actions action) {
+		if (action == Actions.HIT) {
+			activePlayer.hit(dealer.dealSingleCard());
+			if (activePlayer.isBusted()) {
+				activePlayer = iterator.next();
+				return true;
+			}
+		} else if (action == Actions.STAND) {
+			if (iterator.hasNext()) {
+				activePlayer = iterator.next();
+			} else {
+				// round over, have dealer play its turn, payout winners, and change isGameOver
+				// flag
+				playDealersTurn();
+				dealer.payWinners();
+				isGameOver = true;
+			}
+		} else if (action == Actions.DOUBLE) {
+			// TODO: fill out if statement
+		} else if (action == Actions.SPLIT) {
+			// TODO: fill out if statement
+		}
+		return false;
+	}
 
 	/**
 	 * tells dealer to hit until it has reached the minimum score requirement.
@@ -80,10 +102,6 @@ public class BlackjackGame {
     public String dealerString() { return dealer.toString(); }
 	public ArrayList<Player> getPlayers() {
 		return players;
-	}
-
-	public Player getActivePlayer() {
-		return activePlayer;
 	}
 
 	public ArrayList<Card> getDealerHand() {
