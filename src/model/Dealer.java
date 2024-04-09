@@ -9,12 +9,13 @@ import java.util.ArrayList;
  */
 public class Dealer {
 
-	private Deck deck;
-	private ArrayList<Player> players;
+	private final Deck deck;
+	private final ArrayList<Player> players;
 	private BlackjackHand dealerHand;
 	private boolean folded = false; // indicates if the dealer has folded
+	private final int minScore = 16;
 
-	/*
+	/**
 	 * Initialize the dealer and their hand. Depends on a list of players from the
 	 * Game
 	 */
@@ -24,13 +25,19 @@ public class Dealer {
 		dealerHand = new BlackjackHand();
 	}
 
-	/*
+	/**
 	 * Deal a card to each player and then to the dealer
 	 */
 	public void dealCards() {
+		if (deck.deckAmountUsed() >= 0.5)
+			deck.resetDeck();
+
+		dealerHand = new BlackjackHand();
 		for (Player player : players) {
+			player.discardCards();
 			player.receiveCards(deck.getTopCard());
 		}
+
 		dealerHand.dealCard(deck.getTopCard());
 
 		for (Player player : players) {
@@ -39,7 +46,7 @@ public class Dealer {
 		dealerHand.dealCard(deck.getTopCard());
 	}
 
-	/*
+	/**
 	 * Allows the dealer to continue hitting until bust or above 16
 	 */
 	public boolean hit() {
@@ -47,6 +54,12 @@ public class Dealer {
 		if (dealerHand.isBusted() || dealerHand.getTotal() >= 16)
 			folded = true;
 		return folded;
+	}
+
+	public void hitUntilMinScore() {
+		while (dealerHand.getTotal() < minScore) { // hit until >= minScore
+			dealerHand.dealCard((this.dealSingleCard())); // dealer deals themself a card
+		}
 	}
 
 	public boolean isFolded() {
@@ -57,7 +70,7 @@ public class Dealer {
 		return dealerHand.getTotal();
 	}
 
-	/*
+	/**
 	 * Reshuffle the deck and clear Player cards
 	 */
 	public void reshuffle() {
@@ -70,14 +83,14 @@ public class Dealer {
 		}
 	}
 
-	/*
+	/**
 	 * Collect a bet from each Player. Depends on the Game
 	 */
 	public void collectBet(Player player, double amount) {
 		player.placeBet(amount);
 	}
 
-	/*
+	/**
 	 * Pay the winning Player(s) based on their bets. If they got Blackjack, they
 	 * get 1.5x their bet
 	 */
@@ -95,7 +108,7 @@ public class Dealer {
 		}
 	}
 
-	/*
+	/**
 	 * Used so the game can deal a card to a player
 	 */
 	public Card dealSingleCard() {
@@ -106,4 +119,16 @@ public class Dealer {
 		return dealerHand.isBlackJack();
 	}
 
+	@Override
+	public String toString() { return "DEALER:\n" + dealerHand + "\nTotal Score: " + dealerHand.getTotal(); }
+    
+	public BlackjackHand getHand() { return dealerHand; }
+    
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+
+	public ArrayList<Card> getDealerHand() {
+		return dealerHand.getHand();
+	}
 }
