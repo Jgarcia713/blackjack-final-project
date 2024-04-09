@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 
 /**
+ * Represents a dealer in Blackjack. Requires an ArrayList of players to start
+ * 
  * @author Jakob Garcia
  */
 public class Dealer {
@@ -30,8 +32,9 @@ public class Dealer {
 			player.receiveCards(deck.getTopCard());
 		}
 		dealerHand.dealCard(deck.getTopCard());
-
 	}
+	
+	
 
 	/*
 	 * Reshuffle the deck and clear Player cards
