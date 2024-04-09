@@ -40,5 +40,6 @@ public class Game {
 		// a separate while loop to handle the split first, then once they fold on the
 		// split, turn split off, turn fold off, and then handle their original hand
 
+		// TODO handle resetting 
 	}
 }
