@@ -8,12 +8,12 @@ package model;
 public class Player {
 	private double balance;
 	private BlackjackHand hand; // main hand of Blackjack
-	private BlackjackHand splitHand; // second hand for splitting
+	// private BlackjackHand splitHand; // second hand for splitting
 	private String playerName;
 	private double bet = 0; // main bet
-	private double splitBet = 0; // second bet for splitting
+	// private double splitBet = 0; // second bet for splitting
 	private boolean folded = false; // indicates if the player has folded
-	private boolean split = false;
+	// private boolean split = false;
 	private boolean hasCompletedTurn = false;
 	private boolean isPlayer; // indicates whether or not the player is a computer
 
@@ -55,21 +55,21 @@ public class Player {
 	public void receivePayout(boolean draw) {
 		// Receive pay-out
 
-		if (split) {
-			if (draw)
-				balance += splitBet;
-			else if (splitHand.isBlackJack())
-				balance += splitBet * 2.5;
-			else
-				balance += splitBet * 2;
-		} else {
-			if (draw)
-				balance += bet;
-			else if (hand.isBlackJack())
-				balance += bet * 2.5;
-			else
-				balance += bet * 2;
-		}
+//		if (split) {
+//			if (draw)
+//				balance += splitBet;
+//			else if (splitHand.isBlackJack())
+//				balance += splitBet * 2.5;
+//			else
+//				balance += splitBet * 2;
+//		} else {
+		if (draw)
+			balance += bet;
+		else if (hand.isBlackJack())
+			balance += bet * 2.5;
+		else
+			balance += bet * 2;
+//		}
 	}
 
 	/*
@@ -77,17 +77,17 @@ public class Player {
 	 * card from the dealer
 	 */
 	public boolean hit(Card card) {
-		if (split) {
-			splitHand.dealCard(card);
-			if (splitHand.isBusted())
-				folded = true;
-			return splitHand.isBusted();
-		} else {
-			hand.dealCard(card);
-			if (hand.isBusted())
-				folded = true;
-			return hand.isBusted();
-		}
+//		if (split) {
+//			splitHand.dealCard(card);
+//			if (splitHand.isBusted())
+//				folded = true;
+//			return splitHand.isBusted();
+//		} else {
+		hand.dealCard(card);
+		if (hand.isBusted())
+			folded = true;
+		return hand.isBusted();
+//		}
 	}
 
 	/*
@@ -95,39 +95,39 @@ public class Player {
 	 * pass the card from the dealer. Returns true if busted
 	 */
 	public boolean doubleDown(Card card) {
-		if (split) {
-			balance -= bet;
-			splitBet *= 2;
-			splitHand.dealCard(card);
-			folded = true;
-			return splitHand.isBusted();
-		} else {
-			balance -= bet;
-			bet *= 2;
-			hand.dealCard(card);
-			folded = true;
-			return hand.isBusted();
-		}
+//		if (split) {
+//			balance -= bet;
+//			splitBet *= 2;
+//			splitHand.dealCard(card);
+//			folded = true;
+//			return splitHand.isBusted();
+//		} else {
+		balance -= bet;
+		bet *= 2;
+		hand.dealCard(card);
+		folded = true;
+		return hand.isBusted();
+//		}
 	}
 
 	/*
 	 * Allows the player to split once and play two hands. Requires the game to
 	 * handle swapping between both hands
 	 */
-	public void split() {
-		splitHand = new BlackjackHand();
-		splitHand.dealCard(hand.split());
-		split = true;
-		balance -= bet;
-		splitBet = bet;
-	}
+//	public void split() {
+//		splitHand = new BlackjackHand();
+//		splitHand.dealCard(hand.split());
+//		split = true;
+//		balance -= bet;
+//		splitBet = bet;
+//	}
 
 	/*
 	 * Resets values needed for next game
 	 */
 	public void discardCards() {
 		folded = false;
-		split = false;
+//		split = false;
 		hand = new BlackjackHand();
 	}
 
@@ -156,8 +156,8 @@ public class Player {
 	}
 
 	public int getHandTotal() {
-		if (split)
-			return splitHand.getTotal();
+//		if (split)
+//			return splitHand.getTotal();
 		return hand.getTotal();
 	}
 
@@ -169,10 +169,13 @@ public class Player {
 		return folded;
 	}
 
-	public boolean isSplit() {
-		return split;
-	}
+//	public boolean isSplit() {
+//		return split;
+//	}
+
 	@Override
-	public String toString() { return playerName + "\nBalance: " + balance + "\n" + hand + "\nTotal Score: " + hand.getTotal(); }
+	public String toString() {
+		return playerName + "\nBalance: " + balance + "\n" + hand + "\nTotal Score: " + hand.getTotal();
+	}
 
 }

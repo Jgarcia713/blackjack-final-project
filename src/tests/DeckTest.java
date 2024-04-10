@@ -51,7 +51,10 @@ public class DeckTest {
 		Deck deck = new Deck(1);
 		assertEquals(0, deck.deckAmountUsed(), 0);
 		for (int i = 0; i < 52 ; i++) {
-			System.out.println(deck.getTopCard().getValue());
+			Card card = deck.getTopCard();
+			System.out.println(card.getValue());
+			System.out.println(card);
+
 		}
 		assertEquals(1, deck.deckAmountUsed(), 1);
 		deck.resetDeck();
