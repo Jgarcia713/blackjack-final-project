@@ -24,7 +24,77 @@ public class BlackjackHandTest {
 	
 	@Test
 	public void testCardsGeneral() {
-		//Player pl1 = new Player("")
+		Player pl = new Player("test", true);
+		pl.receiveCards(new Card(Rank.TEN, Suit.DIAMONDS));
+		assertEquals(pl.getHandTotal(), 10);
+        assertFalse(pl.hasBlackjack());
+        assertFalse(pl.isBusted());
+        pl.receiveCards(new Card(Rank.ACE, Suit.HEARTS));
+        assertEquals(pl.getHandTotal(), 21);
+        assertTrue(pl.hasBlackjack());
+        assertFalse(pl.isBusted());
+        assertFalse(pl.hit(new Card(Rank.DEUCE, Suit.SPADES)));
+        assertEquals(pl.getHandTotal(), 13);
+        assertFalse(pl.hasBlackjack());
+        assertFalse(pl.isBusted());
+        assertFalse(pl.isFolded());
+        assertFalse(pl.hit(new Card(Rank.EIGHT, Suit.SPADES)));
+        assertEquals(pl.getHandTotal(), 21);
+        assertFalse(pl.hasBlackjack());
+        assertFalse(pl.isBusted());
+        assertFalse(pl.isFolded());
+        assertTrue(pl.hit(new Card(Rank.DEUCE, Suit.SPADES)));
+        assertEquals(pl.getHandTotal(), 23);
+        assertFalse(pl.hasBlackjack());
+        assertTrue(pl.isBusted());
+        assertTrue(pl.isFolded()); 
+        pl.discardCards();
+        assertEquals(pl.getHandTotal(), 0);
+        assertFalse(pl.hasBlackjack());
+        assertFalse(pl.isBusted());
+        assertFalse(pl.hit(new Card(Rank.FIVE, Suit.SPADES)));
+        assertEquals(pl.getHandTotal(), 5);
+        assertFalse(pl.hasBlackjack());
+        assertFalse(pl.isBusted());
+	}
+	
+	@Test
+	public void testBet() {
+		Player pl = new Player("test", 10000.00, true);
+		assertEquals(pl.checkBalance(), 10000.00);
+		assertEquals(pl.getBet(), 0);
+		pl.placeBet(1000.00);
+		assertEquals(pl.checkBalance(), 9000.00);
+		assertEquals(pl.getBet(), 1000.00);
+		pl.placeBet(0.01);
+		assertEquals(pl.checkBalance(), 8999.99);
+		assertEquals(pl.getBet(), 0000.01);
+		assertFalse(pl.doubleDown(new Card(Rank.DEUCE, Suit.SPADES)));
+		assertEquals(pl.checkBalance(), 8999.98);
+		assertEquals(pl.getBet(), 0000.02);
+		pl.placeBet(1000.00);
+		assertEquals(pl.checkBalance(), 7999.98);
+		assertEquals(pl.getBet(), 1000.00);
+		pl.receivePayout(true);
+		assertEquals(pl.checkBalance(), 8999.98);
+		assertEquals(pl.getBet(), 1000.00);
+		pl.receivePayout(false);
+		assertEquals(pl.checkBalance(), 10999.98);
+		assertEquals(pl.getBet(), 1000.00);
+		pl.discardCards();
+		pl.receiveCards(new Card(Rank.JACK, Suit.CLUBS));
+		pl.receiveCards(new Card(Rank.ACE, Suit.CLUBS));
+		pl.receivePayout(false);
+		assertEquals(pl.checkBalance(), 13499.98);
+		assertEquals(pl.getBet(), 1000.00);
+	}
+	
+	@Test
+	public void testFolding() {
+		Player pl = new Player("test", true);
+		assertFalse(pl.isFolded());
+		pl.fold();
+		assertTrue(pl.isFolded());
 	}
 	
 	@Test
