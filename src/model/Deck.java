@@ -82,4 +82,12 @@ public class Deck {
 	public double deckAmountUsed() {
 		return deckTop * 1.0 / cardDeck.size();
 	}
+	
+	public int getDeckTopIndex() {
+		return deckTop;
+	}
+	
+	public int getTotalCards() {
+		return cardDeck.size();
+	}
 }

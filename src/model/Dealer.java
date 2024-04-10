@@ -46,25 +46,12 @@ public class Dealer {
 		dealerHand.dealCard(deck.getTopCard());
 	}
 
-	/**
-	 * Allows the dealer to continue hitting until bust or above 16
-	 */
-	public boolean hit() {
-		dealerHand.dealCard(this.dealSingleCard());
-		if (dealerHand.isBusted() || dealerHand.getTotal() >= 16)
-			folded = true;
-		return folded;
-	}
-
 	public void hitUntilMinScore() {
 		while (dealerHand.getTotal() < minScore) { // hit until >= minScore
 			dealerHand.dealCard((this.dealSingleCard())); // dealer deals themself a card
 		}
 	}
 
-	public boolean isFolded() {
-		return folded;
-	}
 
 	public int getTotal() {
 		return dealerHand.getTotal();
@@ -75,8 +62,6 @@ public class Dealer {
 	 */
 	public void reshuffle() {
 		// Reset the Deck and shuffle. Also, clear all Player Cards.
-		deck.resetDeck();
-		folded = false;
 		dealerHand = new BlackjackHand();
 		for (Player player : players) {
 			player.discardCards();
@@ -120,7 +105,7 @@ public class Dealer {
 	}
 
 	@Override
-	public String toString() { return "DEALER:\n" + dealerHand + "\nTotal Score: " + dealerHand.getTotal(); }
+	public String toString() { return "DEALER:\n" + this.getHand() + "\nTotal Score: " + this.getTotal(); }
     
 	public BlackjackHand getHand() { return dealerHand; }
     
@@ -130,5 +115,9 @@ public class Dealer {
 
 	public ArrayList<Card> getDealerHand() {
 		return dealerHand.getHand();
+	}
+	
+	public Deck getDeck() {
+		return deck;
 	}
 }
