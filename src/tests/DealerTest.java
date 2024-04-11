@@ -12,7 +12,6 @@ public class DealerTest {
 	@Test
 	public void testConstructors() {
 		ArrayList<Player> playerList = new ArrayList<>();
-		
 		Player pl1 = new Player("player1", true);
 		Player pl2 = new Player("player2", true);
 		Player pl3 = new Player("player3", true);
@@ -44,6 +43,7 @@ public class DealerTest {
 			pl1.hit(dealer.dealSingleCard());
 			pl1.hit(dealer.dealSingleCard());
 			pl1.hit(dealer.dealSingleCard());
+			System.out.println(Actions.HIT);
 			dealer.hitUntilMinScore();
 			dealer.payWinners();
 		}

@@ -172,6 +172,10 @@ public class Player {
 //	public boolean isSplit() {
 //		return split;
 //	}
+	
+	public BlackjackHand getHand() {
+		return hand;
+	}
 
 	@Override
 	public String toString() {

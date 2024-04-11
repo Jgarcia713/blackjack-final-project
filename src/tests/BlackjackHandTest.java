@@ -22,6 +22,25 @@ public class BlackjackHandTest {
 		pl2.toString();
 	}
 	
+	@Test
+	public void testCompare() {
+		Player pl1 = new Player("player", true);
+		pl1.receiveCards(new Card(Rank.TEN, Suit.DIAMONDS));
+		pl1.receiveCards(new Card(Rank.DEUCE, Suit.DIAMONDS));
+
+
+		Player pl2 = new Player("tester", 1264.55, false);
+		pl2.receiveCards(new Card(Rank.TEN, Suit.DIAMONDS));
+		pl2.receiveCards(new Card(Rank.THREE, Suit.CLUBS));
+
+		assertEquals(-1, pl1.getHand().compareTo(pl2.getHand()));
+		assertFalse(pl1.getHand().isTwentyOne());
+		pl1.receiveCards(new Card(Rank.NINE, Suit.DIAMONDS));
+		assertTrue(pl1.getHand().isTwentyOne());
+
+	
+	}
+	
 //	@Test 
 //	public void testSplitGeneral() {
 //		Player pl = new Player("test", true);

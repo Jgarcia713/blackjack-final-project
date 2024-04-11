@@ -38,19 +38,19 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 		return total == 21;
 	}
 
-	/**
-	 * Returns true if the hand can be split (both cards are equal value)
-	 */
-	public boolean canSplit() {
-		return hand.get(0).compareTo(hand.get(1)) == 0;
-	}
-
-	/**
-	 * Returns the second card so the hand can be split
-	 */
-	public Card split() {
-		return hand.remove(1);
-	}
+//	/**
+//	 * Returns true if the hand can be split (both cards are equal value)
+//	 */
+//	public boolean canSplit() {
+//		return hand.get(0).compareTo(hand.get(1)) == 0;
+//	}
+//
+//	/**
+//	 * Returns the second card so the hand can be split
+//	 */
+//	public Card split() {
+//		return hand.remove(1);
+//	}
 
 	/**
 	 * Deals a card to current hand updating the hand, total, and boolean busted if
