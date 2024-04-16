@@ -24,7 +24,13 @@ public class BlackjackGUI extends Application {
 		Scene scene = new Scene(window, 950, 700);
 		stage.setScene(scene);
 		
+		this.createSampleCard();
+		
 		stage.show();
+		
+	}
+	
+	private void createSampleCard() {
 		
 	}
 
