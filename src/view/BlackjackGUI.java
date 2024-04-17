@@ -111,9 +111,22 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 			ArrayList<Card> cards = player.getHand().getHand();
 			for (int i = 0; i < cards.size(); i++) {
 				Card card = player.getHand().getHand().get(i);
-				CardSprite cardSprite = new CardSprite(g, canvas.getWidth() / 2.0 + (i - cards.size()/2.0) * 120, canvas.getHeight() * .7, 0, card);
+
+				// this long line makes the cards center around a point in the bottom center of the canvas
+				CardSprite cardSprite = new CardSprite(g, canvas.getWidth() / 2.0 + (i - cards.size()/2.0) * 120, canvas.getHeight() * 0.7, 0, card);
+
 				cardSprite.draw();
 			}
+		}
+
+		ArrayList<Card> dealerCards = game.getDealerHand();
+		for (int i = 0; i < dealerCards.size(); i++) {
+			Card card = dealerCards.get(i);
+
+			// this long line makes the cards center around a point in the top center of the canvas
+			CardSprite cardSprite = new CardSprite(g, canvas.getWidth() / 2.0 + (i - dealerCards.size()/2.0) * 120, canvas.getHeight() * 0.2, 0, card);
+
+			cardSprite.draw();
 		}
 
 		// update control
