@@ -10,6 +10,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import model.*;
 import presenter.BlackjackGame;
@@ -119,7 +121,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 			}
 		}
 
-		ArrayList<Card> dealerCards = game.getDealerHand();
+		ArrayList<Card> dealerCards = theGame.getDealerHand().getHand();
 		for (int i = 0; i < dealerCards.size(); i++) {
 			Card card = dealerCards.get(i);
 
@@ -130,9 +132,21 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		}
 
 		// update control
-		if (game.getActivePlayer() == null)
+		if (theGame.getActivePlayer() == null)
 			return;
+		controlBar.updateActivePlayerLabel(theGame.getActivePlayer().getName());
 
-		controlBar.updateActivePlayerLabel(game.getActivePlayer().getName());
+		//check if should display game over
+		if (theGame.isGameOver) {
+			g.setFont(new Font(32));
+			g.setTextAlign(TextAlignment.CENTER);
+			String resultsText = "ROUND OVER\n Dealer Score: " + game.getDealerHand().getTotal();
+			for (Player player : game.getPlayers()) {
+				resultsText += "\n" + player.getName() + " Score: " + player.getHandTotal();
+				resultsText += "\n" + player.getName() + " Winnings: " + player.getBet();
+			}
+			g.fillText(resultsText, canvas.getWidth() / 2, canvas.getHeight() / 2);
+
+		}
 	}
 }
