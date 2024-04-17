@@ -6,11 +6,18 @@ import model.Player;
 import java.util.Scanner;
 import model.Actions;
 
+/**
+ * A java program that allows the player to interact with a blackjack game through a console view.
+ */
 public class BlackjackConsole {
 
 	private static BlackjackGame game;
 	private static final Scanner scanner = new Scanner(System.in);
 
+    /**
+     * entrypoint to the console view program. Contains pretty much all the logic for handling console input.
+     * @param args the thing that every java program needs to include.
+     */
     public static void main(String[] args) {
         game = new BlackjackGame();
         // hard coding in one player and one computer for now.
@@ -43,6 +50,9 @@ public class BlackjackConsole {
         }
     }
 
+    /**
+     * displays the results of the game
+     */
     private static void displayResults() {
         System.out.println(game.dealerString() + "\n");
         for (Player player : game.getPlayers()) {

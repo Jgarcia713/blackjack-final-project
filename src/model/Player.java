@@ -12,12 +12,17 @@ public class Player {
 	private String playerName;
 	private double bet = 0; // main bet
 	// private double splitBet = 0; // second bet for splitting
+	private double nextBet = 0;
 	private boolean folded = false; // indicates if the player has folded
 	// private boolean split = false;
 	private boolean hasCompletedTurn = false;
 	private boolean isPlayer; // indicates whether or not the player is a computer
 
-	// Construct a player with a name and indicate whether it is a computer
+	/**
+	 * constructs the Player class (invariable balance)
+	 * @param name: player's name
+	 * @param isPlayer: whether or not player is controlled by a human
+	 */
 	public Player(String name, boolean isPlayer) {
 		balance = 100.00;
 		playerName = name;
@@ -25,7 +30,12 @@ public class Player {
 		this.isPlayer = isPlayer;
 	}
 
-	// Construct a player with a given balance and whether it is a computer
+	/**
+	 * constructs the Player class (variable balance)
+	 * @param name: player's name
+	 * @param bal: player's starting balance
+	 * @param isPlayer: whether or not player is controlled by a human
+	 */
 	public Player(String name, double bal, boolean isPlayer) {
 		balance = bal;
 		playerName = name;
@@ -131,40 +141,75 @@ public class Player {
 		hand = new BlackjackHand();
 	}
 
+	/**
+	 * gets player's balance
+	 * @return player's current balance
+	 */
 	public double checkBalance() {
 		return balance;
 	}
 
+	/**
+	 * gets player's name
+	 * @return player's current name
+	 */
 	public String getName() {
 		return playerName;
 	}
 
+	/**
+	 * gets player's blackjack status
+	 * @return whether player has blackjack or not
+	 */
 	public boolean hasBlackjack() {
 		return hand.isBlackJack();
 	}
 
+	/**
+	 * gets player's busted status
+	 * @return whether player's hand total >21
+	 */
 	public boolean isBusted() {
 		return hand.isBusted();
 	}
 
+	/**
+	 * gets player's control status
+	 * @return whether player is being control by a human
+	 */
 	public boolean isPlayer() {
 		return isPlayer;
 	}
 
+	/**
+	 * gets player's bet
+	 * @return player's current bet
+	 */
 	public double getBet() {
 		return bet;
 	}
 
+	/**
+	 * gets player's hand total
+	 * @return player's current hand total
+	 */
 	public int getHandTotal() {
 //		if (split)
 //			return splitHand.getTotal();
 		return hand.getTotal();
 	}
 
+	/**
+	 * player folds, setting folded to true
+	 */
 	public void fold() {
 		folded = true;
 	}
 
+	/**
+	 * gets player's folded status
+	 * @return whether player is folded or not
+	 */
 	public boolean isFolded() {
 		return folded;
 	}
@@ -173,10 +218,18 @@ public class Player {
 //		return split;
 //	}
 	
+	/**
+	 * gets player's hand
+	 * @return player's current hand
+	 */
 	public BlackjackHand getHand() {
 		return hand;
 	}
 
+	/**
+	 * returns the player information represented as a string
+	 * @return a string containing the player's name, balance, hand, and hand total
+	 */
 	@Override
 	public String toString() {
 		return playerName + "\nBalance: " + balance + "\n" + hand + "\nTotal Score: " + hand.getTotal();

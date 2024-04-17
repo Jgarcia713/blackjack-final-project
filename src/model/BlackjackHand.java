@@ -2,11 +2,18 @@
 
 import java.util.ArrayList;
 
-public class BlackjackHand implements Comparable<BlackjackHand> {
+ /**
+  * a class representing a hand in blackjack. contains various methods for manipulating the jand
+  */
+ public class BlackjackHand implements Comparable<BlackjackHand> {
 	private ArrayList<Card> hand;
 	private boolean busted;
 	private int total;
-
+	
+	
+	/**
+	 *  constructs a blackjack hand
+	 */
 	public BlackjackHand() {
 		hand = new ArrayList<>();
 		busted = false;
@@ -16,6 +23,10 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 	/**
 	 * compares to Hand totals returning > 0 if this hand total is more, 0 if they
 	 * are equal, and < 0 if other hand total is more
+	 * 
+	 * @param otherHand another version of a blackjack hand
+	 * 
+	 * @return an integer value representative of the comparison 
 	 */
 	@Override
 	public int compareTo(BlackjackHand otherHand) {
@@ -25,6 +36,8 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 	/**
 	 * returns true if hand is a "blackJack" hand ie (has 2 cards,
 	 *  an ace and total == 21)
+	 *  
+	 *  @return boolean value of whether or not the hand is a blackjack hand
 	 */
 	public boolean isBlackJack() {
 		int aceIndex = aceIndex();
@@ -33,6 +46,8 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 
 	/**
 	 * returns true if hand value == 21
+	 * 
+	 * @return returns true if hand total == 21 false otherwise
 	 */
 	public boolean isTwentyOne() {
 		return total == 21;
@@ -55,6 +70,9 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 	/**
 	 * Deals a card to current hand updating the hand, total, and boolean busted if
 	 * total > 21
+	 * 
+	 * @param dealtCard is a single card that is dealt to the player
+	 * 
 	 */
 	public void dealCard(Card dealtCard) {
 		// add card to hand
@@ -83,6 +101,8 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 
 	/**
 	 * returns -1 if no ace is present else returns index of first ace
+	 * 
+	 * @return an index of ace in hand arrayList but -1 if there is none
 	 */
 	private int aceIndex() {
 		for (int i = 0; i < hand.size(); i++) {
@@ -93,14 +113,26 @@ public class BlackjackHand implements Comparable<BlackjackHand> {
 		return -1;
 	}
 
+	/**
+	 * 
+	 * @return total amount from hand
+	 */
 	public int getTotal() {
 		return total;
 	}
 
+	/**
+	 * 
+	 * @return boolean value to see if the hand is under 22
+	 */
 	public boolean isBusted() {
 		return busted;
 	}
 
+	/**
+	 * 
+	 * @return arrayList reference hand
+	 */
 	public ArrayList<Card> getHand() {
 		return hand;
 	}
