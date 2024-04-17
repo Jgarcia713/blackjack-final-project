@@ -130,7 +130,7 @@ public class BlackjackGame extends OurObservable {
 		return players;
 	}
 
-	public ArrayList<Card> getDealerHand() {
-		return dealer.getDealerHand();
+	public BlackjackHand getDealerHand() {
+		return dealer.getHand();
 	}
 }

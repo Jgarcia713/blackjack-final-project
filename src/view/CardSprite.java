@@ -1,5 +1,7 @@
 package view;
 
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import model.*;
 
 import java.io.FileInputStream;
@@ -63,6 +65,8 @@ public class CardSprite {
     
     public void draw() {
         g.drawImage(img, position.getX(), position.getY(), 122, 173);
-        g.fillText(Integer.toString(card.getRank().getValue()), position.getX() + 11, position.getY() + 18);
+        g.setFont(new Font(16));
+        g.setTextAlign(TextAlignment.CENTER);
+        g.fillText(Integer.toString(card.getRank().getValue()), position.getX() + 15, position.getY() + 19);
     }
 }
