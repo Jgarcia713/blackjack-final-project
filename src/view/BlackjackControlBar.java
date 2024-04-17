@@ -15,6 +15,11 @@ public class BlackjackControlBar extends GridPane {
 
     private TextField betInput;
     private Button placeBet;
+
+    /**
+     * constructor for a custom gridpane that houses all the controls for the blackjack game.
+     * @param theModel reference to the BlackjackGame object that this pane should control.
+     */
     public BlackjackControlBar(BlackjackGame theModel) {
         theGame = theModel;
         initializePanel();
@@ -38,6 +43,7 @@ public class BlackjackControlBar extends GridPane {
         this.add(activePlayerLabel, 0, 0);
         this.add(hit, 1, 0);
         this.add(stand, 2, 0);
+        // hiding these two buttons for now, until the functionality is properly implemented
 //        this.add(doubleDown, 3, 0);
 //        this.add(split, 4, 0);
         this.add(betInput, 10, 0);
@@ -84,8 +90,11 @@ public class BlackjackControlBar extends GridPane {
         });
     }
 
+    /**
+     * setter method for the text of the activePlayerLabel Label
+     * @param playerName String representing what name to insert in the label.
+     */
     public void updateActivePlayerLabel(String playerName) {
         activePlayerLabel.setText(playerName + "'s turn");
     }
-
 }

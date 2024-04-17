@@ -24,8 +24,14 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 	GraphicsContext g;
 	Image background;
 	private BlackjackControlBar controlBar;
+
+	/**
+	 * Startup for the Blackjack GUI panel. Is run on startup. It initializes all the objects and systems.
+	 * @param stage javafx stage
+	 * @throws FileNotFoundException thrown if background image cant be found
+	 */
 	@Override
-	public void start(Stage stage) throws Exception {
+	public void start(Stage stage) throws FileNotFoundException {
 
 
 		// initialize objects
@@ -70,38 +76,46 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		stage.show();
 	}
 
-	private void createSampleCard() throws FileNotFoundException {
-		CardSprite card = new CardSprite(g, 100, 100, 0, new Card(Rank.ACE, Suit.CLUBS));
-		card.draw();
-		CardSprite card1 = new CardSprite(g, 300, 300, 0, new Card(Rank.ACE, Suit.DIAMONDS));
-		card1.draw();
-		CardSprite card2 = new CardSprite(g, 500, 500, 0, new Card(Rank.ACE, Suit.HEARTS));
-		card2.draw();
-	}
+//	/**
+//	 *
+//	 * @throws FileNotFoundException
+//	 */
+//	private void createSampleCard() throws FileNotFoundException {
+//		CardSprite card = new CardSprite(g, 100, 100, 0, new Card(Rank.ACE, Suit.CLUBS));
+//		card.draw();
+//		CardSprite card1 = new CardSprite(g, 300, 300, 0, new Card(Rank.ACE, Suit.DIAMONDS));
+//		card1.draw();
+//		CardSprite card2 = new CardSprite(g, 500, 500, 0, new Card(Rank.ACE, Suit.HEARTS));
+//		card2.draw();
+//	}
+//
+//
+//	private void cardSpinAnimation(long startNanoTime, long currentNanoTime) throws FileNotFoundException {
+//		double t = (currentNanoTime - startNanoTime) / 1000000000.0;
+//		double x = 232 + 128 * Math.cos(t);
+//		double y = 232 + 128 * Math.sin(t);
+//
+//		// this might be running slow because it's initializing three new card objects every frame. instead of reusing objects.
+//		CardSprite card = new CardSprite(g, x+200, y, 0, new Card(Rank.ACE, Suit.SPADES));
+//		card.draw();
+//		CardSprite card1 = new CardSprite(g, x, y-90, 0, new Card(Rank.ACE, Suit.CLUBS));
+//		card1.draw();
+//		CardSprite card2 = new CardSprite(g, x-100, y, 0, new Card(Rank.ACE, Suit.HEARTS));
+//		card2.draw();
+//
+//	}
 
-
-	private void cardSpinAnimation(long startNanoTime, long currentNanoTime) throws FileNotFoundException {
-		double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-		double x = 232 + 128 * Math.cos(t);
-		double y = 232 + 128 * Math.sin(t);
-
-		// this might be running slow because it's initializing three new card objects every frame. instead of reusing objects.
-		CardSprite card = new CardSprite(g, x+200, y, 0, new Card(Rank.ACE, Suit.SPADES));
-		card.draw();
-		CardSprite card1 = new CardSprite(g, x, y-90, 0, new Card(Rank.ACE, Suit.CLUBS));
-		card1.draw();
-		CardSprite card2 = new CardSprite(g, x-100, y, 0, new Card(Rank.ACE, Suit.HEARTS));
-		card2.draw();
-
-	}
-
+	/**
+	 * does initial setup for the game. Currently, this just means creating the new player objects
+	 */
 	private void initializeGame() {
 		game.addPlayer("Player 1", true);
 	}
 
 	/**
-	 * updates the gui with the current game data
-	 * @param theGame reference to the BlackjackGame object
+	 * updates the gui with the current game data. Uses an observer/observable system to do so.
+	 *  The observable (BlackjackGame) will notify this observer to update whenever the game state changes
+	 * @param theGame reference to the BlackjackGame object that changed
 	 */
 	@Override
 	public void update(BlackjackGame theGame) {
