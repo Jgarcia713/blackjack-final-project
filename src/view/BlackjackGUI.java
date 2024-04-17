@@ -9,10 +9,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import model.OurObserver;
 import presenter.BlackjackGame;
 import javafx.animation.AnimationTimer;
 
-public class BlackjackGUI extends Application {
+public class BlackjackGUI extends Application implements OurObserver {
 	BlackjackGame game;
 	final int gameWidth = 1200;
 	final int gameHeight = 950;
@@ -24,7 +25,7 @@ public class BlackjackGUI extends Application {
 	public void start(Stage stage) throws Exception {
 		// initialize objects
 		game = new BlackjackGame();
-		BlackjackButtonControls buttons = new BlackjackButtonControls(game);
+		BlackjackControlsBar buttons = new BlackjackControlsBar(game);
 		BorderPane pane = new BorderPane();
 
 		// create canvas
@@ -58,7 +59,11 @@ public class BlackjackGUI extends Application {
 
 		stage.show();
 	}
-	
+
+	private void initializeControlPanel() {
+
+	}
+
 	private void createSampleCard() throws FileNotFoundException {
 		CardSprite card = new CardSprite(100, 100, 0, null);
 		card.draw(g);
@@ -90,5 +95,10 @@ public class BlackjackGUI extends Application {
 
 	private void initializeGame() {
 		game.addPlayer("Player 1", true);
+	}
+
+	@Override
+	public void update(Object theObserved) {
+
 	}
 }

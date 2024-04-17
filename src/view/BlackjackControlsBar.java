@@ -6,21 +6,27 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import model.Actions;
 import presenter.BlackjackGame;
-
-public class BlackjackButtonControls extends GridPane {
+import javafx.scene.control.Label;
+public class BlackjackControlsBar extends GridPane {
 
     private BlackjackGame theGame;
-    private Button hit, stand, doubleDown, split;
+    public Label activePlayerLabel;
+    public Button hit, stand, doubleDown, split;
 
     private TextField betInput;
     private Button placeBet;
-    public BlackjackButtonControls(BlackjackGame theModel) {
+    public BlackjackControlsBar(BlackjackGame theModel) {
         theGame = theModel;
         initializePanel();
         declareButtonEvents();
     }
 
+    /**
+     * Sets up all the ui elements for this gridpane panel.
+     */
     private void initializePanel() {
+        activePlayerLabel = new Label(theGame.getActivePlayer() + "'s turn");
+
         hit = new Button("Hit");
         stand = new Button("Stand");
         doubleDown = new Button("Double Down");
@@ -28,10 +34,12 @@ public class BlackjackButtonControls extends GridPane {
 
         betInput = new TextField();
         placeBet = new Button("Place bet and Start Round");
-        this.add(hit, 0, 0);
-        this.add(stand, 1, 0);
-        this.add(doubleDown, 2, 0);
-        this.add(split, 3, 0);
+
+        this.add(activePlayerLabel, 0, 0);
+        this.add(hit, 1, 0);
+        this.add(stand, 2, 0);
+        this.add(doubleDown, 3, 0);
+        this.add(split, 4, 0);
         this.add(betInput, 10, 0);
         this.add(placeBet, 11, 0);
         this.setPadding(new Insets(10));
@@ -39,6 +47,9 @@ public class BlackjackButtonControls extends GridPane {
         this.setHgap(10);
     }
 
+    /**
+     * used when initializing panel. Declares the action events for the UI elements
+     */
     private void declareButtonEvents() {
         if (hit == null)
             return;
