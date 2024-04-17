@@ -9,7 +9,7 @@ package model;
 import java.util.ArrayList;
 
 /**
- * a class to be inherited by objects that want to be be observed by classes who implement OurObserver
+ * a class to be inherited by objects that want to be observed by classes who implement OurObserver
  */
 public class OurObservable {
   ArrayList<OurObserver> observers = new ArrayList<>();

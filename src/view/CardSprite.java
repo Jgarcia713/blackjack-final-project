@@ -1,5 +1,8 @@
 package view;
 
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import model.*;
@@ -67,7 +70,11 @@ public class CardSprite {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+        DropShadow shadow = new DropShadow();
+
+        g.setEffect(shadow);
         g.drawImage(img, position.getX(), position.getY(), 122, 173);
+        g.setEffect(null);
         g.setFont(new Font(16));
         g.setTextAlign(TextAlignment.CENTER);
         g.fillText(Integer.toString(card.getRank().getValue()), position.getX() + 15, position.getY() + 19);
