@@ -11,20 +11,36 @@ public class Card implements Comparable<Card> {
 	private final Rank rank;
 	private final Suit suit;
 
-	// Constructor
+	/**
+	 * 
+	 * @param rank enum of number/face of card
+	 * @param suit what suit is this card
+	 */
 	public Card(Rank rank, Suit suit) {
 		this.rank = rank;
 		this.suit = suit;
 	}
-
+	
+	/**
+	 * 
+	 * @return suit of current card
+	 */
 	public Suit getSuit() {
 		return (this.suit);
 	}
-
+	
+	/**
+	 * 
+	 * @return rank of card
+	 */
 	public Rank getRank() {
 		return (this.rank);
 	}
-
+	
+	/**
+	 * 
+	 * @return value of the card
+	 */
 	public int getValue() {
 		return (this.rank.getValue());
 	}
@@ -60,12 +76,17 @@ public class Card implements Comparable<Card> {
 		// Need to get the value instead of "?"
 		return (cardValue + suitIcon);
 	}
-
+	
 	@Override
 	public int compareTo(Card other) {
 		return (this.rank.getValue() - other.rank.getValue());
 	}
-
+	
+	/**
+	 * 
+	 * @param other another Card
+	 * @return boolean value of whether or not the card actually matches
+	 */
 	public boolean equals(Card other) {
 		return ((compareTo(other) == 0) && this.suit == other.getSuit());
 	}

@@ -15,6 +15,10 @@ import model.*;
 import presenter.BlackjackGame;
 
 public class BlackjackGUI extends Application implements OurObserver<BlackjackGame> {
+	
+	public static void main(String[]args) {
+		launch(args);
+	}
 	BlackjackGame game;
 	final int gameWidth = 1000;
 	final int gameHeight = 750;
