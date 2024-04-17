@@ -16,6 +16,9 @@ import javafx.stage.Stage;
 import model.*;
 import presenter.BlackjackGame;
 
+/**
+ * this class is a javafx application which allows a player to interact with a blackjack game through a GUI.
+ */
 public class BlackjackGUI extends Application implements OurObserver<BlackjackGame> {
 	BlackjackGame game;
 	final int gameWidth = 1000;

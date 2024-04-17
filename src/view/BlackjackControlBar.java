@@ -7,6 +7,10 @@ import javafx.scene.layout.GridPane;
 import model.Actions;
 import presenter.BlackjackGame;
 import javafx.scene.control.Label;
+
+/**
+ * custom gridpane that houses all the controls for interacting with blackjack game
+ */
 public class BlackjackControlBar extends GridPane {
 
     private BlackjackGame theGame;
@@ -17,7 +21,7 @@ public class BlackjackControlBar extends GridPane {
     private Button placeBet;
 
     /**
-     * constructor for a custom gridpane that houses all the controls for the blackjack game.
+     * constructor. Calls methods necessary for initializing the custom gridpane.
      * @param theModel reference to the BlackjackGame object that this pane should control.
      */
     public BlackjackControlBar(BlackjackGame theModel) {

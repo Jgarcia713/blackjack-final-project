@@ -6,6 +6,9 @@ import model.Player;
 import java.util.Scanner;
 import model.Actions;
 
+/**
+ * A java program that allows the player to interact with a blackjack game through a console view.
+ */
 public class BlackjackConsole {
 
 	private static BlackjackGame game;
@@ -44,6 +47,9 @@ public class BlackjackConsole {
         }
     }
 
+    /**
+     *
+     */
     private static void displayResults() {
         System.out.println(game.dealerString() + "\n");
         for (Player player : game.getPlayers()) {
