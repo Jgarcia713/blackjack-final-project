@@ -48,7 +48,7 @@ public class BlackjackConsole {
     }
 
     /**
-     *
+     * displays the result of the game
      */
     private static void displayResults() {
         System.out.println(game.dealerString() + "\n");
