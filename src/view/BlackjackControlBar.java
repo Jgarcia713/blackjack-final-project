@@ -38,8 +38,8 @@ public class BlackjackControlBar extends GridPane {
         this.add(activePlayerLabel, 0, 0);
         this.add(hit, 1, 0);
         this.add(stand, 2, 0);
-        this.add(doubleDown, 3, 0);
-        this.add(split, 4, 0);
+//        this.add(doubleDown, 3, 0);
+//        this.add(split, 4, 0);
         this.add(betInput, 10, 0);
         this.add(placeBet, 11, 0);
         this.setPadding(new Insets(10));
