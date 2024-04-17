@@ -29,6 +29,10 @@ public class Card implements Comparable<Card> {
 		return (this.rank.getValue());
 	}
 
+	/**
+	 * converts the card to a string representation
+	 * @return card value number/letter followed by ASCII suit symbol
+	 */
 	public String toString() {
 		// Use these four Unicode icons for the solid suit icons.
 		char suitIcon = '\u2663';
