@@ -27,7 +27,7 @@ public class BlackjackButtonControls extends GridPane {
         split = new Button("Split");
 
         betInput = new TextField();
-        placeBet = new Button("Place bet");
+        placeBet = new Button("Place bet and Start Round");
         this.add(hit, 0, 0);
         this.add(stand, 1, 0);
         this.add(doubleDown, 2, 0);
