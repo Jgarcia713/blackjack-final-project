@@ -18,8 +18,16 @@ public class CardSprite {
     private Image img;
     private String outerFP;
     private String innerFP;
-
     private GraphicsContext g;
+    
+    /**
+     * constructs the CardSprite class, which represent an image of a corresponding card
+     * @param g: the graphics context of the canvas to draw on
+     * @param x: the x position of the card
+     * @param y: the y position of the card
+     * @param rot: the rotation of the card
+     * @param theCard: the card to represent
+     */
     public CardSprite(GraphicsContext g, double x, double y, double rot, Card theCard) {
     	this.g = g;
         position = new Point2D(x, y);
@@ -50,6 +58,9 @@ public class CardSprite {
         }
     }
     
+    /**
+     * draws the card onto the canvas given the canvas's graphics context
+     */
     public void draw() {
     	try {
 			img = new Image(new FileInputStream("images/" + outerFP + "/" + innerFP));
