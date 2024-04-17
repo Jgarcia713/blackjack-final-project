@@ -2,7 +2,10 @@
 
 import java.util.ArrayList;
 
-public class BlackjackHand implements Comparable<BlackjackHand> {
+ /**
+  * a class representing a hand in blackjack. contains various methods for manipulating the jand
+  */
+ public class BlackjackHand implements Comparable<BlackjackHand> {
 	private ArrayList<Card> hand;
 	private boolean busted;
 	private int total;
