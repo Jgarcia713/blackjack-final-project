@@ -30,6 +30,7 @@ public class BlackjackGame extends OurObservable {
 	public void setActivePlayerBet(int bet) {
 		activePlayerBet = bet;
 	}
+
 	/**
 	 * starts a round by collecting everyone's bets and dealing out cards.
 	 *
@@ -48,7 +49,10 @@ public class BlackjackGame extends OurObservable {
 		isGameOver = false; // reset isGameOver flag
 		dealer.dealCards();
 		for (Player player : players) {
-			dealer.collectBet(player, 20); // collect bet from each player
+			if (player == activePlayer) {
+				dealer.collectBet(player, activePlayerBet); // Collect bet from the active player
+			} else
+				dealer.collectBet(player, 20); // collect bet from each player
 		}
 		dealer.dealCards(); // deal cards to each player and the dealer
 		if (dealer.hasTwentyOne()) {
@@ -58,8 +62,8 @@ public class BlackjackGame extends OurObservable {
 	}
 
 	/**
-	 * given a string input of a move type, will perform the correct action.
-	 * 		Will also update activePlayer and/or end the round as necessary.
+	 * given a string input of a move type, will perform the correct action. Will
+	 * also update activePlayer and/or end the round as necessary.
 	 *
 	 * @apiNote Currently assumes that the active player is the one who made a move.
 	 *          If we want to do online networking, we probably need to verify that
@@ -73,8 +77,7 @@ public class BlackjackGame extends OurObservable {
 			if (activePlayer.isBusted()) {
 				if (iterator.hasNext()) {
 					activePlayer = iterator.next();
-				}
-				else {
+				} else {
 					endRound();
 				}
 				notifyObservers(this);
@@ -96,10 +99,9 @@ public class BlackjackGame extends OurObservable {
 	}
 
 	/**
-	 * performs necessary actions after all players have completed their turns.
-	 * 		1. dealer plays their turn
-	 * 		2. dealer pays out to winners
-	 * 		3. set isGameOver flag to true
+	 * performs necessary actions after all players have completed their turns. 1.
+	 * dealer plays their turn 2. dealer pays out to winners 3. set isGameOver flag
+	 * to true
 	 */
 	private void endRound() {
 		playDealersTurn();
@@ -107,6 +109,7 @@ public class BlackjackGame extends OurObservable {
 		isGameOver = true;
 		notifyObservers(this);
 	}
+
 	/**
 	 * tells dealer to hit until it has reached the minimum score requirement.
 	 */
@@ -115,10 +118,14 @@ public class BlackjackGame extends OurObservable {
 
 	}
 
-    public Player getActivePlayer() {
-        return activePlayer;
-    }
-    public String dealerString() { return dealer.toString(); }
+	public Player getActivePlayer() {
+		return activePlayer;
+	}
+
+	public String dealerString() {
+		return dealer.toString();
+	}
+
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
