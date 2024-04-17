@@ -1,24 +1,19 @@
 package view;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import presenter.BlackjackGame;
 import javafx.animation.AnimationTimer;
 
 public class BlackjackGUI extends Application {
-
+	BlackjackGame game;
 	final int gameWidth = 1200;
 	final int gameHeight = 950;
 	Canvas canvas;
@@ -28,11 +23,9 @@ public class BlackjackGUI extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		// initialize objects
-		BlackjackGame game = new BlackjackGame();
+		game = new BlackjackGame();
 		BlackjackButtonControls buttons = new BlackjackButtonControls(game);
 		BorderPane pane = new BorderPane();
-
-
 
 		// create canvas
 		canvas = new Canvas(gameWidth,gameHeight-50);
@@ -40,7 +33,6 @@ public class BlackjackGUI extends Application {
 
 		// draw background (This should probably be moved to some render method so it's redrawn every frame
 		background = new Image(new FileInputStream("images/blackjack-background.png"));
-
 
 		// add nodes to pane
 		pane.setCenter(canvas);
@@ -80,8 +72,6 @@ public class BlackjackGUI extends Application {
 	private void render() throws FileNotFoundException {
 		//background
 		g.drawImage(background, 0, 0, canvas.getWidth(), canvas.getHeight());
-		//sample cards
-		createSampleCard();
 	}
 
 	private void cardSpinAnimation(long startNanoTime, long currentNanoTime) throws FileNotFoundException {
@@ -96,5 +86,9 @@ public class BlackjackGUI extends Application {
 		CardSprite card2 = new CardSprite(x-100, y, 0, null);
 		card2.draw(g);
 
+	}
+
+	private void initializeGame() {
+		game.addPlayer("Player 1", true);
 	}
 }
