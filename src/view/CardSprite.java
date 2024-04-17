@@ -62,6 +62,7 @@ public class CardSprite {
     }
     
     public void draw() {
-    	g.drawImage(img, position.getX(), position.getY(), 122, 173);
+        g.drawImage(img, position.getX(), position.getY(), 122, 173);
+        g.fillText(Integer.toString(card.getRank().getValue()), position.getX() + 11, position.getY() + 18);
     }
 }
