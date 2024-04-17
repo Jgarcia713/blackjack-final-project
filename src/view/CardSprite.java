@@ -15,17 +15,53 @@ public class CardSprite {
     private Card card;
     private Image img;
 
-    public CardSprite(double x, double y, double rot, Card theCard) throws FileNotFoundException {
-    	position = new Point2D(x, y);
+    private GraphicsContext g;
+    public CardSprite(GraphicsContext g, double x, double y, double rot, Card theCard) {
+    	this.g = g;
+        position = new Point2D(x, y);
     	rotation = rot;
-    	card = new Card(Rank.ACE, Suit.CLUBS); //theCard;
-    	
-    	if(card.getSuit() == Suit.CLUBS) {
-    		img = new Image(new FileInputStream("images/cCard.png"));
-    	}
+    	card = theCard; //theCard;
+
+        // determine base image
+        switch (card.getSuit()) {
+            case CLUBS:
+                try {
+                    img = new Image(new FileInputStream("images/cCard.png"));
+                } catch (FileNotFoundException e){
+                    System.out.println("Cant find club card image");
+                }
+                break;
+
+            case SPADES:
+                try {
+                    img = new Image(new FileInputStream("images/sCard.png"));
+                } catch (FileNotFoundException e){
+                    System.out.println("Cant find club card image");
+                }
+                break;
+
+            case HEARTS:
+                try {
+                    img = new Image(new FileInputStream("images/hCard.png"));
+                } catch (FileNotFoundException e){
+                    System.out.println("Cant find club card image");
+                }
+                break;
+
+            case DIAMONDS:
+                try {
+                    img = new Image(new FileInputStream("images/dCard.png"));
+                } catch (FileNotFoundException e){
+                    System.out.println("Cant find club card image");
+                }
+                break;
+            default:
+                System.out.println("invalid suit");
+                System.out.println(card.getSuit());
+        }
     }
     
-    public void draw(GraphicsContext g) {
+    public void draw() {
     	g.drawImage(img, position.getX(), position.getY(), 122, 173);
     }
 }

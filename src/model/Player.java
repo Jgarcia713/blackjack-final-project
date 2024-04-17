@@ -12,6 +12,7 @@ public class Player {
 	private String playerName;
 	private double bet = 0; // main bet
 	// private double splitBet = 0; // second bet for splitting
+	private double nextBet = 0;
 	private boolean folded = false; // indicates if the player has folded
 	// private boolean split = false;
 	private boolean hasCompletedTurn = false;

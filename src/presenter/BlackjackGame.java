@@ -1,19 +1,18 @@
 package presenter;
 
-import model.Dealer;
-import model.Player;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import model.Actions;
-import model.Card;
 
-public class BlackjackGame {
+public class BlackjackGame extends OurObservable {
 	private ArrayList<Player> players;
+	private ArrayList<Integer> playerBets;
 	private Iterator<Player> iterator;
 	private Dealer dealer;
 	private Player activePlayer;
+	private int activePlayerBet;
 	public boolean isGameOver = false;
 
 	public BlackjackGame() {
@@ -28,6 +27,9 @@ public class BlackjackGame {
 		players.add(new Player(name, isPlayer));
 	}
 
+	public void setActivePlayerBet(int bet) {
+		activePlayerBet = bet;
+	}
 	/**
 	 * starts a round by collecting everyone's bets and dealing out cards.
 	 *
@@ -52,6 +54,7 @@ public class BlackjackGame {
 		if (dealer.hasTwentyOne()) {
 			isGameOver = true;
 		}
+		notifyObservers(this);
 	}
 
 	/**
@@ -74,6 +77,7 @@ public class BlackjackGame {
 				else {
 					endRound();
 				}
+				notifyObservers(this);
 				return true;
 			}
 		} else if (action == Actions.STAND) {
@@ -87,6 +91,7 @@ public class BlackjackGame {
 		} else if (action == Actions.SPLIT) {
 			// TODO: fill out if statement
 		}
+		notifyObservers(this);
 		return false;
 	}
 
@@ -100,12 +105,14 @@ public class BlackjackGame {
 		playDealersTurn();
 		dealer.payWinners();
 		isGameOver = true;
+		notifyObservers(this);
 	}
 	/**
 	 * tells dealer to hit until it has reached the minimum score requirement.
 	 */
 	private void playDealersTurn() {
 		dealer.hitUntilMinScore();
+
 	}
 
     public Player getActivePlayer() {

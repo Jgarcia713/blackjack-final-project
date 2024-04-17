@@ -7,7 +7,7 @@ import javafx.scene.layout.GridPane;
 import model.Actions;
 import presenter.BlackjackGame;
 import javafx.scene.control.Label;
-public class BlackjackControlsBar extends GridPane {
+public class BlackjackControlBar extends GridPane {
 
     private BlackjackGame theGame;
     public Label activePlayerLabel;
@@ -15,7 +15,7 @@ public class BlackjackControlsBar extends GridPane {
 
     private TextField betInput;
     private Button placeBet;
-    public BlackjackControlsBar(BlackjackGame theModel) {
+    public BlackjackControlBar(BlackjackGame theModel) {
         theGame = theModel;
         initializePanel();
         declareButtonEvents();
@@ -78,8 +78,14 @@ public class BlackjackControlsBar extends GridPane {
         if (placeBet == null)
             return;
         placeBet.setOnAction(event -> {
-
+            int betAmount = Integer.parseInt(betInput.getText());
+            theGame.setActivePlayerBet(betAmount);
+            theGame.startRound();
         });
+    }
+
+    public void updateActivePlayerLabel(String playerName) {
+        activePlayerLabel.setText(playerName + "'s turn");
     }
 
 }
