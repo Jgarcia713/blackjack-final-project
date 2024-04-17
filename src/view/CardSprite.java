@@ -16,46 +16,41 @@ public class CardSprite {
     private double rotation;
     private Card card;
     private Image img;
-
+    private String outerFP;
+    private String innerFP;
     private GraphicsContext g;
+    
+    /**
+     * constructs the CardSprite class, which represent an image of a corresponding card
+     * @param g: the graphics context of the canvas to draw on
+     * @param x: the x position of the card
+     * @param y: the y position of the card
+     * @param rot: the rotation of the card
+     * @param theCard: the card to represent
+     */
     public CardSprite(GraphicsContext g, double x, double y, double rot, Card theCard) {
     	this.g = g;
         position = new Point2D(x, y);
     	rotation = rot;
-    	card = theCard; //theCard;
+    	card = theCard;
+    	innerFP = "blank.png";
 
         // determine base image
         switch (card.getSuit()) {
             case CLUBS:
-                try {
-                    img = new Image(new FileInputStream("images/cCard.png"));
-                } catch (FileNotFoundException e){
-                    System.out.println("Cant find club card image");
-                }
+            	outerFP = "cCards";
                 break;
 
             case SPADES:
-                try {
-                    img = new Image(new FileInputStream("images/sCard.png"));
-                } catch (FileNotFoundException e){
-                    System.out.println("Cant find club card image");
-                }
+            	outerFP = "sCards";
                 break;
 
             case HEARTS:
-                try {
-                    img = new Image(new FileInputStream("images/hCard.png"));
-                } catch (FileNotFoundException e){
-                    System.out.println("Cant find club card image");
-                }
+            	outerFP = "hCards";
                 break;
 
             case DIAMONDS:
-                try {
-                    img = new Image(new FileInputStream("images/dCard.png"));
-                } catch (FileNotFoundException e){
-                    System.out.println("Cant find club card image");
-                }
+            	outerFP = "dCards";
                 break;
             default:
                 System.out.println("invalid suit");
@@ -63,7 +58,15 @@ public class CardSprite {
         }
     }
     
+    /**
+     * draws the card onto the canvas given the canvas's graphics context
+     */
     public void draw() {
+    	try {
+			img = new Image(new FileInputStream("images/" + outerFP + "/" + innerFP));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
         g.drawImage(img, position.getX(), position.getY(), 122, 173);
         g.setFont(new Font(16));
         g.setTextAlign(TextAlignment.CENTER);
