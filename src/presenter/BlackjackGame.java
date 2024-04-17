@@ -15,6 +15,9 @@ public class BlackjackGame extends OurObservable {
 	private int activePlayerBet;
 	public boolean isGameOver = false;
 
+	/**
+	 * constructor for the BlackjackGame. initializes necessary objects.
+	 */
 	public BlackjackGame() {
 		// NOTE: BlackJackGame and Dealer both reference the same ArrayList of players
 		// This way, either can modify the list as necessary, and the other object will
@@ -27,6 +30,10 @@ public class BlackjackGame extends OurObservable {
 		players.add(new Player(name, isPlayer));
 	}
 
+	/**
+	 * sets the bet value to be used for the current player.
+	 * @param bet integer bet value to be used
+	 */
 	public void setActivePlayerBet(int bet) {
 		activePlayerBet = bet;
 	}
@@ -118,18 +125,34 @@ public class BlackjackGame extends OurObservable {
 
 	}
 
+	/**
+	 * gets a reference to the currently active player
+	 * @return the active player object
+	 */
 	public Player getActivePlayer() {
 		return activePlayer;
 	}
 
+	/**
+	 * gets string representation of dealer
+	 * @return dealer.toString()
+	 */
 	public String dealerString() {
 		return dealer.toString();
 	}
 
+	/**
+	 * return list of players ingame.
+	 * @return ArrayList of players
+	 */
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
 
+	/**
+	 * gets the BlackjackHand of the dealer
+	 * @return dealer.getHand()
+	 */
 	public BlackjackHand getDealerHand() {
 		return dealer.getHand();
 	}
