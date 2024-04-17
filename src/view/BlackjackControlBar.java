@@ -7,6 +7,10 @@ import javafx.scene.layout.GridPane;
 import model.Actions;
 import presenter.BlackjackGame;
 import javafx.scene.control.Label;
+
+/**
+ * custom gridpane that houses all the controls for interacting with blackjack game
+ */
 public class BlackjackControlBar extends GridPane {
 
     private BlackjackGame theGame;
@@ -15,6 +19,11 @@ public class BlackjackControlBar extends GridPane {
 
     private TextField betInput;
     private Button placeBet;
+
+    /**
+     * constructor. Calls methods necessary for initializing the custom gridpane.
+     * @param theModel reference to the BlackjackGame object that this pane should control.
+     */
     public BlackjackControlBar(BlackjackGame theModel) {
         theGame = theModel;
         initializePanel();
@@ -38,6 +47,7 @@ public class BlackjackControlBar extends GridPane {
         this.add(activePlayerLabel, 0, 0);
         this.add(hit, 1, 0);
         this.add(stand, 2, 0);
+        // hiding these two buttons for now, until the functionality is properly implemented
 //        this.add(doubleDown, 3, 0);
 //        this.add(split, 4, 0);
         this.add(betInput, 10, 0);
@@ -84,8 +94,11 @@ public class BlackjackControlBar extends GridPane {
         });
     }
 
+    /**
+     * setter method for the text of the activePlayerLabel Label
+     * @param playerName String representing what name to insert in the label.
+     */
     public void updateActivePlayerLabel(String playerName) {
         activePlayerLabel.setText(playerName + "'s turn");
     }
-
 }

@@ -8,6 +8,9 @@
 package model;
 import java.util.ArrayList;
 
+/**
+ * a class to be inherited by objects that want to be be observed by classes who implement OurObserver
+ */
 public class OurObservable {
   ArrayList<OurObserver> observers = new ArrayList<>();
   
@@ -18,10 +21,9 @@ public class OurObservable {
   public void addObserver(OurObserver anObserver) {
     observers.add(anObserver);
   }
- 
   /**
-   * notify the observers of the change within the observable
-   * @param theObservable the observer that connects to the observable
+   * send a message to all added observers, so they can read the data and update accordingly.
+   * @param theObservable
    */
   public void notifyObservers(OurObservable theObservable) {
     for(OurObserver obs : observers) {
