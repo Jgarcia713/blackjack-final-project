@@ -16,7 +16,7 @@ public class BlackjackConsole {
 
     /**
      * entrypoint to the console view program. Contains pretty much all the logic for handling console input.
-     * @param args
+     * @param args the thing that every java program needs to include.
      */
     public static void main(String[] args) {
         game = new BlackjackGame();
@@ -51,7 +51,7 @@ public class BlackjackConsole {
     }
 
     /**
-     * displays the result of the game
+     * displays the results of the game
      */
     private static void displayResults() {
         System.out.println(game.dealerString() + "\n");
