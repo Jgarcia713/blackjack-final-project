@@ -16,14 +16,27 @@ public enum Rank {
 
 	private int value;
 
+	/**
+	 * initializes enum value
+	 * @param value int to set this.value to
+	 */
 	Rank(int value) {
 		this.value = value;
 	}
 
+	/**
+	 * gets the regular rank value
+	 * @return the rank value
+	 */
 	public int getNum() {
 		return value;
 	}
 
+	/**
+	 * gets the blackjack rank value.
+	 * This is different from regular rank values. For example, all face cards are worth 10
+	 * @return the blackjack rank value
+	 */
 	public int getValue() {
 		if (value == 11 || value == 12 || value == 13)
 			return 10;
