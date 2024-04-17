@@ -14,46 +14,33 @@ public class CardSprite {
     private double rotation;
     private Card card;
     private Image img;
+    private String outerFP;
+    private String innerFP;
 
     private GraphicsContext g;
     public CardSprite(GraphicsContext g, double x, double y, double rot, Card theCard) {
     	this.g = g;
         position = new Point2D(x, y);
     	rotation = rot;
-    	card = theCard; //theCard;
+    	card = theCard;
+    	innerFP = "blank.png";
 
         // determine base image
         switch (card.getSuit()) {
             case CLUBS:
-                try {
-                    img = new Image(new FileInputStream("images/cCard.png"));
-                } catch (FileNotFoundException e){
-                    System.out.println("Cant find club card image");
-                }
+            	outerFP = "cCards";
                 break;
 
             case SPADES:
-                try {
-                    img = new Image(new FileInputStream("images/sCard.png"));
-                } catch (FileNotFoundException e){
-                    System.out.println("Cant find club card image");
-                }
+            	outerFP = "sCards";
                 break;
 
             case HEARTS:
-                try {
-                    img = new Image(new FileInputStream("images/hCard.png"));
-                } catch (FileNotFoundException e){
-                    System.out.println("Cant find club card image");
-                }
+            	outerFP = "hCards";
                 break;
 
             case DIAMONDS:
-                try {
-                    img = new Image(new FileInputStream("images/dCard.png"));
-                } catch (FileNotFoundException e){
-                    System.out.println("Cant find club card image");
-                }
+            	outerFP = "dCards";
                 break;
             default:
                 System.out.println("invalid suit");
@@ -62,6 +49,11 @@ public class CardSprite {
     }
     
     public void draw() {
+    	try {
+			img = new Image(new FileInputStream("images/" + outerFP + "/" + innerFP));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
         g.drawImage(img, position.getX(), position.getY(), 122, 173);
         g.fillText(Integer.toString(card.getRank().getValue()), position.getX() + 11, position.getY() + 18);
     }
