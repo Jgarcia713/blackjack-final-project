@@ -85,7 +85,7 @@ public class CardSprite {
 			hideCard = false;
 			return;
 		}
-
+		g.setEffect(null);
 		g.setFont(new Font(16));
 		g.setTextAlign(TextAlignment.CENTER);
 		String cardValue;
