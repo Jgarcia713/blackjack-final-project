@@ -56,6 +56,10 @@ public class BlackjackControlBar extends Pane {
 		chip25 = new Button();
 		chip100 = new Button();
 		chip500 = new Button();
+		placeBet = new Button("Place bet and Start Round");
+		placeBet.setLayoutX(830);
+		placeBet.setLayoutY(410);
+
 		try {
 			Image chipImage1 = new Image(new FileInputStream("images/chips/chip1.png"), 80, 80, false, false);
 			ImageView chipImageView1 = new ImageView(chipImage1);
@@ -106,7 +110,7 @@ public class BlackjackControlBar extends Pane {
 			chip500.setLayoutY(650);
 
 			chips = new Group();
-			chips.getChildren().addAll(chip1, chip5, chip10, chip25, chip100, chip500);
+			chips.getChildren().addAll(chip1, chip5, chip10, chip25, chip100, chip500, placeBet);
 			this.getChildren().add(chips);
 
 		} catch (FileNotFoundException e) {
@@ -172,16 +176,11 @@ public class BlackjackControlBar extends Pane {
 
 		betInput = new TextField("Bet amount: $0");
 		betInput.setEditable(false);
+		betInput.setStyle("-fx-highlight-fill: null; -fx-highlight-text-fill: null;");
 		betInput.setLayoutY(380);
 		betInput.setLayoutX(830);
 
 		this.getChildren().add(betInput);
-
-		placeBet = new Button("Place bet and Start Round");
-
-		placeBet.setLayoutX(830);
-		placeBet.setLayoutY(410);
-		this.getChildren().add(placeBet);
 	}
 
 	/**
