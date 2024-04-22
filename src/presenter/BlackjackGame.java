@@ -54,7 +54,7 @@ public class BlackjackGame extends OurObservable {
 			return;
 		}
 		isGameOver = false; // reset isGameOver flag
-		dealer.dealCards();
+
 		for (Player player : players) {
 			if (player == activePlayer) {
 				dealer.collectBet(player, activePlayerBet); // Collect bet from the active player
