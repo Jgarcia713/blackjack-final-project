@@ -41,10 +41,14 @@ public class BlackjackControlBar extends Pane {
 		theGame = theModel;
 		initializePanel();
 		initializeChips();
+		this.showBetElements();
 		declareButtonEvents();
 		this.updateActivePlayerLabel(name);
 	}
 
+	/**
+	 * Sets up all the ui elements for betting
+	 */
 	private void initializeChips() {
 		chip1 = new Button();
 		chip5 = new Button();
@@ -112,8 +116,7 @@ public class BlackjackControlBar extends Pane {
 	}
 
 	/**
-	 * Sets up all the ui elements for this gridpane panel.
-	 * 
+	 * Sets up all the ui elements for the actions for the player
 	 */
 	private void initializePanel() {
 		activePlayerLabel = new Label(theGame.getActivePlayer() + "'s turn");
@@ -212,6 +215,7 @@ public class BlackjackControlBar extends Pane {
 		if (placeBet == null)
 			return;
 		placeBet.setOnAction(event -> {
+			this.showActionElements();
 			theGame.setActivePlayerBet(bet);
 			theGame.startRound();
 		});
@@ -245,6 +249,22 @@ public class BlackjackControlBar extends Pane {
 			bet += 500;
 			betInput.setText("Bet amount: $" + bet);
 		});
+	}
+
+	/**
+	 * Display the betting system on the Main GUI
+	 */
+	public void showBetElements() {
+		chips.setVisible(true);
+		actions.setVisible(false);
+	}
+
+	/**
+	 * Display the action buttons on the Main GUI
+	 */
+	public void showActionElements() {
+		chips.setVisible(false);
+		actions.setVisible(true);
 	}
 
 	/**

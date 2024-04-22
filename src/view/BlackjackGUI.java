@@ -100,6 +100,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 
 		// update game
 		update(game);
+		this.drawChips();
 	}
 
 	/**
@@ -122,7 +123,6 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 
 		// update canvas
 		gc.drawImage(background, 0, 0, canvas.getWidth(), canvas.getHeight());
-		drawChips();
 
 		for (Player player : theGame.getPlayers()) {
 			ArrayList<Card> cards = player.getHand().getHand();
@@ -168,6 +168,8 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 				resultsText += "\n" + player.getName() + " Winnings: " + player.getBet();
 			}
 			gc.fillText(resultsText, canvas.getWidth() / 2, canvas.getHeight() / 2);
+			controlBar.showBetElements();
+			drawChips();
 
 		}
 	}
