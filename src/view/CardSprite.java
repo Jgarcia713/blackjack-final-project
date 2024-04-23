@@ -21,7 +21,8 @@ public class CardSprite {
 	private Image img;
 	private String outerFP;
 	private String innerFP;
-	private GraphicsContext g;
+	private String suitFP;
+	private GraphicsContext gc;
 	private boolean hideCard;
 
 	/**
@@ -35,33 +36,53 @@ public class CardSprite {
 	 * @param theCard: the card to represent
 	 */
 	public CardSprite(GraphicsContext g, double x, double y, double rot, Card theCard, boolean hideCard) {
-		this.g = g;
+		this.gc = g;
 		position = new Point2D(x, y);
 		rotation = rot;
 		card = theCard;
-		innerFP = "blank.png";
 		this.hideCard = hideCard;
 
 		// determine base image
 		switch (card.getSuit()) {
 		case CLUBS:
 			outerFP = "cCards";
+			suitFP = "club.png";
 			break;
 
 		case SPADES:
 			outerFP = "sCards";
+			suitFP = "spades.png";
 			break;
 
 		case HEARTS:
 			outerFP = "hCards";
+			suitFP = "heart.png";
 			break;
 
 		case DIAMONDS:
 			outerFP = "dCards";
+			suitFP = "diamond.png";
 			break;
 		default:
 			System.out.println("invalid suit");
 			System.out.println(card.getSuit());
+		}
+
+		switch (card.getRank().getNum()) {
+		case 11:
+			innerFP = "jack.png";
+			break;
+
+		case 12:
+			innerFP = "queen.png";
+			break;
+
+		case 13:
+			innerFP = "king.png";
+			break;
+
+		default:
+			innerFP = "blank.png";
 		}
 	}
 
@@ -78,16 +99,16 @@ public class CardSprite {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-        DropShadow shadow = new DropShadow();
-        g.setEffect(shadow);
-		g.drawImage(img, position.getX(), position.getY(), 122, 173);
+		DropShadow shadow = new DropShadow();
+		gc.setEffect(shadow);
+		gc.drawImage(img, position.getX(), position.getY(), 122, 173);
 		if (hideCard) {
 			hideCard = false;
 			return;
 		}
-		g.setEffect(null);
-		g.setFont(new Font(16));
-		g.setTextAlign(TextAlignment.CENTER);
+		gc.setEffect(null);
+		gc.setFont(new Font(16));
+		gc.setTextAlign(TextAlignment.CENTER);
 		String cardValue;
 		if (card.getRank().getNum() <= 10 && card.getRank().getNum() > 1) {
 			cardValue = "" + card.getRank().getValue();
@@ -100,8 +121,21 @@ public class CardSprite {
 		} else {
 			cardValue = "A";
 		}
+		if (card.getRank().getNum() <= 10)
+			this.createCardDisplay();
+		gc.fillText(cardValue, position.getX() + 15, position.getY() + 19);
+		gc.save();
+		gc.translate(1000, 750);
+		gc.scale(-1, -1);
+		gc.translate(750, 1000);
+		gc.scale(1, 1);
+		gc.fillText(cardValue, -position.getX()+144, -position.getY()-405);
+		gc.restore();
+		
 
-		g.fillText(cardValue, position.getX() + 15, position.getY() + 19);
+	}
+
+	private void createCardDisplay() {
 
 	}
 
