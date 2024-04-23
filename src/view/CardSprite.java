@@ -146,17 +146,15 @@ public class CardSprite {
 			gc.drawImage(suitImage, position.getX() + 30, position.getY() + 55, 60, 60);
 			break;
 		case 2:
-			gc.drawImage(suitImage, position.getX() + 35, position.getY() + 35, 50, 50);
+			gc.drawImage(suitImage, position.getX() + 34.5, position.getY() + 35, 50, 50);
 			gc.save();
-			gc.translate(1000, 750);
-			gc.scale(-1, -1);
-			gc.translate(750, 1000);
-			gc.scale(1, 1);
-			gc.drawImage(suitImage, -position.getX()+165, -position.getY()-390, 50, 50);
+			gc.rotate(180);
+			gc.drawImage(suitImage, -position.getX() - 85.5, -position.getY() - 140, 50, 50);
 			gc.restore();
 			break;
 		default:
-			
+			gc.drawImage(suitImage, position.getX() + 30, position.getY() + 55, 60, 60);
+
 
 		}
 	}
