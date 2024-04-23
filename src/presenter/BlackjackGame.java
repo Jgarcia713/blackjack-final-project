@@ -1,6 +1,7 @@
 package presenter;
 
 import model.*;
+import view.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -14,6 +15,7 @@ public class BlackjackGame extends OurObservable {
 	private Player activePlayer;
 	private int activePlayerBet;
 	public boolean isGameOver = false;
+	public SoundController music;
 
 	/**
 	 * constructor for the BlackjackGame. initializes necessary objects.
@@ -24,6 +26,7 @@ public class BlackjackGame extends OurObservable {
 		// be able to see those changes.
 		players = new ArrayList<Player>();
 		dealer = new Dealer(players);
+		music = new SoundController();
 	}
 
 	public void addPlayer(String name, boolean isPlayer) {

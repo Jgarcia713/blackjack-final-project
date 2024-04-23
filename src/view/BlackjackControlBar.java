@@ -190,6 +190,7 @@ public class BlackjackControlBar extends Pane {
 		if (hit == null)
 			return;
 		hit.setOnAction(event -> {
+			theGame.music.playSFX("CardsFlipCard.wav");
 			theGame.makeMove(Actions.HIT);
 		});
 
@@ -214,37 +215,44 @@ public class BlackjackControlBar extends Pane {
 		if (placeBet == null)
 			return;
 		placeBet.setOnAction(event -> {
+			theGame.music.playSFX("PokerChipsSlide.wav");
 			this.showActionElements();
 			theGame.setActivePlayerBet(bet);
 			theGame.startRound();
 		});
 
 		chip1.setOnAction(e -> {
+			theGame.music.playSFX("PokerChipsHit.wav");
 			bet += 1;
 			betInput.setText("Bet amount: $" + bet);
 		});
 
 		chip5.setOnAction(e -> {
+			theGame.music.playSFX("PokerChipsHit.wav");
 			bet += 5;
 			betInput.setText("Bet amount: $" + bet);
 		});
 
 		chip10.setOnAction(e -> {
+			theGame.music.playSFX("PokerChipsHit.wav");
 			bet += 10;
 			betInput.setText("Bet amount: $" + bet);
 		});
 
 		chip25.setOnAction(e -> {
+			theGame.music.playSFX("PokerChipsHit.wav");
 			bet += 25;
 			betInput.setText("Bet amount: $" + bet);
 		});
 
 		chip100.setOnAction(e -> {
+			theGame.music.playSFX("PokerChipsHit.wav");
 			bet += 100;
 			betInput.setText("Bet amount: $" + bet);
 		});
 
 		chip500.setOnAction(e -> {
+			theGame.music.playSFX("PokerChipsHit.wav");
 			bet += 500;
 			betInput.setText("Bet amount: $" + bet);
 		});
