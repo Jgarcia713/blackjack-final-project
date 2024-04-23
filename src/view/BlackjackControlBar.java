@@ -1,9 +1,12 @@
 package view;
 
+import view.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
+import java.net.Inet4Address;
+import javafx.animation.*;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -11,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import model.Actions;
 import presenter.BlackjackGame;
 import javafx.scene.control.Label;
@@ -193,11 +197,23 @@ public class BlackjackControlBar extends Pane {
 			theGame.music.playSFX("CardsFlipCard.wav");
 			theGame.makeMove(Actions.HIT);
 		});
+		hit.setOnMouseEntered(e -> {
+			AnimationLibrary.scaleUp(hit);
+		});
+		hit.setOnMouseExited(e -> {
+			AnimationLibrary.scaleDown(hit);
+		});
 
 		if (stand == null)
 			return;
 		stand.setOnAction(event -> {
 			theGame.makeMove(Actions.STAND);
+		});
+		stand.setOnMouseEntered(e -> {
+			AnimationLibrary.scaleUp(stand);
+		});
+		stand.setOnMouseExited(e -> {
+			AnimationLibrary.scaleDown(stand);
 		});
 
 		if (doubleDown == null)
@@ -205,11 +221,23 @@ public class BlackjackControlBar extends Pane {
 		doubleDown.setOnAction(event -> {
 			theGame.makeMove(Actions.DOUBLE);
 		});
+		doubleDown.setOnMouseEntered(e -> {
+			AnimationLibrary.scaleUp(doubleDown);
+		});
+		doubleDown.setOnMouseExited(e -> {
+			AnimationLibrary.scaleDown(doubleDown);
+		});
 
 		if (split == null)
 			return;
 		split.setOnAction(event -> {
 			theGame.makeMove(Actions.SPLIT);
+		});
+		split.setOnMouseEntered(e -> {
+			AnimationLibrary.scaleUp(split);
+		});
+		split.setOnMouseExited(e -> {
+			AnimationLibrary.scaleDown(split);
 		});
 
 		if (placeBet == null)
@@ -226,11 +254,23 @@ public class BlackjackControlBar extends Pane {
 			bet += 1;
 			betInput.setText("Bet amount: $" + bet);
 		});
+		chip1.setOnMouseEntered(e -> {
+			AnimationLibrary.scaleUp(chip1);
+		});
+		chip1.setOnMouseExited(e -> {
+			AnimationLibrary.scaleDown(chip1);
+		});
 
 		chip5.setOnAction(e -> {
 			theGame.music.playSFX("PokerChipsHit.wav");
 			bet += 5;
 			betInput.setText("Bet amount: $" + bet);
+		});
+		chip5.setOnMouseEntered(e -> {
+			AnimationLibrary.scaleUp(chip5);
+		});
+		chip5.setOnMouseExited(e -> {
+			AnimationLibrary.scaleDown(chip5);
 		});
 
 		chip10.setOnAction(e -> {
@@ -238,11 +278,23 @@ public class BlackjackControlBar extends Pane {
 			bet += 10;
 			betInput.setText("Bet amount: $" + bet);
 		});
+		chip10.setOnMouseEntered(e -> {
+			AnimationLibrary.scaleUp(chip10);
+		});
+		chip10.setOnMouseExited(e -> {
+			AnimationLibrary.scaleDown(chip10);
+		});
 
 		chip25.setOnAction(e -> {
 			theGame.music.playSFX("PokerChipsHit.wav");
 			bet += 25;
 			betInput.setText("Bet amount: $" + bet);
+		});
+		chip25.setOnMouseEntered(e -> {
+			AnimationLibrary.scaleUp(chip25);
+		});
+		chip25.setOnMouseExited(e -> {
+			AnimationLibrary.scaleDown(chip25);
 		});
 
 		chip100.setOnAction(e -> {
@@ -250,12 +302,25 @@ public class BlackjackControlBar extends Pane {
 			bet += 100;
 			betInput.setText("Bet amount: $" + bet);
 		});
+		chip100.setOnMouseEntered(e -> {
+			AnimationLibrary.scaleUp(chip100);
+		});
+		chip100.setOnMouseExited(e -> {
+			AnimationLibrary.scaleDown(chip100);
+		});
 
 		chip500.setOnAction(e -> {
 			theGame.music.playSFX("PokerChipsHit.wav");
 			bet += 500;
 			betInput.setText("Bet amount: $" + bet);
 		});
+		chip500.setOnMouseEntered(e -> {
+			AnimationLibrary.scaleUp(chip500);
+		});
+		chip500.setOnMouseExited(e -> {
+			AnimationLibrary.scaleDown(chip500);
+		});
+
 	}
 
 	/**
