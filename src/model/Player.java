@@ -56,7 +56,7 @@ public class Player {
 	 */
 	public void placeBet(double amount) {
 		balance -= amount;
-		bet = amount;
+		bet += amount;
 	}
 
 	/*
@@ -79,6 +79,8 @@ public class Player {
 			balance += bet * 2.5;
 		else
 			balance += bet * 2;
+
+		bet = 0; // reset bet to 0
 //		}
 	}
 
