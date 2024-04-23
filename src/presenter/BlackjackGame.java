@@ -100,7 +100,7 @@ public class BlackjackGame extends OurObservable {
 				endRound();
 			}
 		} else if (action == Actions.DOUBLE) {
-			activePlayer.placeBet(activePlayer.getBet());
+			activePlayer.doubleDown();
 			activePlayer.hit(dealer.dealSingleCard());
 			if (iterator.hasNext()) {
 				activePlayer = iterator.next();

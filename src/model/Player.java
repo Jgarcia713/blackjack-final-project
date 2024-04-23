@@ -56,7 +56,7 @@ public class Player {
 	 */
 	public void placeBet(double amount) {
 		balance -= amount;
-		bet += amount;
+		bet = amount;
 	}
 
 	/*
@@ -80,7 +80,6 @@ public class Player {
 		else
 			balance += bet * 2;
 
-		bet = 0; // reset bet to 0
 //		}
 	}
 
@@ -103,23 +102,13 @@ public class Player {
 	}
 
 	/*
-	 * Allows the player to double down and receive a card. Requires the Game to
-	 * pass the card from the dealer. Returns true if busted
+	 * Doubles the player's bet, removing it from their balance.
 	 */
-	public boolean doubleDown(Card card) {
-//		if (split) {
-//			balance -= bet;
-//			splitBet *= 2;
-//			splitHand.dealCard(card);
-//			folded = true;
-//			return splitHand.isBusted();
-//		} else {
+	public boolean doubleDown() {
 		balance -= bet;
 		bet *= 2;
-		hand.dealCard(card);
 		folded = true;
 		return hand.isBusted();
-//		}
 	}
 
 	/*
