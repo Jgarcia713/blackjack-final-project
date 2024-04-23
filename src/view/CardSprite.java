@@ -51,7 +51,7 @@ public class CardSprite {
 
 		case SPADES:
 			outerFP = "sCards";
-			suitFP = "spades.png";
+			suitFP = "spade.png";
 			break;
 
 		case HEARTS:
@@ -121,7 +121,7 @@ public class CardSprite {
 		} else {
 			cardValue = "A";
 		}
-		if (card.getRank().getNum() <= 10)
+		if (card.getRank().getNum() <= 10 || card.getRank().getNum() == 14)
 			this.createCardDisplay();
 		gc.fillText(cardValue, position.getX() + 15, position.getY() + 19);
 		gc.save();
@@ -129,14 +129,36 @@ public class CardSprite {
 		gc.scale(-1, -1);
 		gc.translate(750, 1000);
 		gc.scale(1, 1);
-		gc.fillText(cardValue, -position.getX()+144, -position.getY()-405);
+		gc.fillText(cardValue, -position.getX() + 144, -position.getY() - 405);
 		gc.restore();
-		
 
 	}
 
 	private void createCardDisplay() {
+		Image suitImage = null;
+		try {
+			suitImage = new Image(new FileInputStream("images/" + suitFP), 80, 80, true, false);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		switch (card.getRank().getNum()) {
+		case 1, 14:
+			gc.drawImage(suitImage, position.getX() + 30, position.getY() + 55, 60, 60);
+			break;
+		case 2:
+			gc.drawImage(suitImage, position.getX() + 35, position.getY() + 35, 50, 50);
+			gc.save();
+			gc.translate(1000, 750);
+			gc.scale(-1, -1);
+			gc.translate(750, 1000);
+			gc.scale(1, 1);
+			gc.drawImage(suitImage, -position.getX()+165, -position.getY()-390, 50, 50);
+			gc.restore();
+			break;
+		default:
+			
 
+		}
 	}
 
 }
