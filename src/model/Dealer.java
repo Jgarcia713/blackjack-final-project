@@ -38,13 +38,28 @@ public class Dealer {
 		dealerHand = new BlackjackHand();
 		for (Player player : players) {
 			player.discardCards();
-			player.receiveCards(deck.getTopCard());
+			
+			// deal 2 cards to each player
+			for(int i = 0; i < player.numOfHands(); i ++) {
+				player.receiveCards(deck.getTopCard());
+				
+				if(player.getCurrentHandIndex() != player.numOfHands() - 1) {
+					player.goToNextPlayerHand();// iterate to next player hand
+					}
+			}
+			player.setCurrentHandIndex(0);
 		}
 
 		dealerHand.dealCard(deck.getTopCard());
 
 		for (Player player : players) {
-			player.receiveCards(deck.getTopCard());
+			for(int i = 0; i < player.numOfHands(); i ++) {
+				player.receiveCards(deck.getTopCard());
+				if(player.getCurrentHandIndex() != player.numOfHands() - 1) {
+					player.goToNextPlayerHand();// iterate to next player hand
+					}
+			}
+			player.setCurrentHandIndex(0);
 		}
 		dealerHand.dealCard(deck.getTopCard());
 	}
@@ -90,15 +105,21 @@ public class Dealer {
 	 */
 	public void payWinners() {
 		for (Player player : players) {
-
-			if (player.isBusted())
-				continue;
-			if (dealerHand.isBusted())
-				player.receivePayout(false);
-			else if (player.getHandTotal() == dealerHand.getTotal())
-				player.receivePayout(true);
-			else if (player.getHandTotal() > dealerHand.getTotal())
-				player.receivePayout(false);
+			for(int i = 0; i < player.numOfHands(); i ++) { // iterates through players hands
+				if (player.isBusted())
+					continue;
+				if (dealerHand.isBusted())
+					player.receivePayout(false);
+				else if (player.getHandTotal() == dealerHand.getTotal())
+					player.receivePayout(true);
+				else if (player.getHandTotal() > dealerHand.getTotal())
+					player.receivePayout(false);
+				
+				if(player.getCurrentHandIndex() != player.numOfHands() - 1) {
+					player.goToNextPlayerHand();// iterate to next player hand
+				}
+			}
+			player.setCurrentHandIndex(0);
 		}
 	}
 
