@@ -50,8 +50,8 @@ public class Dealer {
 			player.setCurrentHandIndex(0);
 		}
 
-		//dealerHand.dealCard(deck.getTopCard());
-		dealerHand.dealCard(new Card(Rank.ACE, Suit.CLUBS)); // fix first card to be an ace
+		dealerHand.dealCard(deck.getTopCard());
+//		dealerHand.dealCard(new Card(Rank.ACE, Suit.CLUBS)); // fix first card to be an ace
 
 		for (Player player : players) {
 			for(int i = 0; i < player.numOfHands(); i ++) {

@@ -133,7 +133,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 				// this long line makes the cards center around a point in the bottom center of
 				// the canvas
 				CardSprite cardSprite = new CardSprite(gc, canvas.getWidth() / 2.0 + (i - cards.size() / 2.0) * 120,
-						canvas.getHeight() * 0.7, 0, card, false);
+						canvas.getHeight() * 0.7 + 30, 0, card, false);
 
 				cardSprite.draw();
 			}
@@ -142,7 +142,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		ArrayList<Card> dealerCards = theGame.getDealerHand().getHand();
 		for (int i = 0; i < dealerCards.size(); i++) {
 			Card card = dealerCards.get(i);
-			if (i == 1 && dealerCards.size() == 2 && ((!theGame.isGameOver && !theGame.getActivePlayer().isFolded()) || !this.insurance))
+			if (i == 1 && dealerCards.size() == 2 && (!theGame.getActivePlayer().isFolded() || !theGame.isGameOver ))
 				hideCard = true;
 			// this long line makes the cards center around a point in the top center of the
 			// canvas
