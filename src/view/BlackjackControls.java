@@ -163,7 +163,7 @@ public class BlackjackControls extends Pane {
 			hit.setGraphic(hitImageView);
 			hit.setStyle("-fx-background-color: transparent");
 			hit.setLayoutX(2);
-			hit.setLayoutY(380);
+			hit.setLayoutY(370);
 			this.getChildren().add(hit);
 
 			Image standImage = new Image(new FileInputStream("images/actions/stand.png"), 140, 90, false, true);
@@ -171,7 +171,7 @@ public class BlackjackControls extends Pane {
 			stand.setGraphic(standImageView);
 			stand.setStyle("-fx-background-color: transparent");
 			stand.setLayoutX(2);
-			stand.setLayoutY(470);
+			stand.setLayoutY(460);
 			this.getChildren().add(stand);
 
 			Image doubleImage = new Image(new FileInputStream("images/actions/double.png"), 140, 90, false, true);
@@ -179,7 +179,7 @@ public class BlackjackControls extends Pane {
 			doubleDown.setGraphic(doubleImageView);
 			doubleDown.setStyle("-fx-background-color: transparent");
 			doubleDown.setLayoutX(2);
-			doubleDown.setLayoutY(560);
+			doubleDown.setLayoutY(550);
 			this.getChildren().add(doubleDown);
 
 			Image splitImage = new Image(new FileInputStream("images/actions/split.png"), 140, 90, false, true);
@@ -187,7 +187,7 @@ public class BlackjackControls extends Pane {
 			split.setGraphic(splitImageView);
 			split.setStyle("-fx-background-color: transparent");
 			split.setLayoutX(2);
-			split.setLayoutY(650);
+			split.setLayoutY(640);
 			this.getChildren().add(split);
 
 			actions = new Group();
@@ -360,6 +360,7 @@ public class BlackjackControls extends Pane {
 			Player player = theGame.getActivePlayer();
 			if (theGame.isGameOver) { // This may need to account for other cases
 				player.betInsurance(bet);
+				theGame.getActivePlayer().fold();
 			} else {
 				player.betInsurance(-bet / 2);
 			}
@@ -374,6 +375,9 @@ public class BlackjackControls extends Pane {
 		});
 
 		no.setOnAction(e -> {
+
+			if (theGame.isGameOver) // This may need to account for other cases
+				theGame.getActivePlayer().fold();
 			insurance.setVisible(false);
 			actions.setVisible(true);
 			this.listener.run();

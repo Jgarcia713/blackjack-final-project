@@ -67,7 +67,7 @@ public class Player {
 	public void placeBet(double amount) {
 		bet = amount;
 		balance -= bet;
-		//currentHand.setBet(amount);
+		// currentHand.setBet(amount);
 	}
 
 	/**
@@ -76,20 +76,17 @@ public class Player {
 	public void receivePayout(boolean draw) {
 		// Receive pay-out
 		double handBet = bet;
-		if (currentHand.isDoubledDown())
-		{
+		if (currentHand.isDoubledDown()) {
 			handBet *= 2;
 		}
 		if (draw) {
 			balance += handBet;
 			roundWinnings += handBet;
-		}
-		else if (currentHand.isBlackJack()) {
+		} else if (currentHand.isBlackJack()) {
 			balance += handBet * 2.5;
 			roundWinnings += handBet * 2.5;
 
-		}
-		else {
+		} else {
 			balance += handBet * 2;
 			roundWinnings += handBet * 2;
 		}
@@ -159,7 +156,7 @@ public class Player {
 		currentHand = hand.get(0);
 		currentHand.setFold(false);
 	}
-	
+
 	public void betInsurance(double bet) {
 		balance += bet;
 	}
@@ -217,12 +214,14 @@ public class Player {
 	public double getBet() {
 		return bet;
 	}
+
 	/**
 	 * sets player's bet value. Does NOT actually place the bet.
 	 */
 	public void setBet(double amount) {
 		bet = amount;
 	}
+
 	/**
 	 * gets player's hand total
 	 * 
@@ -280,9 +279,10 @@ public class Player {
 	 *
 	 * @return double roundWinnings
 	 */
- 	public double getRoundWinnings() {
+	public double getRoundWinnings() {
 		return roundWinnings;
 	}
+
 	/**
 	 * gets the current amount of hands a player has
 	 * 

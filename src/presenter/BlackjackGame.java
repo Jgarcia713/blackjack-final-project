@@ -108,6 +108,7 @@ public class BlackjackGame extends OurObservable {
 			if (!activePlayer.isInLastPlayerHand()) {
 				activePlayer.goToNextPlayerHand(); // go to next hand within the same player
 			} else {
+				activePlayer.fold();
 				if (iterator.hasNext()) {
 					activePlayer = iterator.next();
 				} else {
