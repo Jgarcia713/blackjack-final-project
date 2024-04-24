@@ -1,5 +1,6 @@
 package view;
 
+import javafx.geometry.Point2D;
 import javafx.scene.text.Text;
 
 import java.io.FileInputStream;
@@ -284,9 +285,6 @@ public class BlackjackControls extends Pane {
 			theGame.music.playSFX("PokerChipsHit.wav");
 			bet += 1;
 			betInput.setText("Bet amount: $" + bet);
-			Text text = new Text(10, 20, "");
-			this.getChildren().add(text);
-			AnimationLibrary.textTest(text);
 		});
 		chip1.setOnMouseEntered(e -> {
 			AnimationLibrary.scaleUp(chip1);

@@ -2,7 +2,7 @@ package view;
 
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
-import javafx.animation.ScaleTransition;
+import javafx.animation.*;
 import javafx.animation.Transition;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -44,27 +44,23 @@ public final class AnimationLibrary {
         scale.play();
     }
 
-    public static void moveAndScale(Point2D moveTo, double scaleTo) {
+    public static void moveAndScale(Node node, Point2D moveTo, double scaleTo) {
+        ScaleTransition scale = new ScaleTransition();
+        scale.setFromX(node.getScaleX());
+        scale.setFromY(node.getScaleY());
+        scale.setToX(scaleTo);
+        scale.setToY(scaleTo);
+        scale.setInterpolator(Interpolator.EASE_BOTH);
 
-    }
+        TranslateTransition move = new TranslateTransition();
+        move.setFromX(node.getTranslateX());
+        move.setFromY(node.getTranslateY());
+        move.setToX(moveTo.getX());
+        move.setToY(moveTo.getY());
+        move.setInterpolator(Interpolator.EASE_BOTH);
 
-    public static void textTest(Text text) {
-        final String content = "Lorem ipsum";
-        //final Text text = new Text(10, 20, "");
-
-        final Animation animation = new Transition() {
-            {
-                setCycleDuration(Duration.millis(2000));
-            }
-
-            protected void interpolate(double frac) {
-                final int length = content.length();
-                final int n = Math.round(length * (float) frac);
-                text.setText(content.substring(0, n));
-            }
-
-        };
-
-        animation.play();
+        ParallelTransition combinedTransition = new ParallelTransition(scale, move);
+        combinedTransition.setNode(node);
+        combinedTransition.play();
     }
 }
