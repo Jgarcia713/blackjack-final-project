@@ -35,6 +35,8 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 	private BlackjackControls controlBar;
 	private LoginPane login;
 	private Image chip1, chip5, chip10, chip25, chip100, chip500;
+	private boolean insurance = false;
+	private boolean hideCard = false;
 
 	/**
 	 * Startup for the Blackjack GUI panel. Is run on startup. It initializes all
@@ -83,7 +85,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		// initialize objects
 		game = new BlackjackGame();
 		initializeGame();
-		controlBar = new BlackjackControls(game, login.getUsername());
+		controlBar = new BlackjackControls(game, game.getPlayers().get(0));
 
 		game.addObserver(this);
 
@@ -137,11 +139,10 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 			}
 		}
 
-		boolean hideCard = false;
 		ArrayList<Card> dealerCards = theGame.getDealerHand().getHand();
 		for (int i = 0; i < dealerCards.size(); i++) {
 			Card card = dealerCards.get(i);
-			if (i == 1 && dealerCards.size() == 2 && !theGame.isGameOver)
+			if (i == 1 && dealerCards.size() == 2 && ((!theGame.isGameOver && !theGame.getActivePlayer().isFolded()) || !this.insurance))
 				hideCard = true;
 			// this long line makes the cards center around a point in the top center of the
 			// canvas
@@ -155,14 +156,18 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		// update control
 		if (theGame.getActivePlayer() == null)
 			return;
-		controlBar.updateActivePlayerLabel(theGame.getActivePlayer().getName());
+		controlBar.updateActivePlayerLabel(theGame.getActivePlayer());
 
+		
 		// check if should ask players about insurance
-		if (theGame.canBuyInsurance()) {
-
-		}
-		// check if should display game over
-		if (theGame.isGameOver) {
+		if (theGame.canBuyInsurance() && !this.insurance) {
+			controlBar.showInsuranceElements(() ->{
+				this.insurance = true;
+				this.update(theGame);
+				return;
+			});
+		
+		} else if (theGame.isGameOver) { // check if should display game over
 			gc.setFont(new Font(32));
 			gc.setTextAlign(TextAlignment.CENTER);
 			String resultsText = "ROUND OVER\n Dealer Score: " + game.getDealerHand().getTotal();
@@ -173,7 +178,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 			gc.fillText(resultsText, canvas.getWidth() / 2, canvas.getHeight() / 2);
 			controlBar.showBetElements();
 			drawChips();
-
+			this.insurance = false;
 		}
 	}
 

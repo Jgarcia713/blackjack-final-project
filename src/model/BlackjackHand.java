@@ -151,6 +151,7 @@ import java.util.ArrayList;
 	 */
 	public void setBet(double betAmount) {
 		bet = betAmount;
+
 	}
 	
 	/**
@@ -213,5 +214,5 @@ import java.util.ArrayList;
 		fold = truthValue;
 	}
 
-	public String toString() { return hand.toString(); }
+	public String toString() { return hand.toString() + " " + this.bet; }
 }

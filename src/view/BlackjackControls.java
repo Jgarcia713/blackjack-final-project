@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.Actions;
+import model.Player;
 import presenter.BlackjackGame;
 import javafx.scene.control.Label;
 
@@ -27,11 +28,12 @@ public class BlackjackControls extends Pane {
 	private Label activePlayerLabel;
 	private Button hit, stand, doubleDown, split;
 	private Button chip1, chip5, chip10, chip25, chip100, chip500;
-	private Group chips, actions;
+	private Group chips, actions, insurance;
 
 	private TextField betInput;
-	private Button placeBet;
+	private Button placeBet, yes, no;
 	private int bet;
+	private Runnable listener;
 
 	/**
 	 * constructor. Calls methods necessary for initializing the custom gridpane.
@@ -39,13 +41,13 @@ public class BlackjackControls extends Pane {
 	 * @param theModel reference to the BlackjackGame object that this pane should
 	 *                 control.
 	 */
-	public BlackjackControls(BlackjackGame theModel, String name) {
+	public BlackjackControls(BlackjackGame theModel, Player player) {
 		theGame = theModel;
 		initializePanel();
 		initializeChips();
 		this.showBetElements();
 		declareButtonEvents();
-		this.updateActivePlayerLabel(name);
+		this.updateActivePlayerLabel(player);
 	}
 
 	/**
@@ -130,6 +132,20 @@ public class BlackjackControls extends Pane {
 		stand = new Button();
 		doubleDown = new Button();
 		split = new Button();
+
+		Label insurance = new Label("Purchase insurance of half your bet?");
+		yes = new Button("YES");
+		no = new Button("NO");
+
+		insurance.setLayoutX(400);
+		insurance.setLayoutY(400);
+		yes.setLayoutX(430);
+		yes.setLayoutY(430);
+		no.setLayoutX(470);
+		no.setLayoutY(430);
+		this.insurance = new Group();
+		this.insurance.getChildren().addAll(insurance, yes, no);
+		this.insurance.setVisible(false);
 		try {
 			Image hitImage = new Image(new FileInputStream("images/actions/hit.png"), 140, 90, false, true);
 			ImageView hitImageView = new ImageView(hitImage);
@@ -165,7 +181,7 @@ public class BlackjackControls extends Pane {
 
 			actions = new Group();
 			actions.getChildren().addAll(hit, stand, doubleDown, split);
-			this.getChildren().add(actions);
+			this.getChildren().addAll(actions, this.insurance);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -183,8 +199,6 @@ public class BlackjackControls extends Pane {
 		betInput.setLayoutX(830);
 
 		this.getChildren().add(betInput);
-
-
 	}
 
 	/**
@@ -195,7 +209,10 @@ public class BlackjackControls extends Pane {
 			return;
 		hit.setOnAction(event -> {
 			theGame.music.playSFX("CardsFlipCard.wav");
+			doubleDown.setVisible(false);
+			split.setVisible(false);
 			theGame.makeMove(Actions.HIT);
+
 		});
 		hit.setOnMouseEntered(e -> {
 			AnimationLibrary.scaleUp(hit);
@@ -207,6 +224,8 @@ public class BlackjackControls extends Pane {
 		if (stand == null)
 			return;
 		stand.setOnAction(event -> {
+			doubleDown.setVisible(true);
+			split.setVisible(true);
 			theGame.makeMove(Actions.STAND);
 		});
 		stand.setOnMouseEntered(e -> {
@@ -323,6 +342,24 @@ public class BlackjackControls extends Pane {
 		chip500.setOnMouseExited(e -> {
 			AnimationLibrary.scaleDown(chip500);
 		});
+		
+		yes.setOnAction(e -> {
+			insurance.setVisible(false);
+			actions.setVisible(true);
+			Player player = theGame.getActivePlayer();
+			if(theGame.isGameOver) { // This may need to account for other cases
+				player.betInsurance(bet);
+			} else {
+				player.betInsurance(-bet/2);
+			}
+			this.listener.run();
+		});
+		
+		no.setOnAction(e -> {
+			insurance.setVisible(false);
+			actions.setVisible(true);
+			this.listener.run();
+		});
 	}
 
 	/**
@@ -339,17 +376,27 @@ public class BlackjackControls extends Pane {
 	public void showActionElements() {
 		chips.setVisible(false);
 		actions.setVisible(true);
+		doubleDown.setVisible(true);
+		split.setVisible(true);
 	}
 
-	public void showInsuranceElements() {
-
+	/**
+	 * Show the insurance elements on the GUI to let the players place insurance
+	 * bets.
+	 */
+	public void showInsuranceElements(Runnable listener) {
+		insurance.setVisible(true);
+		actions.setVisible(false);
+		this.listener = listener;
 	}
+
 	/**
 	 * setter method for the text of the activePlayerLabel Label
 	 * 
 	 * @param playerName String representing what name to insert in the label.
 	 */
-	public void updateActivePlayerLabel(String playerName) {
-		activePlayerLabel.setText(playerName + "'s turn");
+	public void updateActivePlayerLabel(Player player) {
+		activePlayerLabel.setText(player.getName()+ "'s balance: " + player.checkBalance());
 	}
+
 }

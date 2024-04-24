@@ -27,7 +27,7 @@ public class BlackjackGame extends OurObservable {
 		players = new ArrayList<Player>();
 		dealer = new Dealer(players);
 		music = new SoundController();
-		
+
 	}
 
 	public void addPlayer(String name, boolean isPlayer) {
@@ -36,6 +36,7 @@ public class BlackjackGame extends OurObservable {
 
 	/**
 	 * sets the bet value to be used for the current player.
+	 * 
 	 * @param bet integer bet value to be used
 	 */
 	public void setActivePlayerBet(int bet) {
@@ -72,8 +73,7 @@ public class BlackjackGame extends OurObservable {
 		}
 		notifyObservers(this);
 	}
-	
-	
+
 	// TODO need to iterate through other possible hands if it is necessary
 	/**
 	 * given a string input of a move type, will perform the correct action. Will
@@ -90,14 +90,13 @@ public class BlackjackGame extends OurObservable {
 			activePlayer.hit(dealer.dealSingleCard());
 			if (activePlayer.isBusted()) {
 				System.out.println("CHECK ME FOR BUSTED");
-				
-				if(!activePlayer.isInLastPlayerHand()) {
+
+				if (!activePlayer.isInLastPlayerHand()) {
 					System.out.println("CHECK ME FOR NOT IN LAST HAND OF SPLIT");
 					activePlayer.goToNextPlayerHand(); // go to next hadn within the same player
-				}
-				else {
+				} else {
 					if (iterator.hasNext()) {
-					activePlayer = iterator.next();
+						activePlayer = iterator.next();
 					} else {
 						endRound();
 					}
@@ -106,23 +105,21 @@ public class BlackjackGame extends OurObservable {
 				return true;
 			}
 		} else if (action == Actions.STAND) {
-			if(!activePlayer.isInLastPlayerHand()) {
+			if (!activePlayer.isInLastPlayerHand()) {
 				activePlayer.goToNextPlayerHand(); // go to next hand within the same player
-			}
-			else {
+			} else {
 				if (iterator.hasNext()) {
 					activePlayer = iterator.next();
 				} else {
 					endRound();
-			}
+				}
 			}
 		} else if (action == Actions.DOUBLE) {
 			activePlayer.doubleDown();
 			activePlayer.hit(dealer.dealSingleCard());
-			if(!activePlayer.isInLastPlayerHand()) {
+			if (!activePlayer.isInLastPlayerHand()) {
 				activePlayer.goToNextPlayerHand(); // go to next hand within the same player
-			}
-			else {
+			} else {
 				if (iterator.hasNext()) {
 					activePlayer = iterator.next();
 				} else {
@@ -131,17 +128,16 @@ public class BlackjackGame extends OurObservable {
 			}
 		} else if (action == Actions.SPLIT) {
 			// TODO: Would I need to iterate?
-			
+
 			// splits the hand into 2
-			if(activePlayer.getHand().isSplitable()) {
+			if (activePlayer.getHand().isSplitable()) {
 				Card card1 = dealer.dealSingleCard();
 				Card card2 = dealer.dealSingleCard();
 				activePlayer.split(card1, card2);
-			}
-			else {
+			} else {
 				System.out.println("Not allowed to split on this hand");
 			}
-			
+
 		}
 		notifyObservers(this);
 		return false;
@@ -156,7 +152,6 @@ public class BlackjackGame extends OurObservable {
 		playDealersTurn();
 		dealer.payWinners();
 		isGameOver = true;
-		notifyObservers(this);
 	}
 
 	/**
@@ -169,6 +164,7 @@ public class BlackjackGame extends OurObservable {
 
 	/**
 	 * gets a reference to the currently active player
+	 * 
 	 * @return the active player object
 	 */
 	public Player getActivePlayer() {
@@ -177,6 +173,7 @@ public class BlackjackGame extends OurObservable {
 
 	/**
 	 * gets string representation of dealer
+	 * 
 	 * @return dealer.toString()
 	 */
 	public String dealerString() {
@@ -185,6 +182,7 @@ public class BlackjackGame extends OurObservable {
 
 	/**
 	 * return list of players ingame.
+	 * 
 	 * @return ArrayList of players
 	 */
 	public ArrayList<Player> getPlayers() {
@@ -193,6 +191,7 @@ public class BlackjackGame extends OurObservable {
 
 	/**
 	 * gets the BlackjackHand of the dealer
+	 * 
 	 * @return dealer.getHand()
 	 */
 	public BlackjackHand getDealerHand() {
@@ -200,8 +199,13 @@ public class BlackjackGame extends OurObservable {
 	}
 
 	/**
-	 * checks whether the second card of the dealer is an ace, indicating that players can buy insurance
+	 * checks whether the second card of the dealer is an ace, indicating that
+	 * players can buy insurance
+	 * 
 	 * @return true if players can buy insurance
 	 */
-	public boolean canBuyInsurance() { return (dealer.getDealerHand().size() == 2) && (dealer.getDealerHand().get(1).getValue() == 11); }
+	public boolean canBuyInsurance() {
+		return (dealer.getDealerHand().size() == 2)
+				&& (dealer.getDealerHand().get(0).getValue() == 11 || dealer.getDealerHand().get(0).getValue() == 1);
+	}
 }
