@@ -31,7 +31,7 @@ public class BlackjackControls extends Pane {
 	private Group chips, actions, insurance;
 
 	private TextField betInput;
-	private Button placeBet, yes, no;
+	private Button placeBet, yes, no, resetBet;
 	private int bet;
 	private Runnable listener;
 
@@ -61,8 +61,11 @@ public class BlackjackControls extends Pane {
 		chip100 = new Button();
 		chip500 = new Button();
 		placeBet = new Button("Place bet and Start Round");
+		resetBet = new Button("Reset bet");
 		placeBet.setLayoutX(830);
 		placeBet.setLayoutY(410);
+		resetBet.setLayoutX(760);
+		resetBet.setLayoutY(410);		
 
 		try {
 			Image chipImage1 = new Image(new FileInputStream("images/chips/chip1.png"), 80, 80, false, false);
@@ -114,7 +117,7 @@ public class BlackjackControls extends Pane {
 			chip500.setLayoutY(650);
 
 			chips = new Group();
-			chips.getChildren().addAll(chip1, chip5, chip10, chip25, chip100, chip500, placeBet);
+			chips.getChildren().addAll(chip1, chip5, chip10, chip25, chip100, chip500, placeBet, resetBet);
 			this.getChildren().add(chips);
 
 		} catch (FileNotFoundException e) {
@@ -278,6 +281,12 @@ public class BlackjackControls extends Pane {
 			this.showActionElements();
 			theGame.setActivePlayerBet(bet);
 			theGame.startRound();
+		});
+		
+		resetBet.setOnAction(event -> {
+			theGame.music.playSFX("PokerChipsSlide.wav");
+			bet = 0;
+			betInput.setText("Bet amount: $" + bet);
 		});
 
 		chip1.setOnAction(e -> {
