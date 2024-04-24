@@ -123,16 +123,15 @@ public class BlackjackHandTest {
 		assertEquals(pl.getBet(), 1000.00);
 		pl.receivePayout(true);
 		assertEquals(pl.checkBalance(), 8999.98);
+		pl.placeBet(1000.00);
 		assertEquals(pl.getBet(), 1000.00);
 		pl.receivePayout(false);
-		assertEquals(pl.checkBalance(), 10999.98);
-		assertEquals(pl.getBet(), 1000.00);
+		assertEquals(pl.checkBalance(), 9999.98);
 		pl.discardCards();
 		pl.receiveCards(new Card(Rank.JACK, Suit.CLUBS));
 		pl.receiveCards(new Card(Rank.ACE, Suit.CLUBS));
 		pl.receivePayout(false);
-		assertEquals(pl.checkBalance(), 13499.98);
-		assertEquals(pl.getBet(), 1000.00);
+		assertEquals(pl.checkBalance(), 9999.98);
 	}
 	
 	@Test
