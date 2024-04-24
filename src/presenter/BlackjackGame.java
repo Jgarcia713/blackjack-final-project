@@ -92,10 +92,8 @@ public class BlackjackGame extends OurObservable {
 		if (action == Actions.HIT) {
 			activePlayer.hit(dealer.dealSingleCard());
 			if (activePlayer.isBusted()) {
-				System.out.println("CHECK ME FOR BUSTED");
 
 				if (!activePlayer.isInLastPlayerHand()) {
-					System.out.println("CHECK ME FOR NOT IN LAST HAND OF SPLIT");
 					activePlayer.goToNextPlayerHand(); // go to next hadn within the same player
 				} else {
 					if (iterator.hasNext()) {
@@ -142,7 +140,6 @@ public class BlackjackGame extends OurObservable {
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setHeaderText("Not allowed to split on this hand");
 				alert.showAndWait();
-				System.out.println("Not allowed to split on this hand");
 			}
 
 		}
