@@ -241,6 +241,8 @@ public class BlackjackControls extends Pane {
 			doubleDown.setVisible(true);
 			split.setVisible(true);
 			theGame.makeMove(Actions.STAND);
+			theGame.music.playSFX("CardsFlipCard.wav");
+			theGame.music.playSFX("PokerChipsSlide2.wav");
 		});
 		stand.setOnMouseEntered(e -> {
 			AnimationLibrary.scaleUp(stand);
@@ -253,6 +255,8 @@ public class BlackjackControls extends Pane {
 			return;
 		doubleDown.setOnAction(event -> {
 			theGame.makeMove(Actions.DOUBLE);
+			theGame.music.playSFX("CardsFlipCard.wav");
+			theGame.music.playSFX("PokerChipsSlide2.wav");
 		});
 		doubleDown.setOnMouseEntered(e -> {
 			AnimationLibrary.scaleUp(doubleDown);
@@ -369,6 +373,8 @@ public class BlackjackControls extends Pane {
 			actions.setVisible(true);
 			Player player = theGame.getActivePlayer();
 			if (theGame.isGameOver) { // This may need to account for other cases
+				theGame.music.playSFX("CardsFlipCard.wav");
+				theGame.music.playSFX("PokerChipsSlide2.wav");
 				player.betInsurance(bet);
 				theGame.getActivePlayer().fold();
 			} else {
