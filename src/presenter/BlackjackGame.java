@@ -27,6 +27,7 @@ public class BlackjackGame extends OurObservable {
 		players = new ArrayList<Player>();
 		dealer = new Dealer(players);
 		music = new SoundController();
+		
 	}
 
 	public void addPlayer(String name, boolean isPlayer) {
