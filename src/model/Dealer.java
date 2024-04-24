@@ -117,7 +117,9 @@ public class Dealer {
 	public boolean hasTwentyOne() {
 		return dealerHand.isBlackJack();
 	}
-
+	public boolean hasVisibleAce() {
+		return false;
+	}
 	@Override
 	public String toString() { return "DEALER:\n" + this.getHand() + "\nTotal Score: " + this.getTotal(); }
     

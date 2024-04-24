@@ -65,6 +65,7 @@ public class BlackjackGame extends OurObservable {
 				dealer.collectBet(player, 20); // collect bet from each player
 		}
 		dealer.dealCards(); // deal cards to each player and the dealer
+
 		if (dealer.hasTwentyOne()) {
 			isGameOver = true;
 		}
@@ -165,4 +166,10 @@ public class BlackjackGame extends OurObservable {
 	public BlackjackHand getDealerHand() {
 		return dealer.getHand();
 	}
+
+	/**
+	 * checks whether the second card of the dealer is an ace, indicating that players can buy insurance
+	 * @return true if players can buy insurance
+	 */
+	public boolean canBuyInsurance() { return (dealer.getDealerHand().size() == 2) && (dealer.getDealerHand().get(1).getValue() == 11); }
 }

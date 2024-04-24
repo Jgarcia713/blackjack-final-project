@@ -1,8 +1,12 @@
 package view;
 
+import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
+import javafx.animation.Transition;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 /**
@@ -38,5 +42,29 @@ public final class AnimationLibrary {
         scale.setInterpolator(Interpolator.EASE_BOTH);
         scale.setNode(node);
         scale.play();
+    }
+
+    public static void moveAndScale(Point2D moveTo, double scaleTo) {
+
+    }
+
+    public static void textTest(Text text) {
+        final String content = "Lorem ipsum";
+        //final Text text = new Text(10, 20, "");
+
+        final Animation animation = new Transition() {
+            {
+                setCycleDuration(Duration.millis(2000));
+            }
+
+            protected void interpolate(double frac) {
+                final int length = content.length();
+                final int n = Math.round(length * (float) frac);
+                text.setText(content.substring(0, n));
+            }
+
+        };
+
+        animation.play();
     }
 }
