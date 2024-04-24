@@ -67,12 +67,13 @@ public class Player {
 	 */
 	public void placeBet(double amount) {
 		balance -= amount;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		bet = amount;
-=======
-		bet += amount;
 		currentHand.setBet(amount);
->>>>>>> 2fa54dd2de41aed02ba6a46ff83a891377dbbab5
+//=======
+//		bet += amount;
+//		currentHand.setBet(amount);
+//>>>>>>> 2fa54dd2de41aed02ba6a46ff83a891377dbbab5
 	}
 
 	/*
@@ -97,12 +98,12 @@ public class Player {
 		else
 			balance += currentHand.getBet() * 2;
 
-<<<<<<< HEAD
-//		}
-=======
-		bet = 0; // reset bet to 0
+//<<<<<<< HEAD
+////		}
+//=======
+//		bet = 0; // reset bet to 0
 		currentHand.setBet(0);
->>>>>>> 2fa54dd2de41aed02ba6a46ff83a891377dbbab5
+//>>>>>>> 2fa54dd2de41aed02ba6a46ff83a891377dbbab5
 	}
 
 	/*
@@ -119,29 +120,27 @@ public class Player {
 	/*
 	 * Doubles the player's bet, removing it from their balance.
 	 */
-<<<<<<< HEAD
+
 	public boolean doubleDown() {
-		balance -= bet;
-		bet *= 2;
-		folded = true;
-		return hand.isBusted();
-=======
-	public boolean doubleDown(Card card) {
-//		if (split) {
-//			balance -= bet;
-//			splitBet *= 2;
-//			splitHand.dealCard(card);
-//			folded = true;
-//			return splitHand.isBusted();
-//		} else {
 		balance -= currentHand.getBet();
 		currentHand.setBet(currentHand.getBet() * 2);
-		currentHand.dealCard(card);
 		currentHand.setFold(true);
 		return currentHand.isBusted();
-//		}
->>>>>>> 2fa54dd2de41aed02ba6a46ff83a891377dbbab5
 	}
+//	public boolean doubleDown(Card card) {
+////		if (split) {
+////			balance -= bet;
+////			splitBet *= 2;
+////			splitHand.dealCard(card);
+////			folded = true;
+////			return splitHand.isBusted();
+////		} else {
+//		balance -= currentHand.getBet();
+//		currentHand.setBet(currentHand.getBet() * 2);
+//		currentHand.dealCard(card);
+//		currentHand.setFold(true);
+//		return currentHand.isBusted();
+//	}
  
 	
 	// TODO

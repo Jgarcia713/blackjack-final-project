@@ -116,15 +116,8 @@ public class BlackjackGame extends OurObservable {
 			}
 			}
 		} else if (action == Actions.DOUBLE) {
-<<<<<<< HEAD
 			activePlayer.doubleDown();
 			activePlayer.hit(dealer.dealSingleCard());
-			if (iterator.hasNext()) {
-				activePlayer = iterator.next();
-			} else {
-				endRound();
-=======
-			activePlayer.doubleDown(dealer.dealSingleCard());
 			if(!activePlayer.isInLastPlayerHand()) {
 				activePlayer.goToNextPlayerHand(); // go to next hand within the same player
 			}
@@ -134,7 +127,6 @@ public class BlackjackGame extends OurObservable {
 				} else {
 					endRound();
 				}
->>>>>>> 2fa54dd2de41aed02ba6a46ff83a891377dbbab5
 			}
 		} else if (action == Actions.SPLIT) {
 			// TODO: Would I need to iterate?
