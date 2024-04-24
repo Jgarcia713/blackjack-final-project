@@ -134,8 +134,8 @@ public class Player {
 			currentHand.dealCard(card1);
 			splitHand.dealCard(card2);
 
-			splitHand.setBet(currentHand.getBet());
-			balance -= currentHand.getBet();
+			splitHand.setBet(bet);
+			balance -= bet;
 
 			hand.add(splitHand); // add new splitHand to the player's hand
 			return true;

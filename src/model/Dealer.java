@@ -41,7 +41,7 @@ public class Dealer {
 			
 			// deal 2 cards to each player
 			for(int i = 0; i < player.numOfHands(); i ++) {
-				player.receiveCards(deck.getTopCard());
+				player.receiveCards(new Card(Rank.EIGHT, Suit.CLUBS)); //deck.getTopCard());
 				
 				if(player.getCurrentHandIndex() != player.numOfHands() - 1) {
 					player.goToNextPlayerHand();// iterate to next player hand
@@ -55,7 +55,7 @@ public class Dealer {
 
 		for (Player player : players) {
 			for(int i = 0; i < player.numOfHands(); i ++) {
-				player.receiveCards(deck.getTopCard());
+				player.receiveCards(new Card(Rank.EIGHT, Suit.DIAMONDS));//deck.getTopCard());
 				if(player.getCurrentHandIndex() != player.numOfHands() - 1) {
 					player.goToNextPlayerHand();// iterate to next player hand
 					}

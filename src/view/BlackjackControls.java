@@ -270,6 +270,7 @@ public class BlackjackControls extends Pane {
 			return;
 		split.setOnAction(event -> {
 			theGame.makeMove(Actions.SPLIT);
+			this.updateActivePlayerLabel(this.theGame.getActivePlayer());
 		});
 		split.setOnMouseEntered(e -> {
 			AnimationLibrary.scaleUp(split);

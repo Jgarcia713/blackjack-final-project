@@ -169,6 +169,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		
 		} else if (theGame.isGameOver) { // check if should display game over
 			gc.setFont(new Font(32));
+			gc.setEffect(null);
 			gc.setTextAlign(TextAlignment.CENTER);
 			String resultsText = "ROUND OVER\n Dealer Score: " + game.getDealerHand().getTotal();
 			for (Player player : game.getPlayers()) {
