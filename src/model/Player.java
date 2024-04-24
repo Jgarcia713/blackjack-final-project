@@ -70,7 +70,7 @@ public class Player {
 	/**
 	 * Receive payout for this bet
 	 */
-	public void receivePayout(boolean draw, int index) {
+	public void receivePayout(boolean draw) {
 		// Receive pay-out
 		if (draw)
 			balance += currentHand.getBet();
