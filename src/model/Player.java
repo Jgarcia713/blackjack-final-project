@@ -9,6 +9,8 @@ import java.util.ArrayList;
  */
 public class Player {
 	private double balance;
+	private double bet = 0;
+	private double roundWinnings = 0;
 	private ArrayList<BlackjackHand> hand; // main hand of Blackjack
 	private BlackjackHand currentHand;
 	private int currentHandIndex;
@@ -63,8 +65,9 @@ public class Player {
 	 * Place the bets for this round of blackjack
 	 */
 	public void placeBet(double amount) {
-		balance -= amount;
-		currentHand.setBet(amount);
+		bet = amount;
+		balance -= bet;
+		//currentHand.setBet(amount);
 	}
 
 	/**
@@ -72,17 +75,30 @@ public class Player {
 	 */
 	public void receivePayout(boolean draw) {
 		// Receive pay-out
-		if (draw)
-			balance += currentHand.getBet();
-		else if (currentHand.isBlackJack())
-			balance += currentHand.getBet() * 2.5;
-		else
-			balance += currentHand.getBet() * 2;
-		currentHand.setBet(0);
-	}
-	
-	public void discardBet() {
-		currentHand.setBet(0);
+		double handBet = bet;
+		if (currentHand.isDoubledDown())
+		{
+			handBet *= 2;
+		}
+		if (draw) {
+			balance += handBet;
+			roundWinnings += handBet;
+		}
+		else if (currentHand.isBlackJack()) {
+			balance += handBet * 2.5;
+			roundWinnings += handBet * 2.5;
+
+		}
+		else {
+			balance += handBet * 2;
+			roundWinnings += handBet * 2;
+		}
+//		if (draw)
+//			balance += currentHand.getBet();
+//		else if (currentHand.isBlackJack())
+//			balance += currentHand.getBet() * 2.5;
+//		else
+//			balance += currentHand.getBet() * 2;
 	}
 
 	/**
@@ -101,8 +117,8 @@ public class Player {
 	 */
 
 	public boolean doubleDown() {
-		balance -= currentHand.getBet();
-		currentHand.setBet(currentHand.getBet() * 2);
+		balance -= bet;
+		currentHand.setDoubleDown(true);
 		currentHand.setFold(true);
 		return currentHand.isBusted();
 	}
@@ -136,6 +152,7 @@ public class Player {
 	 */
 	public void discardCards() {
 //		split = false;
+		roundWinnings = 0;
 		hand.clear();
 		BlackjackHand firstHand = new BlackjackHand();
 		hand.add(firstHand);
@@ -198,9 +215,14 @@ public class Player {
 	 * @return player's current bet
 	 */
 	public double getBet() {
-		return currentHand.getBet();
+		return bet;
 	}
-
+	/**
+	 * sets player's bet value. Does NOT actually place the bet.
+	 */
+	public void setBet(double amount) {
+		bet = amount;
+	}
 	/**
 	 * gets player's hand total
 	 * 
@@ -253,6 +275,14 @@ public class Player {
 		return currentHand;
 	}
 
+	/**
+	 * returns the amount of money the player has won this round
+	 *
+	 * @return double roundWinnings
+	 */
+ 	public double getRoundWinnings() {
+		return roundWinnings;
+	}
 	/**
 	 * gets the current amount of hands a player has
 	 * 

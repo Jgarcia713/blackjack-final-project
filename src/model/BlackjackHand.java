@@ -10,7 +10,8 @@ import java.util.ArrayList;
 	private boolean busted;
 	private int total;
 	private boolean fold = false;
-	private double bet = 0; 
+	private double bet = 0;
+	private boolean isDoubledDown;
 	
 	/**
 	 *  constructs a blackjack hand
@@ -175,6 +176,7 @@ import java.util.ArrayList;
 	 * @return boolean value to see if the hand is under 22
 	 */
 	public boolean isBusted() {
+
 		return busted;
 	}
 	
@@ -204,8 +206,22 @@ import java.util.ArrayList;
 	public boolean folded() {
 		return fold;
 	}
-	
-	/**
+
+	 /**
+	  * returns true if the player doubled down on this hand
+	  * @return boolean isDoubledDown
+	  */
+	public boolean isDoubledDown() {
+		return isDoubledDown;
+	}
+	 /**
+	  * sets the double down flag for the hand
+	  */
+	 public void setDoubleDown(boolean bool) {
+		 isDoubledDown = bool;
+	 }
+
+	 /**
 	 * sets the fold variable to either true or false dependent on the 
 	 * value of truthValue
 	 * @param truthValue boolean either true or false

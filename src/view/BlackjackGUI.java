@@ -173,7 +173,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 			String resultsText = "ROUND OVER\n Dealer Score: " + game.getDealerHand().getTotal();
 			for (Player player : game.getPlayers()) {
 				resultsText += "\n" + player.getName() + " Score: " + player.getHandTotal();
-				resultsText += "\n" + player.getName() + " Winnings: " + player.getBet();
+				resultsText += "\n" + player.getName() + " Winnings: " + player.getRoundWinnings();
 			}
 			gc.fillText(resultsText, canvas.getWidth() / 2, canvas.getHeight() / 2);
 			controlBar.showBetElements();

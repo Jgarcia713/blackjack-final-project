@@ -60,11 +60,11 @@ public class BlackjackGame extends OurObservable {
 		}
 		isGameOver = false; // reset isGameOver flag
 
+		// TODO: If we want to add multiplayer we'll need to rewrite this section a bit to handle multiple bet values for multiple players
 		for (Player player : players) {
 			if (player == activePlayer) {
 				dealer.collectBet(player, activePlayerBet); // Collect bet from the active player
-			} else
-				dealer.collectBet(player, 20); // collect bet from each player
+			}
 		}
 		dealer.dealCards(); // deal cards to each player and the dealer
 
