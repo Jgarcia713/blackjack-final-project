@@ -119,7 +119,30 @@ import java.util.ArrayList;
 	 * @return boolean value based on if hand is splitable
 	 */
 	public boolean isSplitable() {
-		return hand.size() == 2 && hand.get(0).getValue() == hand.get(1).getValue();
+		if(hand.size() == 2) {
+			// aces check
+			if(hand.get(0).getValue() == 1 && hand.get(1).getValue() == 11) {
+				// change first ace value from 1 back to 11
+				hand.set(0, new Card(Rank.ACE, hand.get(0).getSuit()) );
+				return true;
+			}
+			if(hand.get(0).getValue() == hand.get(1).getValue()) {
+				// face cards and 10 card
+				if(hand.get(0).getValue() == 10) {
+					if(hand.get(0).getRank() == hand.get(1).getRank()) {
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+				// otherwise return true
+				else {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	/**
