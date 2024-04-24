@@ -41,32 +41,32 @@ public class BlackjackHandTest {
 	
 	}
 	
-//	@Test 
-//	public void testSplitGeneral() {
-//		Player pl = new Player("test", true);
-////		assertFalse(pl.isSplit());
-//		pl.receiveCards(new Card(Rank.TEN, Suit.DIAMONDS));
-//		pl.receiveCards(new Card(Rank.TEN, Suit.DIAMONDS));
-////		pl.split();
-////		assertTrue(pl.isSplit());
-//		assertEquals(pl.getHandTotal(), 10);
-//		pl.placeBet(10);
-//		assertEquals(pl.getBet(), 10);
-//		pl.doubleDown(new Card(Rank.ACE, Suit.CLUBS));
-//		assertEquals(pl.getBet(), 20);
-//		assertEquals(pl.checkBalance(), 980.00);
-//		assertEquals(pl.getHandTotal(), 21);
-//		pl.receivePayout(false);
-//		assertEquals(pl.getBet(), 20);
-//		assertEquals(pl.checkBalance(), 1030.00);
-//		assertTrue(pl.hit(new Card(Rank.TEN, Suit.DIAMONDS)));
-//		pl.receivePayout(false);
-//		assertEquals(pl.getBet(), 20);
-//		assertEquals(pl.checkBalance(), 1070.00);
-//		pl.receivePayout(true);
-//		assertEquals(pl.getBet(), 20);
-//		assertEquals(pl.checkBalance(), 1090.00);
-//	}
+	@Test 
+	public void testSplitGeneral() {
+		Player pl = new Player("test", true);
+		pl.receiveCards(new Card(Rank.TEN, Suit.DIAMONDS));
+		pl.receiveCards(new Card(Rank.TEN, Suit.HEARTS));
+		assertEquals(pl.getHandTotal(), 20);
+		pl.placeBet(15);
+		assertEquals(pl.getBet(), 15);
+		assertTrue(pl.split(new Card(Rank.TEN, Suit.SPADES), new Card(Rank.TEN, Suit.CLUBS)));
+		assertEquals(pl.getNumOfBlackjackHands(), 2);
+		assertTrue(pl.split(new Card(Rank.NINE, Suit.SPADES), new Card(Rank.NINE, Suit.CLUBS)));
+		pl.setCurrentHandIndex(1);
+		assertTrue(pl.split(new Card(Rank.TEN, Suit.SPADES), new Card(Rank.TEN, Suit.CLUBS)));
+		assertEquals(pl.getNumOfBlackjackHands(), 4);
+		assertFalse(pl.split(new Card(Rank.TEN, Suit.SPADES), new Card(Rank.TEN, Suit.CLUBS)));
+		pl.setCurrentHandIndex(0);
+		BlackjackHand hand1 = pl.getHand();
+		BlackjackHand hand11 = pl.getHand();
+		assertTrue(hand1 == hand11);
+		pl.goToNextPlayerHand();
+		BlackjackHand hand2 = pl.getHand();
+		assertTrue(hand1.getBet() == hand2.getBet());
+		
+		
+		
+	}
 	
 	@Test
 	public void testCardsGeneral() {
@@ -115,7 +115,7 @@ public class BlackjackHandTest {
 		pl.placeBet(0.01);
 		assertEquals(pl.checkBalance(), 8999.99);
 		assertEquals(pl.getBet(), 0000.01);
-		assertFalse(pl.doubleDown(new Card(Rank.DEUCE, Suit.SPADES)));
+		assertFalse(pl.doubleDown());
 		assertEquals(pl.checkBalance(), 8999.98);
 		assertEquals(pl.getBet(), 0000.02);
 		pl.placeBet(1000.00);

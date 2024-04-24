@@ -22,17 +22,18 @@ public class BlackjackConsole {
         game = new BlackjackGame();
         // hard coding in one player and one computer for now.
         game.addPlayer("p1", true);
-        game.addPlayer("c1", false);
         boolean keepPlaying = true;
         while (keepPlaying) {
             game.startRound();
             while (!game.isGameOver) {
                 Player player = game.getActivePlayer();
-                System.out.println(game.getActivePlayer() + "\nWhat would you like to do? ('hit'/'stand'/'double')");
+                System.out.println();
+                System.out.println(game.getActivePlayer() + "\nWhat would you like to do? for hand ## " + player.getCurrentHandIndex() + " ('hit'/'stand'/'double'/'split')");
                 String userResponse = scanner.nextLine();
                 try {
                     Actions action = Actions.valueOf(userResponse.toUpperCase());
                     boolean hasBust = game.makeMove(action);
+                   
                     if (hasBust) {
                         // display players stats to signify what their score was. and inform them that they went over.
                         System.out.println(player);

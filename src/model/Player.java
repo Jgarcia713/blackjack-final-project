@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * Represents a single player in a game of Blackjack
  * 
@@ -7,13 +9,14 @@ package model;
  */
 public class Player {
 	private double balance;
-	private BlackjackHand hand; // main hand of Blackjack
+	private ArrayList<BlackjackHand> hand; // main hand of Blackjack
+	private BlackjackHand currentHand;
+	private int currentHandIndex;
 	// private BlackjackHand splitHand; // second hand for splitting
 	private String playerName;
 	private double bet = 0; // main bet
 	// private double splitBet = 0; // second bet for splitting
 	private double nextBet = 0;
-	private boolean folded = false; // indicates if the player has folded
 	// private boolean split = false;
 	private boolean hasCompletedTurn = false;
 	private boolean isPlayer; // indicates whether or not the player is a computer
@@ -26,7 +29,11 @@ public class Player {
 	public Player(String name, boolean isPlayer) {
 		balance = 100.00;
 		playerName = name;
-		hand = new BlackjackHand();
+		hand = new ArrayList<>();
+		BlackjackHand firstHand = new BlackjackHand();
+		hand.add(firstHand);
+		currentHand = hand.get(0);
+		currentHandIndex = 0;
 		this.isPlayer = isPlayer;
 	}
 
@@ -39,7 +46,11 @@ public class Player {
 	public Player(String name, double bal, boolean isPlayer) {
 		balance = bal;
 		playerName = name;
-		hand = new BlackjackHand();
+		hand = new ArrayList<>();
+		BlackjackHand firstHand = new BlackjackHand();
+		hand.add(firstHand);
+		currentHand = hand.get(0);
+		currentHandIndex = 0;
 		this.isPlayer = isPlayer;
 
 	}
@@ -48,7 +59,7 @@ public class Player {
 	 * Receive cards from the dealer, and add them to their BlackjackHand
 	 */
 	public void receiveCards(Card dealtCard) {
-		hand.dealCard(dealtCard);
+		currentHand.dealCard(dealtCard);
 	}
 
 	/*
@@ -56,12 +67,22 @@ public class Player {
 	 */
 	public void placeBet(double amount) {
 		balance -= amount;
+<<<<<<< HEAD
+<<<<<<< HEAD
 		bet += amount;
+		currentHand.setBet(amount);
+=======
+		bet = amount;
+>>>>>>> df7e8924c5a9b6adb3c5d097688c44926d5ddb98
+=======
+		bet = amount;
+>>>>>>> df7e8924c5a9b6adb3c5d097688c44926d5ddb98
 	}
 
 	/*
 	 * Receive payout for this bet
 	 */
+	
 	public void receivePayout(boolean draw) {
 		// Receive pay-out
 
@@ -74,14 +95,21 @@ public class Player {
 //				balance += splitBet * 2;
 //		} else {
 		if (draw)
-			balance += bet;
-		else if (hand.isBlackJack())
-			balance += bet * 2.5;
+			balance += currentHand.getBet();
+		else if (currentHand.isBlackJack())
+			balance += currentHand.getBet() * 2.5;
 		else
-			balance += bet * 2;
+			balance += currentHand.getBet() * 2;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 		bet = 0; // reset bet to 0
+		currentHand.setBet(0);
+=======
+=======
+>>>>>>> df7e8924c5a9b6adb3c5d097688c44926d5ddb98
 //		}
+>>>>>>> df7e8924c5a9b6adb3c5d097688c44926d5ddb98
 	}
 
 	/*
@@ -89,23 +117,17 @@ public class Player {
 	 * card from the dealer
 	 */
 	public boolean hit(Card card) {
-//		if (split) {
-//			splitHand.dealCard(card);
-//			if (splitHand.isBusted())
-//				folded = true;
-//			return splitHand.isBusted();
-//		} else {
-		hand.dealCard(card);
-		if (hand.isBusted())
-			folded = true;
-		return hand.isBusted();
-//		}
+		currentHand.dealCard(card);
+		if (currentHand.isBusted())
+			currentHand.setFold(true);
+		return currentHand.isBusted();
 	}
 
 	/*
-	 * Allows the player to double down and receive a card. Requires the Game to
-	 * pass the card from the dealer. Returns true if busted
+	 * Doubles the player's bet, removing it from their balance.
 	 */
+<<<<<<< HEAD
+<<<<<<< HEAD
 	public boolean doubleDown(Card card) {
 //		if (split) {
 //			balance -= bet;
@@ -114,33 +136,61 @@ public class Player {
 //			folded = true;
 //			return splitHand.isBusted();
 //		} else {
+		balance -= currentHand.getBet();
+		currentHand.setBet(currentHand.getBet() * 2);
+		currentHand.dealCard(card);
+		currentHand.setFold(true);
+		return currentHand.isBusted();
+//		}
+=======
+=======
+>>>>>>> df7e8924c5a9b6adb3c5d097688c44926d5ddb98
+	public boolean doubleDown() {
 		balance -= bet;
 		bet *= 2;
-		hand.dealCard(card);
 		folded = true;
 		return hand.isBusted();
-//		}
+<<<<<<< HEAD
+>>>>>>> df7e8924c5a9b6adb3c5d097688c44926d5ddb98
+=======
+>>>>>>> df7e8924c5a9b6adb3c5d097688c44926d5ddb98
 	}
-
-	/*
-	 * Allows the player to split once and play two hands. Requires the game to
-	 * handle swapping between both hands
+ 
+	
+	// TODO
+	/**
+	 * 
+	 * @return
 	 */
-//	public void split() {
-//		splitHand = new BlackjackHand();
-//		splitHand.dealCard(hand.split());
-//		split = true;
-//		balance -= bet;
-//		splitBet = bet;
-//	}
+	public boolean split(Card card1, Card card2) {
+		if(currentHand.isSplitable() && hand.size() < 4) {  
+			// only splitHand when it has been split less than 4 times & is splitable
+			
+			BlackjackHand splitHand = new BlackjackHand();// create new hand
+			splitHand.dealCard(currentHand.getCardForSplitting());// get card from old hand
+			currentHand.dealCard(card1);
+			splitHand.dealCard(card2);
+			
+			splitHand.setBet(currentHand.getBet());
+			balance -= currentHand.getBet();
+			
+			hand.add(splitHand); // add new splitHand to the player's hand
+			return true;
+		}
+		System.out.println("Not allowed to split on this hand");
+		return false;
+	}
 
 	/*
 	 * Resets values needed for next game
 	 */
 	public void discardCards() {
-		folded = false;
 //		split = false;
-		hand = new BlackjackHand();
+		hand.clear();
+		BlackjackHand firstHand = new BlackjackHand();
+		hand.add(firstHand);
+		currentHand = hand.get(0);
+		currentHand.setFold(false);
 	}
 
 	/**
@@ -164,7 +214,7 @@ public class Player {
 	 * @return whether player has blackjack or not
 	 */
 	public boolean hasBlackjack() {
-		return hand.isBlackJack();
+		return currentHand.isBlackJack();
 	}
 
 	/**
@@ -172,7 +222,7 @@ public class Player {
 	 * @return whether player's hand total >21
 	 */
 	public boolean isBusted() {
-		return hand.isBusted();
+		return currentHand.isBusted();
 	}
 
 	/**
@@ -198,14 +248,22 @@ public class Player {
 	public int getHandTotal() {
 //		if (split)
 //			return splitHand.getTotal();
-		return hand.getTotal();
+		return currentHand.getTotal();
 	}
 
+	/**
+	 * returns the amount of hands this player has
+	 * @return int of total number of hands
+	 */
+	public int numOfHands() {
+		return hand.size();
+	}
+	
 	/**
 	 * player folds, setting folded to true
 	 */
 	public void fold() {
-		folded = true;
+		currentHand.setFold(true);
 	}
 
 	/**
@@ -213,28 +271,78 @@ public class Player {
 	 * @return whether player is folded or not
 	 */
 	public boolean isFolded() {
-		return folded;
+		return currentHand.folded();
 	}
 
-//	public boolean isSplit() {
-//		return split;
-//	}
-	
 	/**
-	 * gets player's hand
-	 * @return player's current hand
+	 * gets player's hands
+	 * @return ArrayList player's hands
 	 */
-	public BlackjackHand getHand() {
+	public ArrayList<BlackjackHand> getArrayListHand() {
 		return hand;
 	}
-
+	
+	/**
+	 * returns the currentHand that is being played
+	 * @return BlackjackHand which is the currentHand
+	 */
+	public BlackjackHand getHand() {
+		return currentHand;
+	}
+	
+	/**
+	 * gets the current amount of hands a player has
+	 * @return int num of player's hands
+	 */
+	public int getNumOfBlackjackHands() {
+		return hand.size();
+	}
+	/**
+	 * iterates currentHand to the next possible hand it can move to
+	 */
+	public void goToNextPlayerHand() {
+		currentHandIndex += 1;
+		currentHand = hand.get(currentHandIndex);
+	}
+	
+	/**
+	 * Sets the currentHandIndex to a specified index and 
+	 * changes the currentHand to the corresponding index as well
+	 * @param index int the new index that it will be set too
+	 */
+	public void setCurrentHandIndex(int index) {
+		currentHandIndex = index;
+		currentHand = hand.get(currentHandIndex);
+	}
+	
+	/**
+	 * Returns the index of the currentHand ie where it 
+	 * is located in the players hand
+	 * @return int currentHandIndex 
+	 */
+	public int getCurrentHandIndex() {
+		return currentHandIndex;
+	}
+	
+	/**
+	 * checks if currentHand is located at the last index in the
+	 * arrayList of BlackjackHands
+	 * @return boolean value of currentHandIndex == hand.size() - 1
+	 */
+	public boolean isInLastPlayerHand() {
+		return currentHandIndex == hand.size() - 1;
+	}
 	/**
 	 * returns the player information represented as a string
 	 * @return a string containing the player's name, balance, hand, and hand total
 	 */
 	@Override
 	public String toString() {
-		return playerName + "\nBalance: " + balance + "\n" + hand + "\nTotal Score: " + hand.getTotal();
+		String finalString = "";
+		for(int i = 0; i < hand.size(); i++) {
+			finalString += playerName + "\nBalance: " + balance + "\n" + hand.get(i) + "\nTotal Score: " + hand.get(i).getTotal() + "\n";
+		}
+		return finalString;
 	}
 
 }

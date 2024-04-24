@@ -26,7 +26,7 @@ public class BlackjackGame extends OurObservable {
 		// be able to see those changes.
 		players = new ArrayList<Player>();
 		dealer = new Dealer(players);
-		music = new SoundController();
+		//music = new SoundController();
 	}
 
 	public void addPlayer(String name, boolean isPlayer) {
@@ -65,12 +65,15 @@ public class BlackjackGame extends OurObservable {
 				dealer.collectBet(player, 20); // collect bet from each player
 		}
 		dealer.dealCards(); // deal cards to each player and the dealer
+
 		if (dealer.hasTwentyOne()) {
 			isGameOver = true;
 		}
 		notifyObservers(this);
 	}
-
+	
+	
+	// TODO need to iterate through other possible hands if it is necessary
 	/**
 	 * given a string input of a move type, will perform the correct action. Will
 	 * also update activePlayer and/or end the round as necessary.
@@ -85,30 +88,59 @@ public class BlackjackGame extends OurObservable {
 		if (action == Actions.HIT) {
 			activePlayer.hit(dealer.dealSingleCard());
 			if (activePlayer.isBusted()) {
-				if (iterator.hasNext()) {
+				System.out.println("CHECK ME FOR BUSTED");
+				
+				if(!activePlayer.isInLastPlayerHand()) {
+					System.out.println("CHECK ME FOR NOT IN LAST HAND OF SPLIT");
+					activePlayer.goToNextPlayerHand(); // go to next hadn within the same player
+				}
+				else {
+					if (iterator.hasNext()) {
 					activePlayer = iterator.next();
-				} else {
-					endRound();
+					} else {
+						endRound();
+					}
 				}
 				notifyObservers(this);
 				return true;
 			}
 		} else if (action == Actions.STAND) {
-			if (iterator.hasNext()) {
-				activePlayer = iterator.next();
-			} else {
-				endRound();
+			if(!activePlayer.isInLastPlayerHand()) {
+				activePlayer.goToNextPlayerHand(); // go to next hand within the same player
+			}
+			else {
+				if (iterator.hasNext()) {
+					activePlayer = iterator.next();
+				} else {
+					endRound();
+			}
 			}
 		} else if (action == Actions.DOUBLE) {
-			activePlayer.placeBet(activePlayer.getBet());
+			activePlayer.doubleDown();
 			activePlayer.hit(dealer.dealSingleCard());
-			if (iterator.hasNext()) {
-				activePlayer = iterator.next();
-			} else {
-				endRound();
+			if(!activePlayer.isInLastPlayerHand()) {
+				activePlayer.goToNextPlayerHand(); // go to next hand within the same player
+			}
+			else {
+				if (iterator.hasNext()) {
+					activePlayer = iterator.next();
+				} else {
+					endRound();
+				}
 			}
 		} else if (action == Actions.SPLIT) {
-			// TODO: fill out if statement
+			// TODO: Would I need to iterate?
+			
+			// splits the hand into 2
+			if(activePlayer.getHand().isSplitable()) {
+				Card card1 = dealer.dealSingleCard();
+				Card card2 = dealer.dealSingleCard();
+				activePlayer.split(card1, card2);
+			}
+			else {
+				System.out.println("Not allowed to split on this hand");
+			}
+			
 		}
 		notifyObservers(this);
 		return false;
@@ -165,4 +197,10 @@ public class BlackjackGame extends OurObservable {
 	public BlackjackHand getDealerHand() {
 		return dealer.getHand();
 	}
+
+	/**
+	 * checks whether the second card of the dealer is an ace, indicating that players can buy insurance
+	 * @return true if players can buy insurance
+	 */
+	public boolean canBuyInsurance() { return (dealer.getDealerHand().size() == 2) && (dealer.getDealerHand().get(1).getValue() == 11); }
 }

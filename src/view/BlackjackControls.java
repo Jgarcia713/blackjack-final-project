@@ -1,12 +1,11 @@
 package view;
 
-import view.*;
+import javafx.scene.text.Text;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.net.Inet4Address;
-import javafx.animation.*;
+
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -14,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 import model.Actions;
 import presenter.BlackjackGame;
 import javafx.scene.control.Label;
@@ -23,7 +21,7 @@ import javafx.scene.control.Label;
  * custom gridpane that houses all the controls for interacting with blackjack
  * game
  */
-public class BlackjackControlBar extends Pane {
+public class BlackjackControls extends Pane {
 
 	private BlackjackGame theGame;
 	private Label activePlayerLabel;
@@ -41,7 +39,7 @@ public class BlackjackControlBar extends Pane {
 	 * @param theModel reference to the BlackjackGame object that this pane should
 	 *                 control.
 	 */
-	public BlackjackControlBar(BlackjackGame theModel, String name) {
+	public BlackjackControls(BlackjackGame theModel, String name) {
 		theGame = theModel;
 		initializePanel();
 		initializeChips();
@@ -185,6 +183,8 @@ public class BlackjackControlBar extends Pane {
 		betInput.setLayoutX(830);
 
 		this.getChildren().add(betInput);
+
+
 	}
 
 	/**
@@ -253,6 +253,9 @@ public class BlackjackControlBar extends Pane {
 			theGame.music.playSFX("PokerChipsHit.wav");
 			bet += 1;
 			betInput.setText("Bet amount: $" + bet);
+			Text text = new Text(10, 20, "");
+			this.getChildren().add(text);
+			AnimationLibrary.textTest(text);
 		});
 		chip1.setOnMouseEntered(e -> {
 			AnimationLibrary.scaleUp(chip1);
@@ -320,7 +323,6 @@ public class BlackjackControlBar extends Pane {
 		chip500.setOnMouseExited(e -> {
 			AnimationLibrary.scaleDown(chip500);
 		});
-
 	}
 
 	/**
@@ -339,6 +341,9 @@ public class BlackjackControlBar extends Pane {
 		actions.setVisible(true);
 	}
 
+	public void showInsuranceElements() {
+
+	}
 	/**
 	 * setter method for the text of the activePlayerLabel Label
 	 * 

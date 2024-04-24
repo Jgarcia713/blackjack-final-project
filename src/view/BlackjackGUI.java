@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -33,7 +32,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private Image background;
-	private BlackjackControlBar controlBar;
+	private BlackjackControls controlBar;
 	private LoginPane login;
 	private Image chip1, chip5, chip10, chip25, chip100, chip500;
 
@@ -84,7 +83,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		// initialize objects
 		game = new BlackjackGame();
 		initializeGame();
-		controlBar = new BlackjackControlBar(game, login.getUsername());
+		controlBar = new BlackjackControls(game, login.getUsername());
 
 		game.addObserver(this);
 
@@ -158,6 +157,10 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 			return;
 		controlBar.updateActivePlayerLabel(theGame.getActivePlayer().getName());
 
+		// check if should ask players about insurance
+		if (theGame.canBuyInsurance()) {
+
+		}
 		// check if should display game over
 		if (theGame.isGameOver) {
 			gc.setFont(new Font(32));

@@ -9,7 +9,8 @@ import java.util.ArrayList;
 	private ArrayList<Card> hand;
 	private boolean busted;
 	private int total;
-	
+	private boolean fold = false;
+	private double bet = 0; 
 	
 	/**
 	 *  constructs a blackjack hand
@@ -112,6 +113,30 @@ import java.util.ArrayList;
 		}
 		return -1;
 	}
+	
+	/**
+	 * Returns true if hand is splittable and false otherwise
+	 * @return boolean value based on if hand is splitable
+	 */
+	public boolean isSplitable() {
+		return hand.size() == 2 && hand.get(0).getValue() == hand.get(1).getValue();
+	}
+	
+	/**
+	 * Sets the total bet amount based upon the parameter
+	 * @param betAmount double representing amount bet on this hand
+	 */
+	public void setBet(double betAmount) {
+		bet = betAmount;
+	}
+	
+	/**
+	 * returns the total bet amount
+	 * @return double representing bet amount
+	 */
+	public double getBet() {
+		return bet;
+	}
 
 	/**
 	 * 
@@ -128,13 +153,41 @@ import java.util.ArrayList;
 	public boolean isBusted() {
 		return busted;
 	}
-
+	
+	/**
+	 * fetches the last card dealt in hand that can be split and returns 
+	 * it and then removes it from the current hand
+	 * @return Card 2nd card in this BlackjackHand
+	 */
+	public Card getCardForSplitting() {
+		Card splitCard = hand.get(1);
+		hand.remove(1);
+		total -= splitCard.getValue();
+		return splitCard;
+	}
 	/**
 	 * 
 	 * @return arrayList reference hand
 	 */
 	public ArrayList<Card> getHand() {
 		return hand;
+	}
+	
+	/**
+	 * returns true if the current hand is folded
+	 * @return boolean folded
+	 */
+	public boolean folded() {
+		return fold;
+	}
+	
+	/**
+	 * sets the fold variable to either true or false dependent on the 
+	 * value of truthValue
+	 * @param truthValue boolean either true or false
+	 */
+	public void setFold(boolean truthValue) {
+		fold = truthValue;
 	}
 
 	public String toString() { return hand.toString(); }
