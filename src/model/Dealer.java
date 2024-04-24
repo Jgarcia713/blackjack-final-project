@@ -19,7 +19,7 @@ public class Dealer {
 	 * Initialize the dealer and their hand. Depends on a list of players from the
 	 * Game
 	 * 
-	 *@param players arralist of players
+	 * @param players arralist of players
 	 */
 	public Dealer(ArrayList<Player> players) {
 		deck = new Deck();
@@ -37,15 +37,13 @@ public class Dealer {
 
 		dealerHand = new BlackjackHand();
 		for (Player player : players) {
-			player.discardCards();
-			
 			// deal 2 cards to each player
-			for(int i = 0; i < player.numOfHands(); i ++) {
-				player.receiveCards(new Card(Rank.EIGHT, Suit.CLUBS)); //deck.getTopCard());
-				
-				if(player.getCurrentHandIndex() != player.numOfHands() - 1) {
+			for (int i = 0; i < player.numOfHands(); i++) {
+				player.receiveCards(new Card(Rank.EIGHT, Suit.CLUBS)); // deck.getTopCard());
+
+				if (player.getCurrentHandIndex() != player.numOfHands() - 1) {
 					player.goToNextPlayerHand();// iterate to next player hand
-					}
+				}
 			}
 			player.setCurrentHandIndex(0);
 		}
@@ -54,17 +52,17 @@ public class Dealer {
 //		dealerHand.dealCard(new Card(Rank.ACE, Suit.CLUBS)); // fix first card to be an ace
 
 		for (Player player : players) {
-			for(int i = 0; i < player.numOfHands(); i ++) {
-				player.receiveCards(new Card(Rank.EIGHT, Suit.DIAMONDS));//deck.getTopCard());
-				if(player.getCurrentHandIndex() != player.numOfHands() - 1) {
+			for (int i = 0; i < player.numOfHands(); i++) {
+				player.receiveCards(new Card(Rank.EIGHT, Suit.DIAMONDS));// deck.getTopCard());
+				if (player.getCurrentHandIndex() != player.numOfHands() - 1) {
 					player.goToNextPlayerHand();// iterate to next player hand
-					}
+				}
 			}
 			player.setCurrentHandIndex(0);
 		}
 		dealerHand.dealCard(deck.getTopCard());
 	}
-	
+
 	/**
 	 * Dealer deals to himself until its over the minScore
 	 */
@@ -76,6 +74,7 @@ public class Dealer {
 
 	/**
 	 * total amount from dealer
+	 * 
 	 * @return int total of dealers hand
 	 */
 	public int getTotal() {
@@ -106,17 +105,20 @@ public class Dealer {
 	 */
 	public void payWinners() {
 		for (Player player : players) {
-			for(int i = 0; i < player.numOfHands(); i ++) { // iterates through players hands
-				if (player.isBusted())
+			for (int i = 0; i < player.numOfHands(); i++) { // iterates through players hands
+				if (player.isBusted()) {
+					if(player.getCurrentHandIndex() != player.numOfHands() - 1) {
+						player.goToNextPlayerHand();// iterate to next player hand
+					}
 					continue;
-				if (dealerHand.isBusted())
+				} else if (dealerHand.isBusted())
 					player.receivePayout(false);
 				else if (player.getHandTotal() == dealerHand.getTotal())
 					player.receivePayout(true);
 				else if (player.getHandTotal() > dealerHand.getTotal())
 					player.receivePayout(false);
-				
-				if(player.getCurrentHandIndex() != player.numOfHands() - 1) {
+
+				if (player.getCurrentHandIndex() != player.numOfHands() - 1) {
 					player.goToNextPlayerHand();// iterate to next player hand
 				}
 			}
@@ -125,50 +127,71 @@ public class Dealer {
 	}
 
 	/**
+	 * Reset all the players cards
+	 */
+	public void collectPlayerCards() {
+		for (Player player : players) {
+			player.discardCards();
+		}
+	}
+
+	/**
 	 * Used so the game can deal a card to a player
+	 * 
 	 * @return the top card from the deck
 	 */
 	public Card dealSingleCard() {
 		return deck.getTopCard();
 	}
-	
+
 	/**
 	 * returns booelan of whether or not the dealers hand has 21
+	 * 
 	 * @return boolean value of if dealer's hand total == 21
 	 */
 	public boolean hasTwentyOne() {
 		return dealerHand.isBlackJack();
 	}
+
 	public boolean hasVisibleAce() {
 		return false;
 	}
+
 	@Override
-	public String toString() { return "DEALER:\n" + this.getHand() + "\nTotal Score: " + this.getTotal(); }
-    
+	public String toString() {
+		return "DEALER:\n" + this.getHand() + "\nTotal Score: " + this.getTotal();
+	}
+
 	/**
 	 * returns the dealers hand
+	 * 
 	 * @return dealerHand which is the dealer's BlackJackHand
 	 */
-	public BlackjackHand getHand() { return dealerHand; }
-    
+	public BlackjackHand getHand() {
+		return dealerHand;
+	}
+
 	/**
 	 * return arrayList of players
+	 * 
 	 * @return players which is an arrayList of players
 	 */
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
-	
+
 	/**
-	 *  return the dealers hand
-	 * @return	arraylist of the dealers Hand
+	 * return the dealers hand
+	 * 
+	 * @return arraylist of the dealers Hand
 	 */
 	public ArrayList<Card> getDealerHand() {
 		return dealerHand.getHand();
 	}
-	
+
 	/**
 	 * returns the dealers deck
+	 * 
 	 * @return deck which is the dealers deck
 	 */
 	public Deck getDeck() {

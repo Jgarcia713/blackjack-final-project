@@ -9,7 +9,6 @@ import java.util.ArrayList;
  */
 public class Player {
 	private double balance;
-	private double bet = 0;
 	private double roundWinnings = 0;
 	private ArrayList<BlackjackHand> hand; // main hand of Blackjack
 	private BlackjackHand currentHand;
@@ -65,9 +64,9 @@ public class Player {
 	 * Place the bets for this round of blackjack
 	 */
 	public void placeBet(double amount) {
-		bet = amount;
-		balance -= bet;
-		// currentHand.setBet(amount);
+//		bet = amount;
+		balance -= amount;
+		 currentHand.setBet(amount);
 	}
 
 	/**
@@ -75,7 +74,7 @@ public class Player {
 	 */
 	public void receivePayout(boolean draw) {
 		// Receive pay-out
-		double handBet = bet;
+		double handBet = currentHand.getBet();
 		if (currentHand.isDoubledDown()) {
 			handBet *= 2;
 		}
@@ -114,7 +113,7 @@ public class Player {
 	 */
 
 	public boolean doubleDown() {
-		balance -= bet;
+		balance -= currentHand.getBet();
 		currentHand.setDoubleDown(true);
 		currentHand.setFold(true);
 		return currentHand.isBusted();
@@ -134,8 +133,8 @@ public class Player {
 			currentHand.dealCard(card1);
 			splitHand.dealCard(card2);
 
-			splitHand.setBet(bet);
-			balance -= bet;
+			splitHand.setBet(currentHand.getBet());
+			balance -= currentHand.getBet();
 
 			hand.add(splitHand); // add new splitHand to the player's hand
 			return true;
@@ -212,14 +211,14 @@ public class Player {
 	 * @return player's current bet
 	 */
 	public double getBet() {
-		return bet;
+		return currentHand.getBet();
 	}
 
 	/**
 	 * sets player's bet value. Does NOT actually place the bet.
 	 */
 	public void setBet(double amount) {
-		bet = amount;
+		currentHand.setBet(amount);
 	}
 
 	/**

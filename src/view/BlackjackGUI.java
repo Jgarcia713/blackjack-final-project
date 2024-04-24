@@ -177,6 +177,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 				resultsText += "\n" + player.getName() + " Winnings: " + player.getRoundWinnings();
 			}
 			gc.fillText(resultsText, canvas.getWidth() / 2, canvas.getHeight() / 2);
+			this.game.discardCards();		
 			controlBar.showBetElements();
 			drawChips();
 			this.insurance = false;
