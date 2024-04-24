@@ -274,6 +274,7 @@ public class BlackjackControls extends Pane {
 			return;
 		placeBet.setOnAction(event -> {
 			theGame.music.playSFX("PokerChipsSlide.wav");
+			theGame.music.playSFX("CardShuffle2.wav");
 			this.showActionElements();
 			theGame.setActivePlayerBet(bet);
 			theGame.startRound();
