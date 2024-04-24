@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 public class BlackjackGame extends OurObservable {
 	private ArrayList<Player> players;
 	private ArrayList<Integer> playerBets;
@@ -136,6 +139,9 @@ public class BlackjackGame extends OurObservable {
 				Card card2 = dealer.dealSingleCard();
 				activePlayer.split(card1, card2);
 			} else {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setHeaderText("Not allowed to split on this hand");
+				alert.showAndWait();
 				System.out.println("Not allowed to split on this hand");
 			}
 
