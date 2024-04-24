@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Represents a single player in a game of Blackjack
  * 
- * @author Jakob Garcia
+ * @author Jakob Garcia & Brandon Jonas
  */
 public class Player {
 	private double balance;
@@ -67,16 +67,8 @@ public class Player {
 	 */
 	public void placeBet(double amount) {
 		balance -= amount;
-<<<<<<< HEAD
-<<<<<<< HEAD
 		bet += amount;
 		currentHand.setBet(amount);
-=======
-		bet = amount;
->>>>>>> df7e8924c5a9b6adb3c5d097688c44926d5ddb98
-=======
-		bet = amount;
->>>>>>> df7e8924c5a9b6adb3c5d097688c44926d5ddb98
 	}
 
 	/*
@@ -101,15 +93,8 @@ public class Player {
 		else
 			balance += currentHand.getBet() * 2;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 		bet = 0; // reset bet to 0
 		currentHand.setBet(0);
-=======
-=======
->>>>>>> df7e8924c5a9b6adb3c5d097688c44926d5ddb98
-//		}
->>>>>>> df7e8924c5a9b6adb3c5d097688c44926d5ddb98
 	}
 
 	/*
@@ -124,10 +109,9 @@ public class Player {
 	}
 
 	/*
-	 * Doubles the player's bet, removing it from their balance.
+	 * Allows the player to double down and receive a card. Requires the Game to
+	 * pass the card from the dealer. Returns true if busted
 	 */
-<<<<<<< HEAD
-<<<<<<< HEAD
 	public boolean doubleDown(Card card) {
 //		if (split) {
 //			balance -= bet;
@@ -142,18 +126,6 @@ public class Player {
 		currentHand.setFold(true);
 		return currentHand.isBusted();
 //		}
-=======
-=======
->>>>>>> df7e8924c5a9b6adb3c5d097688c44926d5ddb98
-	public boolean doubleDown() {
-		balance -= bet;
-		bet *= 2;
-		folded = true;
-		return hand.isBusted();
-<<<<<<< HEAD
->>>>>>> df7e8924c5a9b6adb3c5d097688c44926d5ddb98
-=======
->>>>>>> df7e8924c5a9b6adb3c5d097688c44926d5ddb98
 	}
  
 	
@@ -301,7 +273,7 @@ public class Player {
 	 * iterates currentHand to the next possible hand it can move to
 	 */
 	public void goToNextPlayerHand() {
-		currentHandIndex += 1;
+		currentHandIndex +=1;
 		currentHand = hand.get(currentHandIndex);
 	}
 	

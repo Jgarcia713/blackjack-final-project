@@ -26,7 +26,7 @@ public class BlackjackGame extends OurObservable {
 		// be able to see those changes.
 		players = new ArrayList<Player>();
 		dealer = new Dealer(players);
-		//music = new SoundController();
+		music = new SoundController();
 	}
 
 	public void addPlayer(String name, boolean isPlayer) {
@@ -116,8 +116,7 @@ public class BlackjackGame extends OurObservable {
 			}
 			}
 		} else if (action == Actions.DOUBLE) {
-			activePlayer.doubleDown();
-			activePlayer.hit(dealer.dealSingleCard());
+			activePlayer.doubleDown(dealer.dealSingleCard());
 			if(!activePlayer.isInLastPlayerHand()) {
 				activePlayer.goToNextPlayerHand(); // go to next hand within the same player
 			}

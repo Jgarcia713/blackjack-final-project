@@ -115,7 +115,7 @@ public class BlackjackHandTest {
 		pl.placeBet(0.01);
 		assertEquals(pl.checkBalance(), 8999.99);
 		assertEquals(pl.getBet(), 0000.01);
-		assertFalse(pl.doubleDown());
+		assertFalse(pl.doubleDown(new Card(Rank.TEN, Suit.HEARTS)));
 		assertEquals(pl.checkBalance(), 8999.98);
 		assertEquals(pl.getBet(), 0000.02);
 		pl.placeBet(1000.00);
