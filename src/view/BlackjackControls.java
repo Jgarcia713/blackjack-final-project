@@ -134,19 +134,30 @@ public class BlackjackControls extends Pane {
 		split = new Button();
 
 		Label insurance = new Label("Purchase insurance of half your bet?");
-		yes = new Button("YES");
-		no = new Button("NO");
+		insurance.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+		yes = new Button();
+		no = new Button();
 
-		insurance.setLayoutX(400);
-		insurance.setLayoutY(400);
-		yes.setLayoutX(430);
-		yes.setLayoutY(430);
-		no.setLayoutX(470);
-		no.setLayoutY(430);
+		insurance.setLayoutX(365);
+		insurance.setLayoutY(370);
+		yes.setLayoutX(348);
+		yes.setLayoutY(400);
+		no.setLayoutX(498);
+		no.setLayoutY(400);
 		this.insurance = new Group();
 		this.insurance.getChildren().addAll(insurance, yes, no);
 		this.insurance.setVisible(false);
 		try {
+			Image yesImage = new Image(new FileInputStream("images/actions/yes.png"), 140, 90, false, true);
+			ImageView yesImageView = new ImageView(yesImage);
+			yes.setGraphic(yesImageView);
+			yes.setStyle("-fx-background-color: transparent");
+
+			Image noImage = new Image(new FileInputStream("images/actions/no.png"), 140, 90, false, true);
+			ImageView noImageView = new ImageView(noImage);
+			no.setGraphic(noImageView);
+			no.setStyle("-fx-background-color: transparent");
+
 			Image hitImage = new Image(new FileInputStream("images/actions/hit.png"), 140, 90, false, true);
 			ImageView hitImageView = new ImageView(hitImage);
 			hit.setGraphic(hitImageView);
@@ -342,23 +353,37 @@ public class BlackjackControls extends Pane {
 		chip500.setOnMouseExited(e -> {
 			AnimationLibrary.scaleDown(chip500);
 		});
-		
+
 		yes.setOnAction(e -> {
 			insurance.setVisible(false);
 			actions.setVisible(true);
 			Player player = theGame.getActivePlayer();
-			if(theGame.isGameOver) { // This may need to account for other cases
+			if (theGame.isGameOver) { // This may need to account for other cases
 				player.betInsurance(bet);
 			} else {
-				player.betInsurance(-bet/2);
+				player.betInsurance(-bet / 2);
 			}
 			this.listener.run();
 		});
-		
+
+		yes.setOnMouseEntered(e -> {
+			AnimationLibrary.scaleUp(yes);
+		});
+		yes.setOnMouseExited(e -> {
+			AnimationLibrary.scaleDown(yes);
+		});
+
 		no.setOnAction(e -> {
 			insurance.setVisible(false);
 			actions.setVisible(true);
 			this.listener.run();
+		});
+
+		no.setOnMouseEntered(e -> {
+			AnimationLibrary.scaleUp(no);
+		});
+		no.setOnMouseExited(e -> {
+			AnimationLibrary.scaleDown(no);
 		});
 	}
 
@@ -396,7 +421,7 @@ public class BlackjackControls extends Pane {
 	 * @param playerName String representing what name to insert in the label.
 	 */
 	public void updateActivePlayerLabel(Player player) {
-		activePlayerLabel.setText(player.getName()+ "'s balance: " + player.checkBalance());
+		activePlayerLabel.setText(player.getName() + "'s balance: " + player.checkBalance());
 	}
 
 }
