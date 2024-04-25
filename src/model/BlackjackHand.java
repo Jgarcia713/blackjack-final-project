@@ -78,9 +78,12 @@ import java.util.ArrayList;
 	 */
 	public void dealCard(Card dealtCard) {
 		// add card to hand
+		//System.out.println(hand.get(0) + " now value " + hand.get(0).getValue() + " now rank " + hand.get(0).getRank());
 		hand.add(dealtCard);
 		total += dealtCard.getValue();
-
+		
+		//System.out.println("Card at 0 " + hand.get(0) + " " + hand.get(0).getValue());
+		//System.out.println();
 		// if total over 21 check for aces
 		if (total + dealtCard.getValue() > 21) {
 
@@ -89,9 +92,9 @@ import java.util.ArrayList;
 			int aceIndex = this.aceIndex();
 			while (aceIndex != -1 && total > 21) {
 
-				hand.remove(aceIndex);
+				Card removedAce = hand.remove(aceIndex);
 				total -= 10;
-				hand.add(aceIndex, new Card(Rank.ONE, dealtCard.getSuit()));
+				hand.add(aceIndex, new Card(Rank.ONE, removedAce.getSuit()));
 				aceIndex = this.aceIndex();
 			}
 
@@ -124,7 +127,6 @@ import java.util.ArrayList;
 			// aces check
 			if(hand.get(0).getValue() == 1 && hand.get(1).getValue() == 11) {
 				// change first ace value from 1 back to 11
-				hand.set(0, new Card(Rank.ACE, hand.get(0).getSuit()) );
 				return true;
 			}
 			if(hand.get(0).getValue() == hand.get(1).getValue()) {
@@ -186,9 +188,14 @@ import java.util.ArrayList;
 	 * @return Card 2nd card in this BlackjackHand
 	 */
 	public Card getCardForSplitting() {
+		
 		Card splitCard = hand.get(1);
 		hand.remove(1);
 		total -= splitCard.getValue();
+		if(hand.get(0).getValue() == 1) {
+			hand.set(0, new Card(Rank.ACE, hand.get(0).getSuit()));
+			total += 10;
+		}
 		return splitCard;
 	}
 	/**
@@ -230,5 +237,5 @@ import java.util.ArrayList;
 		fold = truthValue;
 	}
 
-	public String toString() { return hand.toString() + " " + this.bet; }
+	public String toString() { return hand.toString() + " bet " + this.bet + " total " + this.total; }
 }

@@ -75,6 +75,9 @@ public class Player {
 	public void receivePayout(boolean draw) {
 		// Receive pay-out
 		double handBet = currentHand.getBet();
+		System.out.println("IN PLAYER  HAND BET " + handBet + " BBBBBBBBBBB");
+		System.out.println("IN PLAYER TOTAL " + currentHand.getTotal() + "TTTTTTTTTTTTTTT");
+		System.out.println();
 		if (currentHand.isDoubledDown()) {
 			handBet *= 2;
 		}

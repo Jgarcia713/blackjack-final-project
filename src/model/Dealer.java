@@ -39,7 +39,7 @@ public class Dealer {
 		for (Player player : players) {
 			// deal 2 cards to each player
 			for (int i = 0; i < player.numOfHands(); i++) {
-				player.receiveCards(new Card(Rank.EIGHT, Suit.CLUBS)); // deck.getTopCard());
+				player.receiveCards(new Card(Rank.NINE, Suit.CLUBS)); // deck.getTopCard());
 
 				if (player.getCurrentHandIndex() != player.numOfHands() - 1) {
 					player.goToNextPlayerHand();// iterate to next player hand
@@ -48,19 +48,20 @@ public class Dealer {
 			player.setCurrentHandIndex(0);
 		}
 
-		dealerHand.dealCard(deck.getTopCard());
+		dealerHand.dealCard(new Card(Rank.EIGHT, Suit.CLUBS));
 //		dealerHand.dealCard(new Card(Rank.ACE, Suit.CLUBS)); // fix first card to be an ace
 
 		for (Player player : players) {
 			for (int i = 0; i < player.numOfHands(); i++) {
-				player.receiveCards(new Card(Rank.EIGHT, Suit.DIAMONDS));// deck.getTopCard());
+				player.receiveCards(new Card(Rank.NINE, Suit.DIAMONDS));// deck.getTopCard());
 				if (player.getCurrentHandIndex() != player.numOfHands() - 1) {
 					player.goToNextPlayerHand();// iterate to next player hand
 				}
 			}
 			player.setCurrentHandIndex(0);
 		}
-		dealerHand.dealCard(deck.getTopCard());
+		dealerHand.dealCard(new Card(Rank.EIGHT, Suit.CLUBS));
+		//deck.getTopCard()
 	}
 
 	/**
@@ -105,6 +106,7 @@ public class Dealer {
 	 */
 	public void payWinners() {
 		for (Player player : players) {
+			player.setCurrentHandIndex(0);
 			for (int i = 0; i < player.numOfHands(); i++) { // iterates through players hands
 				if (player.isBusted()) {
 					if(player.getCurrentHandIndex() != player.numOfHands() - 1) {
