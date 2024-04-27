@@ -7,6 +7,7 @@ public class PlayerAccount {
 	private double balance;
 	
 	private int biggestBet;
+	private int biggestAmountWon;
 	private boolean onARun;
 	private int currentWinStreak;
 	private int longestWinStreak;
@@ -38,6 +39,14 @@ public class PlayerAccount {
 	 */
 	public String getPassword() {
 		return password;
+	}
+	
+	/**
+	 * Gets the players biggest amount won
+	 * @return
+	 */
+	public int getBiggestAmountWon() {
+		return biggestAmountWon;
 	}
 	
 	/**
@@ -88,13 +97,6 @@ public class PlayerAccount {
 		return highestBalance;
 	}
 	
-
-
-	
-	
-	
-	
-	
 	
 	
 	/**
@@ -109,6 +111,14 @@ public class PlayerAccount {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	/**
+	 * Sets the new biggestAmount won by the player
+	 * @param amount int new amount
+	 */
+	public void setBiggestAmountWon(int amount) {
+		biggestAmountWon = amount;
 	}
 	
 	/**
