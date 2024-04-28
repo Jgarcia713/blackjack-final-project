@@ -33,8 +33,8 @@ public class BlackjackGame extends OurObservable {
 
 	}
 
-	public void addPlayer(String name, boolean isPlayer) {
-		players.add(new Player(name, isPlayer));
+	public void addPlayer(String name, boolean isPlayer, PlayerAccount player) {
+		players.add(new Player(name, isPlayer, player));
 	}
 
 	/**

@@ -109,7 +109,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 	 * player objects
 	 */
 	private void initializeGame() {
-		game.addPlayer(login.getUsername(), true);
+		game.addPlayer(login.getUsername(), true, new PlayerAccount("username", "username"));
 	}
 
 	/**

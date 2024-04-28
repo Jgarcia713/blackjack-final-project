@@ -10,7 +10,7 @@ import model.*;
 public class BlackjackHandTest {
 	@Test
 	public void testConstructors() {
-		Player pl1 = new Player("player", true);
+		Player pl1 = new Player("player", true, new PlayerAccount("username", "username"));
 		assertTrue("player".equals(pl1.getName()));
 		assertTrue(pl1.isPlayer());
 		assertEquals(pl1.checkBalance(), 100.00);
@@ -24,7 +24,7 @@ public class BlackjackHandTest {
 	
 	@Test
 	public void testCompare() {
-		Player pl1 = new Player("player", true);
+		Player pl1 = new Player("player", true, new PlayerAccount("username", "username"));
 		pl1.receiveCards(new Card(Rank.TEN, Suit.DIAMONDS));
 		pl1.receiveCards(new Card(Rank.DEUCE, Suit.DIAMONDS));
 
@@ -43,7 +43,7 @@ public class BlackjackHandTest {
 	
 	@Test 
 	public void testSplitGeneral() {
-		Player pl = new Player("test", true);
+		Player pl = new Player("test", true, new PlayerAccount("username", "username"));
 		pl.receiveCards(new Card(Rank.TEN, Suit.DIAMONDS));
 		pl.receiveCards(new Card(Rank.TEN, Suit.HEARTS));
 		assertEquals(pl.getHandTotal(), 20);
@@ -70,7 +70,7 @@ public class BlackjackHandTest {
 	
 	@Test
 	public void testCardsGeneral() {
-		Player pl = new Player("test", true);
+		Player pl = new Player("test", true, new PlayerAccount("username", "username"));
 		pl.receiveCards(new Card(Rank.TEN, Suit.DIAMONDS));
 		assertEquals(pl.getHandTotal(), 10);
         assertFalse(pl.hasBlackjack());
@@ -136,7 +136,7 @@ public class BlackjackHandTest {
 	
 	@Test
 	public void testFolding() {
-		Player pl = new Player("test", true);
+		Player pl = new Player("test", true, new PlayerAccount("username", "username"));
 		assertFalse(pl.isFolded());
 		pl.fold();
 		assertTrue(pl.isFolded());
@@ -145,7 +145,7 @@ public class BlackjackHandTest {
 	@Test
     public void testAces() {
         Card ace = new Card(Rank.ACE, Suit.CLUBS);
-        Player pl = new Player("test", true);
+        Player pl = new Player("test", true, new PlayerAccount("username", "username"));
         assertFalse(pl.hit(ace));
         assertEquals(pl.getHandTotal(), 11);
         assertFalse(pl.hasBlackjack());

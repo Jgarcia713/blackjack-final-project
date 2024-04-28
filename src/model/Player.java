@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * @author Jakob Garcia & Brandon Jonas
  */
 public class Player {
+	private PlayerAccount playerAccount;
 	private double balance;
 	private double roundWinnings = 0;
 	private ArrayList<BlackjackHand> hand; // main hand of Blackjack
@@ -23,7 +24,8 @@ public class Player {
 	 * @param name:     player's name
 	 * @param isPlayer: whether or not player is controlled by a human
 	 */
-	public Player(String name, boolean isPlayer) {
+	public Player(String name, boolean isPlayer, PlayerAccount player) {
+		playerAccount = player;
 		balance = 100.00;
 		playerName = name;
 		hand = new ArrayList<>();

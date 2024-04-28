@@ -12,10 +12,10 @@ public class DealerTest {
 	@Test
 	public void testConstructors() {
 		ArrayList<Player> playerList = new ArrayList<>();
-		Player pl1 = new Player("player1", true);
-		Player pl2 = new Player("player2", true);
-		Player pl3 = new Player("player3", true);
-		Player pl4 = new Player("player4", true);
+		Player pl1 = new Player("player1", true, new PlayerAccount("username", "username"));
+		Player pl2 = new Player("player2", true, new PlayerAccount("username", "username"));
+		Player pl3 = new Player("player3", true, new PlayerAccount("username", "username"));
+		Player pl4 = new Player("player4", true, new PlayerAccount("username", "username"));
 		
 		playerList.add(pl1);
 		playerList.add(pl2);

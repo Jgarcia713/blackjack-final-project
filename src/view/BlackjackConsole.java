@@ -2,6 +2,7 @@ package view;
 
 import presenter.BlackjackGame;
 import model.Player;
+import model.PlayerAccount;
 
 import java.util.Scanner;
 import model.Actions;
@@ -21,7 +22,7 @@ public class BlackjackConsole {
     public static void main(String[] args) {
         game = new BlackjackGame();
         // hard coding in one player and one computer for now.
-        game.addPlayer("p1", true);
+        game.addPlayer("p1", true, new PlayerAccount("username", "password"));
         boolean keepPlaying = true;
         while (keepPlaying) {
             game.startRound();
