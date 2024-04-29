@@ -142,7 +142,10 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		ArrayList<Card> dealerCards = theGame.getDealerHand().getHand();
 		for (int i = 0; i < dealerCards.size(); i++) {
 			Card card = dealerCards.get(i);
-			if (i == 1 && dealerCards.size() == 2 && (!theGame.getActivePlayer().isFolded() || !theGame.isGameOver ))
+			// Hide the second card of the dealer unless the dealer has a blackjack and
+			// isn't showing an ace
+			if (i == 1 && ((!theGame.getActivePlayer().isFolded() && dealerCards.get(1).getRank() != Rank.ACE)
+					|| !theGame.isGameOver))
 				hideCard = true;
 			// this long line makes the cards center around a point in the top center of the
 			// canvas
@@ -158,15 +161,14 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 			return;
 		controlBar.updateActivePlayerLabel(theGame.getActivePlayer());
 
-		
 		// check if should ask players about insurance
 		if (theGame.canBuyInsurance() && !this.insurance) {
-			controlBar.showInsuranceElements(() ->{
+			controlBar.showInsuranceElements(() -> {
 				this.insurance = true;
 				this.update(theGame);
 				return;
 			});
-		
+
 		} else if (theGame.isGameOver) { // check if should display game over
 			gc.setFont(new Font(32));
 			gc.setEffect(null);
@@ -177,7 +179,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 				resultsText += "\n" + player.getName() + " Winnings: " + player.getRoundWinnings();
 			}
 			gc.fillText(resultsText, canvas.getWidth() / 2, canvas.getHeight() / 2);
-			this.game.discardCards();		
+			this.game.discardCards();
 			controlBar.showBetElements();
 			drawChips();
 			this.insurance = false;
