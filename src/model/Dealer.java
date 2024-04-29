@@ -109,16 +109,22 @@ public class Dealer {
 			player.setCurrentHandIndex(0);
 			for (int i = 0; i < player.numOfHands(); i++) { // iterates through players hands
 				if (player.isBusted()) {
+					
+					player.getPlayerAccount().setCurrentWinStreak(0); // reset current Win streak
+					
 					if(player.getCurrentHandIndex() != player.numOfHands() - 1) {
 						player.goToNextPlayerHand();// iterate to next player hand
 					}
 					continue;
-				} else if (dealerHand.isBusted())
+				} else if (dealerHand.isBusted()) {
 					player.receivePayout(false);
-				else if (player.getHandTotal() == dealerHand.getTotal())
+ 				}
+				else if (player.getHandTotal() == dealerHand.getTotal()) {
 					player.receivePayout(true);
-				else if (player.getHandTotal() > dealerHand.getTotal())
+				}
+				else if (player.getHandTotal() > dealerHand.getTotal()) {
 					player.receivePayout(false);
+				}
 
 				if (player.getCurrentHandIndex() != player.numOfHands() - 1) {
 					player.goToNextPlayerHand();// iterate to next player hand

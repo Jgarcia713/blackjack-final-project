@@ -6,20 +6,18 @@ public class PlayerAccount {
 	private String password;
 	private double balance;
 	
-	private int biggestBet;
-	private int biggestAmountWon;
-	private boolean onARun;
-	private int currentWinStreak;
-	private int longestWinStreak;
-	private int lowestBalance;
-	private int highestBalance;
+	private double biggestBet; // done
+	private double biggestAmountWon; // done
+	private int currentWinStreak; // done
+	private int longestWinStreak; // done
+	private double lowestBalance; // done
+	private double highestBalance; // done
 	
 	public PlayerAccount(String username, String password) {
 		this.username = username;
 		this.password = username;
 		balance = 100.0;
 		biggestBet = 0;
-		onARun = false;
 		longestWinStreak = 0;
 		lowestBalance = 0;
 		highestBalance = 0;
@@ -45,7 +43,7 @@ public class PlayerAccount {
 	 * Gets the players biggest amount won
 	 * @return
 	 */
-	public int getBiggestAmountWon() {
+	public double getBiggestAmountWon() {
 		return biggestAmountWon;
 	}
 	
@@ -61,7 +59,7 @@ public class PlayerAccount {
 	 * Gets the players biggestBet
 	 * @return in biggestBet
 	 */
-	public int getBiggestBet() {
+	public double getBiggestBet() {
 		return biggestBet;
 	}
 	
@@ -85,7 +83,7 @@ public class PlayerAccount {
 	 * Gets the lowest Balance
 	 * @return int lowestBalance
 	 */
-	public int getLowestBalance() {
+	public double getLowestBalance() {
 		return lowestBalance;
 	}
 	
@@ -93,7 +91,7 @@ public class PlayerAccount {
 	 * Gets the highest balance
 	 * @return int highestBalance
 	 */
-	public int getHighestBalance() {
+	public double getHighestBalance() {
 		return highestBalance;
 	}
 	
@@ -117,7 +115,7 @@ public class PlayerAccount {
 	 * Sets the new biggestAmount won by the player
 	 * @param amount int new amount
 	 */
-	public void setBiggestAmountWon(int amount) {
+	public void setBiggestAmountWon(double amount) {
 		biggestAmountWon = amount;
 	}
 	
@@ -131,15 +129,15 @@ public class PlayerAccount {
 	/**
 	 * Sets the players biggestBet
 	 */
-	public void setBiggestBet(int bet) {
+	public void setBiggestBet(double bet) {
 		biggestBet = bet;
 	}
 	
 	/**
 	 * Sets the current win streak
 	 */
-	public void incrementCurrentWinStreak() {
-		currentWinStreak += 1;
+	public void setCurrentWinStreak(int newStreak) {
+		currentWinStreak = newStreak;
 	}
 	
 	/**
@@ -152,14 +150,14 @@ public class PlayerAccount {
 	/**
 	 * Sets the lowest Balance
 	 */
-	public void setLowestBalance(int balance) {
+	public void setLowestBalance(double balance) {
 		lowestBalance = balance;
 	}
 	
 	/**
 	 * Sets the highest balance
 	 */
-	public void setHighestBalance(int balance) {
+	public void setHighestBalance(double balance) {
 		highestBalance = balance;
 	}
 	

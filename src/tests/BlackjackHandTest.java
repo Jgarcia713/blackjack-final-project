@@ -15,7 +15,7 @@ public class BlackjackHandTest {
 		assertTrue(pl1.isPlayer());
 		assertEquals(pl1.checkBalance(), 100.00);
 		pl1.toString();
-		Player pl2 = new Player("tester", 1264.55, false);
+		Player pl2 = new Player("tester", 1264.55, false, new PlayerAccount("username", "username"));
 		assertTrue("tester".equals(pl2.getName()));
 		assertFalse(pl2.isPlayer());
 		assertEquals(pl2.checkBalance(), 1264.55);
@@ -29,7 +29,7 @@ public class BlackjackHandTest {
 		pl1.receiveCards(new Card(Rank.DEUCE, Suit.DIAMONDS));
 
 
-		Player pl2 = new Player("tester", 1264.55, false);
+		Player pl2 = new Player("tester", 1264.55, false, new PlayerAccount("username", "username"));
 		pl2.receiveCards(new Card(Rank.TEN, Suit.DIAMONDS));
 		pl2.receiveCards(new Card(Rank.THREE, Suit.CLUBS));
 
@@ -106,7 +106,7 @@ public class BlackjackHandTest {
 	
 	@Test
 	public void testBet() {
-		Player pl = new Player("test", 10000.00, true);
+		Player pl = new Player("test", 10000.00, true, new PlayerAccount("username", "username"));
 		assertEquals(pl.checkBalance(), 10000.00);
 		assertEquals(pl.getBet(), 0);
 		pl.placeBet(1000.00);

@@ -68,6 +68,15 @@ public class BlackjackGame extends OurObservable {
 		for (Player player : players) {
 			if (player == activePlayer) {
 				dealer.collectBet(player, activePlayerBet); // Collect bet from the active player
+				
+				if(activePlayerBet > player.getPlayerAccount().getBiggestBet()) {
+					player.getPlayerAccount().setBiggestBet(activePlayerBet); // setting new biggest bet by player
+				}
+				
+				if(player.getBalance() < player.getPlayerAccount().getLowestBalance()) {
+					player.getPlayerAccount().setLowestBalance(player.getBalance()); // setting new lowest Balance
+				}
+				
 			}
 		}
 		dealer.dealCards(); // deal cards to each player and the dealer
@@ -93,9 +102,11 @@ public class BlackjackGame extends OurObservable {
 		if (action == Actions.HIT) {
 			activePlayer.hit(dealer.dealSingleCard());
 			if (activePlayer.isBusted()) {
+				
+				activePlayer.getPlayerAccount().setCurrentWinStreak(0); // set currentWinStreak to 0
 
 				if (!activePlayer.isInLastPlayerHand()) {
-					activePlayer.goToNextPlayerHand(); // go to next hadn within the same player
+					activePlayer.goToNextPlayerHand(); // go to next hand within the same player
 				} else {
 					if (iterator.hasNext()) {
 						activePlayer = iterator.next();
