@@ -1,5 +1,6 @@
 package view;
 
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -18,8 +19,12 @@ public class LoginPane extends Pane {
 
 	private TextField userField;
 	private PasswordField passField;
-	private Button login;
+	private Button login, startGame;
 	private Runnable loginSuccessListener; // A runnable anonymous function passed in to resume the main GUI
+	private Group loginElements, userStats;
+	private GraphicsContext gc;
+	private Canvas canvas;
+	private Image background;
 
 	/**
 	 * Create the login pane
@@ -28,7 +33,9 @@ public class LoginPane extends Pane {
 	 * @param background - the background image for the GUI
 	 */
 	public LoginPane(Canvas canvas, Image background) {
-		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc = canvas.getGraphicsContext2D();
+		this.canvas = canvas;
+		this.background = background;
 		gc.drawImage(background, 0, 0, canvas.getWidth(), canvas.getHeight());
 
 		this.getChildren().add(canvas);
@@ -39,7 +46,7 @@ public class LoginPane extends Pane {
 		gc.fillRect(300, 150, 400, 220);
 		gc.setFill(Color.BLACK);
 
-		initializePane();
+		initializeElements();
 		setEventHandlers();
 	}
 
@@ -58,12 +65,26 @@ public class LoginPane extends Pane {
 		login.setOnAction(e -> {
 			String username = userField.getText();
 			String password = passField.getText();
-			if (username.length() > 0 && password.length() > 0) {
-				if (loginSuccessListener != null) { // Run the anonymous function passed in
-					loginSuccessListener.run();
-				}
+			if (username.length() > 0 && password.length() > 0) { // TODO integrate player account stuff for logging in
+				this.showUserStats();
 			}
 		});
+		startGame.setOnAction(e -> {
+			if (loginSuccessListener != null) { // Run the anonymous function passed in
+				loginSuccessListener.run();
+			}
+		});
+	}
+
+	// TODO Add user stat stuff here
+	private void showUserStats() {
+		gc.drawImage(background, 0, 0, canvas.getWidth(), canvas.getHeight());
+		gc.setGlobalAlpha(.6);
+		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		gc.setGlobalAlpha(1);
+		loginElements.setVisible(false);
+		userStats.setVisible(true);
+
 	}
 
 	/**
@@ -79,40 +100,53 @@ public class LoginPane extends Pane {
 	/**
 	 * Initialize all the different GUI elements for displaying a log in window
 	 */
-	private void initializePane() {
+	private void initializeElements() {
 		Label title = new Label("Login or Create a New Account");
 		title.setStyle("-fx-font-size: 25; -fx-font-weight: bold;");
 		title.setLayoutX(315);
 		title.setLayoutY(160);
-		this.getChildren().add(title);
 
 		Label username = new Label("Username");
 		username.setStyle("-fx-font-size: 18;");
 		username.setLayoutX(330);
 		username.setLayoutY(210);
-		this.getChildren().add(username);
 		userField = new TextField();
 		userField.setLayoutX(420);
 		userField.setLayoutY(213);
 		userField.setPrefWidth(200);
-		this.getChildren().add(userField);
 
 		Label password = new Label("Password");
 		password.setStyle("-fx-font-size: 18;");
 		password.setLayoutX(330);
 		password.setLayoutY(260);
-		this.getChildren().add(password);
 		passField = new PasswordField();
 		passField.setLayoutX(420);
 		passField.setLayoutY(263);
 		passField.setPrefWidth(200);
-		this.getChildren().add(passField);
 
 		login = new Button("Login!");
-		login.setStyle("JA-fx-font-size: 15; -fx-font-weight: bold;");
+		login.setStyle("-fx-font-size: 15; -fx-font-weight: bold;");
 		login.setLayoutX(465);
 		login.setLayoutY(310);
-		this.getChildren().add(login);
+
+		loginElements = new Group();
+		loginElements.getChildren().addAll(title, username, userField, password, passField, login);
+		this.getChildren().add(loginElements);
+
+		startGame = new Button("Start Game!");
+		startGame.setLayoutX(465);
+		startGame.setLayoutY(700);
+		startGame.setStyle("-fx-font-size: 15; -fx-font-weight: bold;");
+		Label temp = new Label("ADD NEW STATS ELEMENTS HERE");
+		temp.setLayoutX(400);
+		temp.setLayoutY(400);
+		temp.setStyle("-fx-font-size: 15; -fx-text-fill: white;");
+
+		userStats = new Group();
+		userStats.getChildren().addAll(startGame, temp);
+		userStats.setVisible(false);
+		this.getChildren().add(userStats);
+
 	}
 
 	/**
