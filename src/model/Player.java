@@ -124,12 +124,6 @@ public class Player {
 				this.getPlayerAccount().setHighestBalance(balance); // setting new highest player balance
 			}
 		}
-//		if (draw)
-//			balance += currentHand.getBet();
-//		else if (currentHand.isBlackJack())
-//			balance += currentHand.getBet() * 2.5;
-//		else
-//			balance += currentHand.getBet() * 2;
 	}
 
 	/**
@@ -160,7 +154,7 @@ public class Player {
 	 * @return
 	 */
 	public boolean split(Card card1, Card card2) {
-		if (currentHand.isSplitable() && hand.size() < 4) {
+		if (currentHand.isSplitable()) {
 			// only splitHand when it has been split less than 4 times & is splitable
 
 			BlackjackHand splitHand = new BlackjackHand();// create new hand
@@ -189,6 +183,7 @@ public class Player {
 		hand.add(firstHand);
 		currentHand = hand.get(0);
 		currentHand.setFold(false);
+		currentHandIndex = 0;
 	}
 
 	public void betInsurance(double bet) {
@@ -323,15 +318,6 @@ public class Player {
 	 */
 	public double getRoundWinnings() {
 		return roundWinnings;
-	}
-
-	/**
-	 * gets the current amount of hands a player has
-	 * 
-	 * @return int num of player's hands
-	 */
-	public int getNumOfBlackjackHands() {
-		return hand.size();
 	}
 
 	/**

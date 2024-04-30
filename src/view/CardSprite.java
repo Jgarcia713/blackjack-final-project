@@ -104,6 +104,7 @@ public class CardSprite {
 		gc.drawImage(img, position.getX(), position.getY(), 122, 173);
 		if (hideCard) {
 			hideCard = false;
+			gc.setEffect(null);
 			return;
 		}
 		gc.setEffect(null);

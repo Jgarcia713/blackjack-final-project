@@ -50,11 +50,11 @@ public class BlackjackHandTest {
 		pl.placeBet(15);
 		assertEquals(pl.getBet(), 15);
 		assertTrue(pl.split(new Card(Rank.TEN, Suit.SPADES), new Card(Rank.TEN, Suit.CLUBS)));
-		assertEquals(pl.getNumOfBlackjackHands(), 2);
+		assertEquals(pl.numOfHands(), 2);
 		assertTrue(pl.split(new Card(Rank.NINE, Suit.SPADES), new Card(Rank.NINE, Suit.CLUBS)));
 		pl.setCurrentHandIndex(1);
 		assertTrue(pl.split(new Card(Rank.TEN, Suit.SPADES), new Card(Rank.TEN, Suit.CLUBS)));
-		assertEquals(pl.getNumOfBlackjackHands(), 4);
+		assertEquals(pl.numOfHands(), 4);
 		assertFalse(pl.split(new Card(Rank.TEN, Suit.SPADES), new Card(Rank.TEN, Suit.CLUBS)));
 		pl.setCurrentHandIndex(0);
 		BlackjackHand hand1 = pl.getHand();

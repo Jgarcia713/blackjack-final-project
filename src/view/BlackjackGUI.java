@@ -47,6 +47,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 	private BlackjackControls controlBar;
 	private LoginPane login;
 	private Image chip1, chip5, chip10, chip25, chip100, chip500;
+	private Image cCard, dCard, hCard, sCard;
 	private boolean insurance = false;
 	private boolean hideCard = false;
 
@@ -69,6 +70,10 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		chip25 = new Image(new FileInputStream("images/chips/chip4.png"), 80, 80, false, false);
 		chip100 = new Image(new FileInputStream("images/chips/chip5.png"), 80, 80, false, false);
 		chip500 = new Image(new FileInputStream("images/chips/chip6.png"), 80, 80, false, false);
+		cCard = new Image(new FileInputStream("images/cCards/blank.png"), 122 / 2 + 3, 173 / 2 + 5, true, true);
+		hCard = new Image(new FileInputStream("images/hCards/blank.png"), 122 / 2 + 3, 173 / 2 + 5, true, true);
+		dCard = new Image(new FileInputStream("images/dCards/blank.png"), 122 / 2 + 3, 173 / 2 + 5, true, true);
+		sCard = new Image(new FileInputStream("images/sCards/blank.png"), 122 / 2 + 3, 173 / 2 + 5, true, true);
 
 		// create canvas
 		canvas = new Canvas(gameWidth, gameHeight);
@@ -176,7 +181,15 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		// update canvas
 		gc.drawImage(background, 0, 0, canvas.getWidth(), canvas.getHeight());
 
-		for (Player player : theGame.getPlayers()) {
+		if (theGame.isGameOver)
+			theGame.getActivePlayer().setCurrentHandIndex(theGame.getActivePlayer().numOfHands() - 1);
+
+		// Display split hands if player has split
+		if (theGame.getActivePlayer() != null && theGame.getActivePlayer().numOfHands() > 1) {
+			this.showSplitHands(theGame.getActivePlayer().getCurrentHandIndex(), theGame);
+		}
+
+		for (Player player : theGame.getPlayers()) { // Display player cards
 			ArrayList<Card> cards = player.getHand().getHand();
 			for (int i = 0; i < cards.size(); i++) {
 				Card card = player.getHand().getHand().get(i);
@@ -191,17 +204,23 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		}
 
 		ArrayList<Card> dealerCards = theGame.getDealerHand().getHand();
-		for (int i = 0; i < dealerCards.size(); i++) {
+		for (int i = 0; i < dealerCards.size(); i++) { // display dealer cards
 			Card card = dealerCards.get(i);
 			// Hide the second card of the dealer unless the dealer has a blackjack and
 			// isn't showing an ace
-			if (i == 1 && ((!theGame.getActivePlayer().isFolded() && dealerCards.get(1).getRank() != Rank.ACE)
-					|| !theGame.isGameOver))
+			if (i == 1 && dealerCards.size() == 2
+					&& ((!theGame.getActivePlayer().isFolded() && dealerCards.get(1).getRank() != Rank.ACE)
+							|| !theGame.isGameOver))
 				hideCard = true;
 			// this long line makes the cards center around a point in the top center of the
 			// canvas
-			CardSprite cardSprite = new CardSprite(gc, canvas.getWidth() / 2.0 + (i - dealerCards.size() / 2.0) * 120,
-					canvas.getHeight() * 0.2, 0, card, hideCard);
+			CardSprite cardSprite;
+			if (theGame.getActivePlayer().numOfHands() > 1 && theGame.isGameOver)
+				cardSprite = new CardSprite(gc, canvas.getWidth() / 2.0 + (i - dealerCards.size() / 2.0) * 120,
+						canvas.getHeight() * 0.2 - 60, 0, card, hideCard);
+			else
+				cardSprite = new CardSprite(gc, canvas.getWidth() / 2.0 + (i - dealerCards.size() / 2.0) * 120,
+						canvas.getHeight() * 0.2, 0, card, hideCard);
 
 			cardSprite.draw();
 			hideCard = false;
@@ -229,12 +248,42 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 				resultsText += "\n" + player.getName() + " Score: " + player.getHandTotal();
 				resultsText += "\n" + player.getName() + " Winnings: " + player.getRoundWinnings();
 			}
-			gc.fillText(resultsText, canvas.getWidth() / 2, canvas.getHeight() / 2);
+			if (theGame.getActivePlayer().numOfHands() > 1)
+				gc.fillText(resultsText, canvas.getWidth() / 2, canvas.getHeight() / 2 - 70);
+			else
+				gc.fillText(resultsText, canvas.getWidth() / 2, canvas.getHeight() / 2);
 			this.game.discardCards();
 			controlBar.showBetElements();
 			drawChips();
 			this.insurance = false;
 		}
+	}
+
+	private void showSplitHands(int numOfHands, BlackjackGame theGame) {
+		ArrayList<BlackjackHand> hands = theGame.getActivePlayer().getArrayListHand();
+		Image card = null;
+		for (int i = 0; i < numOfHands; i++) {
+			switch (hands.get(i).getHand().get(0).getSuit()) { // Check the suit of the first card in each hand
+			case SPADES:
+				card = sCard;
+				break;
+			case CLUBS:
+				card = cCard;
+				break;
+			case DIAMONDS:
+				card = dCard;
+				break;
+			case HEARTS:
+				card = hCard;
+				break;
+			}
+
+			gc.drawImage(card, canvas.getWidth() / 2.0 + (i - numOfHands / 2.0) * 65, canvas.getHeight() * 0.7 - 70);
+			gc.setFont(new Font(24));
+			gc.fillText(hands.get(i).getTotal() + "", canvas.getWidth() / 2.0 + (i - numOfHands / 2.0) * 65 + 32,
+					canvas.getHeight() * 0.7 - 20);
+		}
+
 	}
 
 	private void drawChips() {
@@ -251,4 +300,5 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		gc.drawImage(chip500, 920, 654);
 		gc.drawImage(chip500, 915, 654);
 	}
+
 }
