@@ -1,7 +1,10 @@
 package model;
 
-public class PlayerAccount {
+import java.io.Serializable;
+
+public class PlayerAccount implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
 	private double balance;
@@ -15,12 +18,12 @@ public class PlayerAccount {
 	
 	public PlayerAccount(String username, String password) {
 		this.username = username;
-		this.password = username;
+		this.password = password;
 		balance = 100.0;
 		biggestBet = 0;
 		longestWinStreak = 0;
-		lowestBalance = 0;
-		highestBalance = 0;
+		lowestBalance = 100.0;
+		highestBalance = 100.0;
 	}
 	
 	/**

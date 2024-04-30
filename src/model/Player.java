@@ -80,6 +80,7 @@ public class Player {
 		
 		// update current win streak by adding 1
 		this.getPlayerAccount().setCurrentWinStreak(this.getPlayerAccount().getCurrentWinStreak() + 1);
+		System.out.println("checkkkkkkkkk" + this.getPlayerAccount().getCurrentWinStreak());
 		
 		// update longest winStreak if necessary
 		if(this.getPlayerAccount().getCurrentWinStreak() > this.getPlayerAccount().getLongestWinStreak()) {
@@ -103,8 +104,8 @@ public class Player {
 			balance += handBet * 2.5;
 			roundWinnings += handBet * 2.5;
 			
-			if(handBet > this.getPlayerAccount().getBiggestAmountWon()) {
-				this.getPlayerAccount().setBiggestAmountWon(handBet); // setting the biggest amount won
+			if(handBet * 2.5 > this.getPlayerAccount().getBiggestAmountWon()) {
+				this.getPlayerAccount().setBiggestAmountWon(handBet * 2.5); // setting the biggest amount won
 			}
 			
 			if(balance > this.getPlayerAccount().getHighestBalance()) {
@@ -115,8 +116,8 @@ public class Player {
 			balance += handBet * 2;
 			roundWinnings += handBet * 2;
 			
-			if(handBet > this.getPlayerAccount().getBiggestAmountWon()) {
-				this.getPlayerAccount().setBiggestAmountWon(handBet); // setting the biggest amount won
+			if(handBet * 2 > this.getPlayerAccount().getBiggestAmountWon()) {
+				this.getPlayerAccount().setBiggestAmountWon(handBet * 2); // setting the biggest amount won
 			}
 			
 			if(balance > this.getPlayerAccount().getHighestBalance()) {

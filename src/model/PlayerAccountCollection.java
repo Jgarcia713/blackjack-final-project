@@ -18,6 +18,12 @@ public class PlayerAccountCollection {
 		return playerCollection;
 	}
 	
+	public void readInHashtable(Hashtable<String, PlayerAccount> playerCollection) {
+		if(playerCollection != null) {
+		this.playerCollection = playerCollection;
+		}
+	}
+	
 	/**
 	 * adds Player to the hashtable if it is not already present
 	 * returning true if done successfully and false if not
@@ -69,7 +75,7 @@ public class PlayerAccountCollection {
 	 * @return boolean based on if username is present already
 	 */
 	public boolean checkForUsername(String Username) {
-		return playerCollection.contains(Username);
+		return playerCollection.containsKey(Username);
 	}
 	
 	/**

@@ -3,13 +3,17 @@ package view;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import model.PlayerAccount;
+import model.PlayerAccountCollection;
 
 /**
  * This class represents the login window for Blackjack GUI. Users cannot
@@ -17,6 +21,8 @@ import javafx.scene.paint.Color;
  */
 public class LoginPane extends Pane {
 
+	private PlayerAccountCollection playerCollection;
+	private String finalUsername = "";
 	private TextField userField;
 	private PasswordField passField;
 	private Button login, startGame, newAccount;
@@ -32,7 +38,8 @@ public class LoginPane extends Pane {
 	 * @param canvas     - A canvas created in BlackjackGUI
 	 * @param background - the background image for the GUI
 	 */
-	public LoginPane(Canvas canvas, Image background) {
+	public LoginPane(Canvas canvas, Image background, PlayerAccountCollection playerCollection) {
+		this.playerCollection = playerCollection;
 		gc = canvas.getGraphicsContext2D();
 		this.canvas = canvas;
 		this.background = background;
@@ -65,16 +72,57 @@ public class LoginPane extends Pane {
 		login.setOnAction(e -> {
 			String username = userField.getText();
 			String password = passField.getText();
+			//playerCollection.getPlayer("test").setLowestBalance(100.0);
+			System.out.println("YEAAAAAAAAAA Username " + playerCollection.getPlayer("test").getUsername() + " Password " + playerCollection.getPlayer("test").getPassword());
+			System.out.println("USERNAME " + username + " PASSWORD " + password);
 			if (username.length() > 0 && password.length() > 0) { // TODO integrate player account stuff for logging in
-				this.showUserStats();
+				if(playerCollection.checkForUsername(username)) {
+					// username exists
+					if(playerCollection.checkPassword(username, password)) {
+						// password is correct
+						finalUsername = username;
+						this.showUserStats();
+					}
+					else {
+						// password is incorrect
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setHeaderText("Account exists but password is incorrect");
+						alert.showAndWait();
+					}
+					
+				}
+				else {
+					// username doesn't exist
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setHeaderText("Player Account does not exist");
+					alert.showAndWait();
+				}
 			}
 		});
+		
 		startGame.setOnAction(e -> {
 			if (loginSuccessListener != null) { // Run the anonymous function passed in
 				loginSuccessListener.run();
 			}
 		});
+		
 		newAccount.setOnAction(e -> {
+			String username = userField.getText();
+			String password = passField.getText();
+			System.out.println(password);
+			// add Player
+			boolean isComplete = playerCollection.addPlayer(username, password);
+			if(isComplete) {
+				// new player created 
+				finalUsername = username;
+				this.showUserStats();
+			}
+			else {
+				// username already taken
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setHeaderText("Player username is already taken");
+				alert.showAndWait();
+			}
 			// TODO add implementation for creating a new account
 		});
 	}
@@ -86,8 +134,52 @@ public class LoginPane extends Pane {
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		gc.setGlobalAlpha(1);
 		loginElements.setVisible(false);
+		
+		
+		PlayerAccount playerAccount = playerCollection.getPlayer(finalUsername);
+		Label balance = new Label("Balance: " + playerAccount.getBalance());
+		balance.setLayoutX(320);
+		balance.setLayoutY(100);
+		balance.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
+		
+		Label highestBalance = new Label("Highest Balance: " + playerAccount.getHighestBalance());
+		highestBalance.setLayoutX(320);
+		highestBalance.setLayoutY(250);
+		highestBalance.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
+		
+		Label lowestBalance = new Label("Lowest Balance: " + playerAccount.getLowestBalance());
+		lowestBalance.setLayoutX(320);
+		lowestBalance.setLayoutY(300);
+		lowestBalance.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
+		
+		Label biggestBet = new Label("Biggest Bet: " + playerAccount.getBiggestBet());
+		biggestBet.setLayoutX(320);
+		biggestBet.setLayoutY(350);
+		biggestBet.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
+		
+		Label biggestAmountWon = new Label("Biggest Amount Won: " + playerAccount.getBiggestAmountWon());
+		biggestAmountWon.setLayoutX(320);
+		biggestAmountWon.setLayoutY(400);
+		biggestAmountWon.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
+		
+		Label longestWinStreak = new Label("Longest Win Streak: " + playerAccount.getLongestWinStreak());
+		longestWinStreak.setLayoutX(320);
+		longestWinStreak.setLayoutY(450);
+		longestWinStreak.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
+		
+		Label password = new Label("Password: " + playerAccount.getPassword());
+		password.setLayoutX(320);
+		password.setLayoutY(200);
+		password.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
+		
+		Label username = new Label("Username: " + playerAccount.getUsername());
+		username.setLayoutX(320);
+		username.setLayoutY(150);
+		username.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
+		
+		
+		userStats.getChildren().addAll(balance,highestBalance,lowestBalance,biggestBet,biggestAmountWon,longestWinStreak,password,username);
 		userStats.setVisible(true);
-
 	}
 
 	/**
@@ -145,13 +237,10 @@ public class LoginPane extends Pane {
 		startGame.setLayoutX(465);
 		startGame.setLayoutY(700);
 		startGame.setStyle("-fx-font-size: 15; -fx-font-weight: bold;");
-		Label temp = new Label("ADD NEW STATS ELEMENTS HERE");
-		temp.setLayoutX(400);
-		temp.setLayoutY(400);
-		temp.setStyle("-fx-font-size: 15; -fx-text-fill: white;");
 
+		
 		userStats = new Group();
-		userStats.getChildren().addAll(startGame, temp);
+		userStats.getChildren().addAll(startGame);
 		userStats.setVisible(false);
 		this.getChildren().add(userStats);
 
@@ -165,4 +254,6 @@ public class LoginPane extends Pane {
 	public String getUsername() {
 		return userField.getText();
 	}
+	
+
 }

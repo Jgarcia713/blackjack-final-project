@@ -2,12 +2,22 @@ package view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Optional;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -26,7 +36,9 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		launch(args);
 	}
 
+	
 	private BlackjackGame game;
+	private PlayerAccountCollection playerCollection = new PlayerAccountCollection();
 	private final int gameWidth = 1000;
 	private final int gameHeight = 750;
 	private Canvas canvas;
@@ -62,7 +74,27 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		canvas = new Canvas(gameWidth, gameHeight);
 		gc = canvas.getGraphicsContext2D();
 
-		login = new LoginPane(canvas, background);
+		try {
+		  // read in file into hashtable and then put into the object
+		  FileInputStream rawBytes = new FileInputStream("objects.ser"); 
+		  ObjectInputStream inFile = new ObjectInputStream(rawBytes);
+		  //if(inFile != null) {
+			// set up playerCollection if there was something to read
+		  Hashtable<String, PlayerAccount> savedPlayerCollection = (Hashtable<String, PlayerAccount>) inFile.readObject();
+		  playerCollection.readInHashtable(savedPlayerCollection);
+		  System.out.println("Username " + playerCollection.getPlayer("test").getUsername() + " Password " + playerCollection.getPlayer("test").getPassword());
+		  //}
+		  
+		  }
+		  catch(IOException ioe){
+			  System.out.println("Reading objects failed");
+		  }
+		  catch(ClassNotFoundException c) {
+			  System.out.println("Class is not correct");
+		  }
+		
+		
+		login = new LoginPane(canvas, background, playerCollection);
 		Scene scene = new Scene(login, gameWidth, gameHeight);
 		stage.setScene(scene);
 		stage.setResizable(false);
@@ -71,6 +103,25 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		// Set the login pane to end when this anonymous function is ran
 		login.setOnLoginSuccessListener(() -> {
 			displayBlackjackGUI(stage); // Run the main GUI display
+		});
+		
+		// on closing write Objects
+		stage.setOnCloseRequest((event) -> {
+		try {
+			String fileName = "objects.ser";
+			FileOutputStream bytesToDisk = new FileOutputStream(fileName);
+			ObjectOutputStream outFile = new ObjectOutputStream(bytesToDisk);
+			
+			// write the hashTable to the file
+			outFile.writeObject(playerCollection.getPlayerCollection());
+			bytesToDisk.close();
+		}
+		catch (IOException ioe) { System.out.println("Writing objects failed"); // IOException ioe
+		}
+		  
+		Platform.exit();
+		System.exit(0);
+			
 		});
 
 		stage.show();
@@ -109,7 +160,7 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 	 * player objects
 	 */
 	private void initializeGame() {
-		game.addPlayer(login.getUsername(), true, new PlayerAccount("username", "username"));
+		game.addPlayer(login.getUsername(), true, playerCollection.getPlayer(login.getUsername()));
 	}
 
 	/**

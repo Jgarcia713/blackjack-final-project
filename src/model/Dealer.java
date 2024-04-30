@@ -128,6 +128,9 @@ public class Dealer {
 				else if (player.getHandTotal() > dealerHand.getTotal()) {
 					player.receivePayout(false);
 				}
+				else {
+					player.getPlayerAccount().setCurrentWinStreak(0); // reset current Win streak
+				}
 
 				if (player.getCurrentHandIndex() != player.numOfHands() - 1) {
 					player.goToNextPlayerHand();// iterate to next player hand
