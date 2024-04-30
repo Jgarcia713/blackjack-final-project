@@ -119,6 +119,7 @@ public class BlackjackGame extends OurObservable {
 			}
 		} else if (action == Actions.STAND) {
 			if (!activePlayer.isInLastPlayerHand()) {
+				activePlayer.fold();
 				activePlayer.goToNextPlayerHand(); // go to next hand within the same player
 			} else {
 				activePlayer.fold();

@@ -66,7 +66,7 @@ public class BlackjackControls extends Pane {
 		placeBet.setLayoutX(830);
 		placeBet.setLayoutY(410);
 		resetBet.setLayoutX(760);
-		resetBet.setLayoutY(410);		
+		resetBet.setLayoutY(410);
 
 		try {
 			Image chipImage1 = new Image(new FileInputStream("images/chips/chip1.png"), 80, 80, false, false);
@@ -226,7 +226,9 @@ public class BlackjackControls extends Pane {
 			theGame.music.playSFX("CardsFlipCard.wav");
 			doubleDown.setVisible(false);
 			split.setVisible(false);
-			theGame.makeMove(Actions.HIT);
+			// Maintain controls if busted on a split hand, but not the last hand
+			if (theGame.makeMove(Actions.HIT) && !theGame.isGameOver)
+				this.showActionElements();
 
 		});
 		hit.setOnMouseEntered(e -> {
@@ -288,7 +290,7 @@ public class BlackjackControls extends Pane {
 			theGame.setActivePlayerBet(bet);
 			theGame.startRound();
 		});
-		
+
 		resetBet.setOnAction(event -> {
 			theGame.music.playSFX("PokerChipsSlide.wav");
 			bet = 0;
