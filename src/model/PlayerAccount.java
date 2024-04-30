@@ -125,7 +125,7 @@ public class PlayerAccount implements Serializable {
 	/**
 	 * Sets the players balance
 	 */
-	public void setBalance(int balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 	

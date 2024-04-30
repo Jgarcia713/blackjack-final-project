@@ -73,8 +73,6 @@ public class LoginPane extends Pane {
 			String username = userField.getText();
 			String password = passField.getText();
 			//playerCollection.getPlayer("test").setLowestBalance(100.0);
-			System.out.println("YEAAAAAAAAAA Username " + playerCollection.getPlayer("test").getUsername() + " Password " + playerCollection.getPlayer("test").getPassword());
-			System.out.println("USERNAME " + username + " PASSWORD " + password);
 			if (username.length() > 0 && password.length() > 0) { // TODO integrate player account stuff for logging in
 				if(playerCollection.checkForUsername(username)) {
 					// username exists

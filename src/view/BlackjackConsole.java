@@ -22,7 +22,7 @@ public class BlackjackConsole {
     public static void main(String[] args) {
         game = new BlackjackGame();
         // hard coding in one player and one computer for now.
-        game.addPlayer("p1", true, new PlayerAccount("username", "password"));
+        game.addPlayer("p1", 100.0, true, new PlayerAccount("username", "password"));
         boolean keepPlaying = true;
         while (keepPlaying) {
             game.startRound();

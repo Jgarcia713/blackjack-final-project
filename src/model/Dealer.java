@@ -131,6 +131,9 @@ public class Dealer {
 				else {
 					player.getPlayerAccount().setCurrentWinStreak(0); // reset current Win streak
 				}
+				
+				player.getPlayerAccount().setBalance(player.getBalance());
+				System.out.println(player.getPlayerAccount().getBalance());
 
 				if (player.getCurrentHandIndex() != player.numOfHands() - 1) {
 					player.goToNextPlayerHand();// iterate to next player hand

@@ -87,7 +87,6 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 			// set up playerCollection if there was something to read
 		  Hashtable<String, PlayerAccount> savedPlayerCollection = (Hashtable<String, PlayerAccount>) inFile.readObject();
 		  playerCollection.readInHashtable(savedPlayerCollection);
-		  System.out.println("Username " + playerCollection.getPlayer("test").getUsername() + " Password " + playerCollection.getPlayer("test").getPassword());
 		  //}
 		  
 		  }
@@ -165,7 +164,8 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 	 * player objects
 	 */
 	private void initializeGame() {
-		game.addPlayer(login.getUsername(), true, playerCollection.getPlayer(login.getUsername()));
+		PlayerAccount loggedIn = playerCollection.getPlayer(login.getUsername());
+		game.addPlayer(login.getUsername(), loggedIn.getBalance(), true, loggedIn);
 	}
 
 	/**

@@ -80,7 +80,6 @@ public class Player {
 		
 		// update current win streak by adding 1
 		this.getPlayerAccount().setCurrentWinStreak(this.getPlayerAccount().getCurrentWinStreak() + 1);
-		System.out.println("checkkkkkkkkk" + this.getPlayerAccount().getCurrentWinStreak());
 		
 		// update longest winStreak if necessary
 		if(this.getPlayerAccount().getCurrentWinStreak() > this.getPlayerAccount().getLongestWinStreak()) {
