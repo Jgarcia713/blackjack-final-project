@@ -109,7 +109,7 @@ import java.util.ArrayList;
 	 * 
 	 * @return an index of ace in hand arrayList but -1 if there is none
 	 */
-	private int aceIndex() {
+	public int aceIndex() {
 		for (int i = 0; i < hand.size(); i++) {
 			if (hand.get(i).getValue() == 11) {
 				return i;

@@ -13,7 +13,7 @@ public class Dealer {
 	private final ArrayList<Player> players;
 	private BlackjackHand dealerHand;
 	private boolean folded = false; // indicates if the dealer has folded
-	private final int minScore = 16;
+	private final int minScore = 17;
 
 	/**
 	 * Initialize the dealer and their hand. Depends on a list of players from the
@@ -66,10 +66,12 @@ public class Dealer {
 	}
 
 	/**
-	 * Dealer deals to himself until its over the minScore
+	 * Dealer deals to himself until its over the minScore 
+	 * Implements a soft 17 rule in which if the hand contains an ace and the 
+	 * 
 	 */
 	public void hitUntilMinScore() {
-		while (dealerHand.getTotal() < minScore) { // hit until >= minScore
+		while (dealerHand.getTotal() < minScore || (dealerHand.aceIndex() != -1 && dealerHand.getTotal() < 18) ){ // hit until >= minScore
 			dealerHand.dealCard((this.dealSingleCard())); // dealer deals themself a card
 		}
 	}
