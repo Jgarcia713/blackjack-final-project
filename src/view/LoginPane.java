@@ -19,7 +19,7 @@ public class LoginPane extends Pane {
 
 	private TextField userField;
 	private PasswordField passField;
-	private Button login, startGame;
+	private Button login, startGame, newAccount;
 	private Runnable loginSuccessListener; // A runnable anonymous function passed in to resume the main GUI
 	private Group loginElements, userStats;
 	private GraphicsContext gc;
@@ -74,6 +74,9 @@ public class LoginPane extends Pane {
 				loginSuccessListener.run();
 			}
 		});
+		newAccount.setOnAction(e -> {
+			// TODO add implementation for creating a new account
+		});
 	}
 
 	// TODO Add user stat stuff here
@@ -126,11 +129,16 @@ public class LoginPane extends Pane {
 
 		login = new Button("Login!");
 		login.setStyle("-fx-font-size: 15; -fx-font-weight: bold;");
-		login.setLayoutX(465);
+		login.setLayoutX(395);
 		login.setLayoutY(310);
 
+		newAccount = new Button("Create new account");
+		newAccount.setStyle("-fx-font-size: 15; -fx-font-weight: bold;");
+		newAccount.setLayoutX(475);
+		newAccount.setLayoutY(310);
+
 		loginElements = new Group();
-		loginElements.getChildren().addAll(title, username, userField, password, passField, login);
+		loginElements.getChildren().addAll(title, username, userField, password, passField, login, newAccount);
 		this.getChildren().add(loginElements);
 
 		startGame = new Button("Start Game!");
