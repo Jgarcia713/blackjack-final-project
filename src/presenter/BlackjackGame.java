@@ -80,7 +80,8 @@ public class BlackjackGame extends OurObservable {
 
 		if (dealer.hasTwentyOne()) {
 			isGameOver = true;
-			activePlayer.getPlayerAccount().setCurrentWinStreak(0); // set currentWinStreak to 0
+			dealer.payWinners();
+
 		}
 		notifyObservers(this);
 	}

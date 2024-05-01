@@ -62,7 +62,7 @@ public class Dealer {
 		}
 		dealerHand.dealCard(deck.getTopCard());
 //		dealerHand.dealCard(new Card(Rank.TEN, Suit.CLUBS)); // fix first card to be an ace
-
+//
 	}
 
 	/**
