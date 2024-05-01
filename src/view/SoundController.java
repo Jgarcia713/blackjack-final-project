@@ -14,6 +14,9 @@ public class SoundController {
 	public Media media;
 	public MediaPlayer mediaPlayer;
 	
+	/**
+	 * constructs the SoundController object
+	 */
 	public SoundController() {
 		song = "./sounds/parlor_music_4.mp3";
 		file = new File(song);
@@ -30,6 +33,11 @@ public class SoundController {
 			}});
 	}
 	
+	/**
+	 * plays a specified sound effect
+	 * 
+	 * @param sound: the file name of the sound to be played
+	 */
 	public void playSFX(String sound) {
 		String sfx = "./sounds/" + sound;
 		File fileSFX = new File(sfx);

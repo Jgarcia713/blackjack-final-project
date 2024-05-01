@@ -252,6 +252,12 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		}
 	}
 
+	/**
+	 * shows the gui element for the split hands
+	 * 
+	 * @param numOfHands: number of hands currently held by the player
+	 * @param theGame: the game of blackjack currently being played
+	 */
 	private void showSplitHands(int numOfHands, BlackjackGame theGame) {
 		ArrayList<BlackjackHand> hands = theGame.getActivePlayer().getArrayListHand();
 		Image card = null;
@@ -279,6 +285,9 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 
 	}
 
+	/**
+	 * draws the chip gui elements
+	 */
 	private void drawChips() {
 		gc.drawImage(chip1, 820, 454);
 		gc.drawImage(chip1, 815, 454);

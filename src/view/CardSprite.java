@@ -135,6 +135,9 @@ public class CardSprite {
 
 	}
 
+	/**
+	 * creates the card images
+	 */
 	private void createCardDisplay() {
 		Image suitImage = null;
 		try {

@@ -147,6 +147,9 @@ public class LoginPane extends Pane {
 		});
 	}
 
+	/**
+	 * shows the current user's statistics
+	 */
 	public void showUserStats() {
 		this.redrawBackground();
 		loginElements.setVisible(false);
@@ -224,6 +227,11 @@ public class LoginPane extends Pane {
 		this.getChildren().add(userStats);
 	}
 
+	/**
+	 * displays the balance graph
+	 * 
+	 * @param playerAccount: the account to show the graph for
+	 */
 	private void displayBalanceGraph(PlayerAccount playerAccount) {
 		ArrayList<Double> yValues = playerAccount.getPreviousBalances();
 
@@ -267,6 +275,11 @@ public class LoginPane extends Pane {
 		userStats.getChildren().add(lineChart);
 	}
 
+	/**
+	 * displays the recent balance graph
+	 * 
+	 * @param playerAccount: the account to show the graph for
+	 */
 	private void displayRecentBalanceGraph(PlayerAccount playerAccount) {
 		ArrayList<Double> yValues = playerAccount.getPreviousBalances();
 
@@ -321,6 +334,11 @@ public class LoginPane extends Pane {
 		userStats.getChildren().add(lineChart);
 	}
 
+	/**
+	 * displays the win rate graph
+	 * 
+	 * @param playerAccount: the account to show the graph for
+	 */
 	private void displayWinRateGraph(PlayerAccount playerAccount) {
 		double winRatio = playerAccount.getWinRatio();
 
@@ -446,6 +464,9 @@ public class LoginPane extends Pane {
 		return this.finalUsername;
 	}
 
+	/**
+	 * redraws the table image background\
+	 */
 	private void redrawBackground() {
 		gc.drawImage(background, 0, 0, canvas.getWidth(), canvas.getHeight());
 		gc.setGlobalAlpha(.6);
