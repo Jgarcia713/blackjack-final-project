@@ -21,6 +21,11 @@ public final class AnimationLibrary {
     private AnimationLibrary() {};
     private static final ScaleTransition scale =  new ScaleTransition();;
 
+    /**
+     *  Scales object as an animation
+     * 
+     *  @param node: object to apply animation to
+     */
     public static void scaleUp(Node node) {
         ScaleTransition scale = new ScaleTransition();
         scale.setDuration(Duration.millis(100));
@@ -32,6 +37,12 @@ public final class AnimationLibrary {
         scale.setNode(node);
         scale.play();
     }
+    
+    /**
+     *  Scales object down as an animation
+     * 
+     *  @param node: object to apply animation to
+     */
     public static void scaleDown(Node node) {
         ScaleTransition scale = new ScaleTransition();
         scale.setDuration(Duration.millis(100));
@@ -44,6 +55,13 @@ public final class AnimationLibrary {
         scale.play();
     }
 
+    /**
+     *  Scales and moves object as an animation
+     * 
+     *  @param node: object to apply animation to
+     *  @param moveTo: point to move to
+     *  @param scaleTo: how big to make the object
+     */
     public static void moveAndScale(Node node, Point2D moveTo, double scaleTo) {
         ScaleTransition scale = new ScaleTransition();
         scale.setFromX(node.getScaleX());

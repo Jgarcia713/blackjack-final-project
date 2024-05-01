@@ -430,6 +430,8 @@ public class BlackjackControls extends Pane {
 	/**
 	 * Show the insurance elements on the GUI to let the players place insurance
 	 * bets.
+	 * 
+	 * @param listener: Runnable to update this.listener to
 	 */
 	public void showInsuranceElements(Runnable listener) {
 		insurance.setVisible(true);
