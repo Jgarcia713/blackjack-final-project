@@ -8,16 +8,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Optional;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -96,8 +92,8 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		}
 
 		login = new LoginPane(canvas, background, playerCollection);
-		Scene scene = new Scene(login, gameWidth, gameHeight);
-		stage.setScene(scene);
+		Scene loginScene = new Scene(login, gameWidth, gameHeight);
+		stage.setScene(loginScene);
 		stage.setResizable(false);
 		stage.setTitle("Blackjack");
 		game = new BlackjackGame();
@@ -148,8 +144,8 @@ public class BlackjackGUI extends Application implements OurObserver<BlackjackGa
 		pane.getChildren().add(controlBar);
 
 		// initialize scene
-		Scene scene = new Scene(pane, gameWidth, gameHeight);
-		stage.setScene(scene);
+		Scene gameScene = new Scene(pane, gameWidth, gameHeight);
+		stage.setScene(gameScene);
 
 		// update game
 		update(game);

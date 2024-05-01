@@ -12,7 +12,6 @@ import javafx.scene.control.Alert.AlertType;
 
 public class BlackjackGame extends OurObservable {
 	private ArrayList<Player> players;
-	private ArrayList<Integer> playerBets;
 	private Iterator<Player> iterator;
 	private Dealer dealer;
 	private Player activePlayer;
@@ -66,21 +65,22 @@ public class BlackjackGame extends OurObservable {
 		for (Player player : players) {
 			if (player == activePlayer) {
 				dealer.collectBet(player, activePlayerBet); // Collect bet from the active player
-				
-				if(activePlayerBet > player.getPlayerAccount().getBiggestBet()) {
+
+				if (activePlayerBet > player.getPlayerAccount().getBiggestBet()) {
 					player.getPlayerAccount().setBiggestBet(activePlayerBet); // setting new biggest bet by player
 				}
-				
-				if(player.getBalance() < player.getPlayerAccount().getLowestBalance()) {
+
+				if (player.getBalance() < player.getPlayerAccount().getLowestBalance()) {
 					player.getPlayerAccount().setLowestBalance(player.getBalance()); // setting new lowest Balance
 				}
-				
+
 			}
 		}
 		dealer.dealCards(); // deal cards to each player and the dealer
 
 		if (dealer.hasTwentyOne()) {
 			isGameOver = true;
+			activePlayer.getPlayerAccount().setCurrentWinStreak(0); // set currentWinStreak to 0
 		}
 		notifyObservers(this);
 	}
@@ -100,8 +100,6 @@ public class BlackjackGame extends OurObservable {
 		if (action == Actions.HIT) {
 			activePlayer.hit(dealer.dealSingleCard());
 			if (activePlayer.isBusted()) {
-				
-				activePlayer.getPlayerAccount().setCurrentWinStreak(0); // set currentWinStreak to 0
 
 				if (!activePlayer.isInLastPlayerHand()) {
 					activePlayer.goToNextPlayerHand(); // go to next hand within the same player
@@ -229,5 +227,12 @@ public class BlackjackGame extends OurObservable {
 	public boolean canBuyInsurance() {
 		return (dealer.getDealerHand().size() == 2)
 				&& (dealer.getDealerHand().get(0).getValue() == 11 || dealer.getDealerHand().get(0).getValue() == 1);
+	}
+
+	/**
+	 * Clear all players from the game
+	 */
+	public void clearPlayers() {
+		players = new ArrayList<Player>();
 	}
 }

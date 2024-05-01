@@ -406,6 +406,7 @@ public class BlackjackControls extends Pane {
 		no.setOnMouseExited(e -> {
 			AnimationLibrary.scaleDown(no);
 		});
+
 	}
 
 	/**

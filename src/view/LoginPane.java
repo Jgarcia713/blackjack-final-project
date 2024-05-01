@@ -6,8 +6,12 @@ import java.util.Collections;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -34,6 +38,7 @@ public class LoginPane extends Pane {
 	private GraphicsContext gc;
 	private Canvas canvas;
 	private Image background;
+	private ComboBox<String> menu;
 
 	/**
 	 * Create the login pane
@@ -82,6 +87,7 @@ public class LoginPane extends Pane {
 						// password is correct
 						finalUsername = username;
 						this.showUserStats();
+						this.displayBalanceGraph(playerCollection.getPlayer(finalUsername));
 					} else {
 						// password is incorrect
 						Alert alert = new Alert(AlertType.INFORMATION);
@@ -113,6 +119,7 @@ public class LoginPane extends Pane {
 				// new player created
 				finalUsername = username;
 				this.showUserStats();
+				this.displayBalanceGraph(playerCollection.getPlayer(finalUsername));
 			} else {
 				// username already taken
 				Alert alert = new Alert(AlertType.INFORMATION);
@@ -120,13 +127,28 @@ public class LoginPane extends Pane {
 				alert.showAndWait();
 			}
 		});
+
+		menu.setOnAction(e -> {
+			String selectedOption = menu.getValue();
+			if (selectedOption.equals("Total Change in Balance")) {
+				this.getChildren().remove(userStats);
+				this.showUserStats();
+				this.displayBalanceGraph(playerCollection.getPlayer(finalUsername));
+			} else if (selectedOption.equals("Recent Change in Balance")) {
+				this.getChildren().remove(userStats);
+				this.showUserStats();
+				this.displayRecentBalanceGraph(playerCollection.getPlayer(finalUsername));
+			} else if (selectedOption.equals("Win Rate")) {
+				this.getChildren().remove(userStats);
+				this.showUserStats();
+				this.displayWinRateGraph(playerCollection.getPlayer(finalUsername));
+			}
+
+		});
 	}
 
-	private void showUserStats() {
-		gc.drawImage(background, 0, 0, canvas.getWidth(), canvas.getHeight());
-		gc.setGlobalAlpha(.6);
-		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		gc.setGlobalAlpha(1);
+	public void showUserStats() {
+		this.redrawBackground();
 		loginElements.setVisible(false);
 
 		PlayerAccount playerAccount = playerCollection.getPlayer(finalUsername);
@@ -140,58 +162,210 @@ public class LoginPane extends Pane {
 		Label username = new Label("Welcome " + playerAccount.getUsername() + ",\nWould you care to play a game?");
 		username.setLayoutX(10);
 		username.setLayoutY(0);
-		username.setStyle("-fx-font-size: 46; -fx-text-fill: white; -fx-font-family: Consolas;");
+		username.setStyle("-fx-font-size: 36; -fx-text-fill: white; -fx-font-family: Consolas;");
 
 		Label stats = new Label("Your Play Stats:");
 		stats.setLayoutX(10);
 		stats.setLayoutY(170);
-		stats.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+		stats.setStyle("-fx-font-size: 24; -fx-text-fill: white; -fx-font-family: Consolas;");
 
 		Label balance = new Label(
 				String.format("%-20s %" + max + ".1f", "Current Balance:", playerAccount.getBalance()));
 		balance.setLayoutX(10);
 		balance.setLayoutY(220);
-		balance.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+		balance.setStyle("-fx-font-size: 24; -fx-text-fill: white; -fx-font-family: Consolas;");
 
 		Label highestBalance = new Label(
 				String.format("%-20s %" + max + ".1f", "Highest Balance:", playerAccount.getHighestBalance()));
 		highestBalance.setLayoutX(10);
 		highestBalance.setLayoutY(270);
-		highestBalance.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+		highestBalance.setStyle("-fx-font-size: 24; -fx-text-fill: white; -fx-font-family: Consolas;");
 
 		Label lowestBalance = new Label(
 				String.format("%-20s %" + max + ".1f", "Lowest Balance:", playerAccount.getLowestBalance()));
 		lowestBalance.setLayoutX(10);
 		lowestBalance.setLayoutY(320);
-		lowestBalance.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+		lowestBalance.setStyle("-fx-font-size: 24; -fx-text-fill: white; -fx-font-family: Consolas;");
 
 		Label biggestBet = new Label(
 				String.format("%-20s %" + max + ".1f", "Biggest Bet:", playerAccount.getBiggestBet()));
 		biggestBet.setLayoutX(10);
 		biggestBet.setLayoutY(370);
-		biggestBet.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+		biggestBet.setStyle("-fx-font-size: 24; -fx-text-fill: white; -fx-font-family: Consolas;");
 
 		Label biggestAmountWon = new Label(
 				String.format("%-20s %" + max + ".1f", "Biggest Amount Won:", playerAccount.getBiggestAmountWon()));
 		biggestAmountWon.setLayoutX(10);
 		biggestAmountWon.setLayoutY(420);
-		biggestAmountWon.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+		biggestAmountWon.setStyle("-fx-font-size: 24; -fx-text-fill: white; -fx-font-family: Consolas;");
 
 		Label longestWinStreak = new Label(String.format("%-20s %" + max + ".1f", "Longest Win Streak:",
 				playerAccount.getLongestWinStreak() * 1.0));
 		longestWinStreak.setLayoutX(10);
 		longestWinStreak.setLayoutY(470);
-		longestWinStreak.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+		longestWinStreak.setStyle("-fx-font-size: 24; -fx-text-fill: white; -fx-font-family: Consolas;");
 
 		Label currentWinStreak = new Label(String.format("%-20s %" + max + ".1f", "Current Win Streak:",
 				playerAccount.getCurrentWinStreak() * 1.0));
 		currentWinStreak.setLayoutX(10);
 		currentWinStreak.setLayoutY(520);
-		currentWinStreak.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+		currentWinStreak.setStyle("-fx-font-size: 24; -fx-text-fill: white; -fx-font-family: Consolas;");
 
+		Label totalGames = new Label(String.format("%-20s %" + max + ".1f", "Total Games Played:",
+				playerAccount.getTotalGamesPlayed() * 1.0));
+		totalGames.setLayoutX(10);
+		totalGames.setLayoutY(570);
+		totalGames.setStyle("-fx-font-size: 24; -fx-text-fill: white; -fx-font-family: Consolas;");
+
+		userStats = new Group();
 		userStats.getChildren().addAll(balance, highestBalance, lowestBalance, biggestBet, biggestAmountWon,
-				longestWinStreak, currentWinStreak, stats, username);
+				longestWinStreak, currentWinStreak, stats, username, totalGames, startGame, menu);
 		userStats.setVisible(true);
+		this.getChildren().add(userStats);
+	}
+
+	private void displayBalanceGraph(PlayerAccount playerAccount) {
+		ArrayList<Double> yValues = playerAccount.getPreviousBalances();
+
+		// Create x-values corresponding to indices of the array
+		ArrayList<Integer> xValues = new ArrayList<>();
+		for (int i = 0; i < yValues.size(); i++) {
+			xValues.add(i);
+		}
+
+		// Define the axes
+		final NumberAxis xAxis = new NumberAxis();
+		final NumberAxis yAxis = new NumberAxis();
+		yAxis.setLabel("Balance");
+		xAxis.setLabel("Round #");
+		xAxis.setTickLabelFill(Color.WHITE);
+		yAxis.setTickLabelFill(Color.WHITE);
+
+		// Create the line chart
+		final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+		lineChart.setTitle("\t\tTotal Change in Balance");
+		lineChart.setStyle("-fx-font-size: 16px;");
+		lineChart.getXAxis().lookup(".axis-label").setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+		lineChart.getYAxis().lookup(".axis-label").setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+		lineChart.lookup(".chart-title").setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+
+		// Define the data series
+		XYChart.Series<Number, Number> series = new XYChart.Series<>();
+		series.setName("Balance over rounds");
+
+		// Add data points to the series
+		for (int i = 0; i < yValues.size(); i++) {
+			series.getData().add(new XYChart.Data<>(xValues.get(i), yValues.get(i)));
+		}
+
+		// Add the series to the chart
+		lineChart.getData().add(series);
+
+		lineChart.setLayoutX(500);
+		lineChart.setLayoutY(200);
+
+		userStats.getChildren().add(lineChart);
+	}
+
+	private void displayRecentBalanceGraph(PlayerAccount playerAccount) {
+		ArrayList<Double> yValues = playerAccount.getPreviousBalances();
+
+		int size = Math.min(10, yValues.size());
+
+		// Create x-values corresponding to indices of the array
+		ArrayList<Integer> xValues = new ArrayList<>();
+		for (int i = 0; i < size; i++) {
+			xValues.add(i);
+		}
+
+		// Define the axes
+		final NumberAxis xAxis = new NumberAxis();
+		final NumberAxis yAxis = new NumberAxis();
+		yAxis.setLabel("Balance");
+		xAxis.setLabel("Round #");
+		xAxis.setTickLabelFill(Color.WHITE);
+		yAxis.setTickLabelFill(Color.WHITE);
+		yAxis.setAutoRanging(false);
+
+		// Create the line chart
+		final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+		lineChart.setTitle("\t\tRecent Change in Balance");
+		lineChart.setStyle("-fx-font-size: 16px;");
+		lineChart.getXAxis().lookup(".axis-label").setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+		lineChart.getYAxis().lookup(".axis-label").setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+		lineChart.lookup(".chart-title").setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+
+		// Define the data series
+		XYChart.Series<Number, Number> series = new XYChart.Series<>();
+		series.setName("Balance over last 10 rounds");
+
+		double max = yValues.get(yValues.size() - size);
+		double min = yValues.get(yValues.size() - size);
+		// Add data points to the series
+		for (int i = 0; i < size; i++) {
+			series.getData().add(new XYChart.Data<>(xValues.get(i), yValues.get(yValues.size() - size + i)));
+			if (yValues.get(yValues.size() - size + i) > max)
+				max = yValues.get(yValues.size() - size + i);
+			if (yValues.get(yValues.size() - size + i) < min)
+				min = yValues.get(yValues.size() - size + i);
+		}
+		yAxis.setUpperBound(max + 10 * ("" + max).length());
+		yAxis.setLowerBound(min - 10 * ("" + min).length());
+
+		// Add the series to the chart
+		lineChart.getData().add(series);
+
+		lineChart.setLayoutX(500);
+		lineChart.setLayoutY(200);
+
+		userStats.getChildren().add(lineChart);
+	}
+
+	private void displayWinRateGraph(PlayerAccount playerAccount) {
+		double winRatio = playerAccount.getWinRatio();
+
+		// Create x-values corresponding to indices of the array
+		ArrayList<Integer> xValues = new ArrayList<>();
+		ArrayList<Double> yValues = new ArrayList<>();
+		for (int i = 0; i < 2; i++) {
+			xValues.add(i);
+			yValues.add(i * winRatio);
+		}
+
+		// Define the axes
+		final NumberAxis xAxis = new NumberAxis();
+		final NumberAxis yAxis = new NumberAxis();
+		yAxis.setLabel("Win Rate");
+		xAxis.setTickLabelFill(Color.WHITE);
+		yAxis.setTickLabelFill(Color.WHITE);
+		yAxis.setAutoRanging(false);
+
+		// Create the line chart
+		final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+		lineChart.setTitle("\t\tWin Rate");
+		lineChart.setStyle("-fx-font-size: 16px;");
+		lineChart.getXAxis().lookup(".axis-label").setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+		lineChart.getYAxis().lookup(".axis-label").setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+		lineChart.lookup(".chart-title").setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+
+		// Define the data series
+		XYChart.Series<Number, Number> series = new XYChart.Series<>();
+		series.setName(String.format("Win rate of %.2f", winRatio));
+
+		// Add data points to the series
+		for (int i = 0; i < 2; i++) {
+			series.getData().add(new XYChart.Data<>(xValues.get(i), yValues.get(i)));
+		}
+		yAxis.setUpperBound(1);
+		yAxis.setLowerBound(-1);
+
+		// Add the series to the chart
+		lineChart.getData().add(series);
+
+		lineChart.setLayoutX(500);
+		lineChart.setLayoutY(200);
+
+		userStats.getChildren().add(lineChart);
 	}
 
 	/**
@@ -250,8 +424,14 @@ public class LoginPane extends Pane {
 		startGame.setLayoutY(700);
 		startGame.setStyle("-fx-font-size: 15; -fx-font-weight: bold;");
 
+		menu = new ComboBox<>();
+		// Add items to the ComboBox
+		menu.getItems().addAll("Total Change in Balance", "Recent Change in Balance", "Win Rate");
+		menu.setValue("Total Change in Balance");
+		menu.setLayoutX(660);
+		menu.setLayoutY(610);
+
 		userStats = new Group();
-		userStats.getChildren().addAll(startGame);
 		userStats.setVisible(false);
 		this.getChildren().add(userStats);
 
@@ -263,7 +443,14 @@ public class LoginPane extends Pane {
 	 * @return a string of the username
 	 */
 	public String getUsername() {
-		return userField.getText();
+		return this.finalUsername;
+	}
+
+	private void redrawBackground() {
+		gc.drawImage(background, 0, 0, canvas.getWidth(), canvas.getHeight());
+		gc.setGlobalAlpha(.6);
+		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		gc.setGlobalAlpha(1);
 	}
 
 }

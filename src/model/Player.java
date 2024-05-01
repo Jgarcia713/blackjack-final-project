@@ -78,7 +78,10 @@ public class Player {
 		// Receive pay-out
 
 		// update current win streak by adding 1
-		this.getPlayerAccount().setCurrentWinStreak(this.getPlayerAccount().getCurrentWinStreak() + 1);
+		if (draw)
+			this.getPlayerAccount().setCurrentWinStreak(this.getPlayerAccount().getCurrentWinStreak());
+		else
+			this.getPlayerAccount().setCurrentWinStreak(this.getPlayerAccount().getCurrentWinStreak() + 1);
 
 		// update longest winStreak if necessary
 		if (this.getPlayerAccount().getCurrentWinStreak() > this.getPlayerAccount().getLongestWinStreak()) {

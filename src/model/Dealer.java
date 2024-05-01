@@ -118,8 +118,8 @@ public class Dealer {
 
 					if (player.getCurrentHandIndex() != player.numOfHands() - 1) {
 						player.goToNextPlayerHand();// iterate to next player hand
+						continue;
 					}
-					continue;
 				} else if (dealerHand.isBusted()) {
 					player.receivePayout(false);
 				} else if (player.getHandTotal() == dealerHand.getTotal()) {

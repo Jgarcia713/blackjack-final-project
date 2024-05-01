@@ -16,6 +16,7 @@ public class PlayerAccount implements Serializable {
 	private int longestWinStreak; // done
 	private double lowestBalance; // done
 	private double highestBalance; // done
+	private ArrayList<Integer> winRate;
 	private ArrayList<Double> previousBalances;
 
 	public PlayerAccount(String username, String password) {
@@ -26,6 +27,7 @@ public class PlayerAccount implements Serializable {
 		longestWinStreak = 0;
 		lowestBalance = 1000.0;
 		highestBalance = 1000.0;
+		winRate = new ArrayList<Integer>();
 		previousBalances = new ArrayList<Double>();
 		previousBalances.add(balance);
 	}
@@ -112,6 +114,39 @@ public class PlayerAccount implements Serializable {
 	}
 
 	/**
+	 * Return the ArrayList of previous player balances
+	 * 
+	 * @return ArrayList<Double> previousBalances
+	 */
+	public ArrayList<Double> getPreviousBalances() {
+		return previousBalances;
+	}
+
+	/**
+	 * Return the win rate of the current player on a range of 1 to -1
+	 * 
+	 * @return a double indicating the win ratio
+	 */
+	public double getWinRatio() {
+		double sum = 0;
+		for (int num : winRate) {
+			sum += num;
+		}
+		if (winRate.size() == 0)
+			return 0;
+		return sum / winRate.size();
+	}
+
+	/**
+	 * Return the total amount of games the user has played
+	 * 
+	 * @return an int of the total amount
+	 */
+	public int getTotalGamesPlayed() {
+		return winRate.size();
+	}
+
+	/**
 	 * Sets the player's username
 	 */
 	public void setUsername(String username) {
@@ -153,6 +188,12 @@ public class PlayerAccount implements Serializable {
 	 * Sets the current win streak
 	 */
 	public void setCurrentWinStreak(int newStreak) {
+		if (newStreak > currentWinStreak)
+			winRate.add(1);
+		else if (newStreak == 0)
+			winRate.add(-1);
+		else if (newStreak == currentWinStreak)
+			winRate.add(0);
 		currentWinStreak = newStreak;
 	}
 
