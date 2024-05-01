@@ -39,7 +39,7 @@ public class Dealer {
 		for (Player player : players) {
 			// deal 2 cards to each player
 			for (int i = 0; i < player.numOfHands(); i++) {
-				player.receiveCards( new Card(Rank.DEUCE, Suit.CLUBS)); //deck.getTopCard());
+				player.receiveCards(deck.getTopCard());
 
 				if (player.getCurrentHandIndex() != player.numOfHands() - 1) {
 					player.goToNextPlayerHand();// iterate to next player hand
@@ -53,7 +53,7 @@ public class Dealer {
 
 		for (Player player : players) {
 			for (int i = 0; i < player.numOfHands(); i++) {
-				player.receiveCards( new Card(Rank.DEUCE, Suit.HEARTS));//deck.getTopCard());
+				player.receiveCards(deck.getTopCard());
 				if (player.getCurrentHandIndex() != player.numOfHands() - 1) {
 					player.goToNextPlayerHand();// iterate to next player hand
 				}
@@ -66,12 +66,13 @@ public class Dealer {
 	}
 
 	/**
-	 * Dealer deals to himself until its over the minScore 
-	 * Implements a soft 17 rule in which if the hand contains an ace and the 
+	 * Dealer deals to himself until its over the minScore Implements a soft 17 rule
+	 * in which if the hand contains an ace and the
 	 * 
 	 */
 	public void hitUntilMinScore() {
-		while (dealerHand.getTotal() < minScore || (dealerHand.aceIndex() != -1 && dealerHand.getTotal() < 18) ){ // hit until >= minScore
+		while (dealerHand.getTotal() < minScore || (dealerHand.aceIndex() != -1 && dealerHand.getTotal() < 18)) {
+			// hit until >= minScore
 			dealerHand.dealCard((this.dealSingleCard())); // dealer deals themself a card
 		}
 	}
@@ -112,28 +113,24 @@ public class Dealer {
 			player.setCurrentHandIndex(0);
 			for (int i = 0; i < player.numOfHands(); i++) { // iterates through players hands
 				if (player.isBusted()) {
-					
+
 					player.getPlayerAccount().setCurrentWinStreak(0); // reset current Win streak
-					
-					if(player.getCurrentHandIndex() != player.numOfHands() - 1) {
+
+					if (player.getCurrentHandIndex() != player.numOfHands() - 1) {
 						player.goToNextPlayerHand();// iterate to next player hand
 					}
 					continue;
 				} else if (dealerHand.isBusted()) {
 					player.receivePayout(false);
- 				}
-				else if (player.getHandTotal() == dealerHand.getTotal()) {
+				} else if (player.getHandTotal() == dealerHand.getTotal()) {
 					player.receivePayout(true);
-				}
-				else if (player.getHandTotal() > dealerHand.getTotal()) {
+				} else if (player.getHandTotal() > dealerHand.getTotal()) {
 					player.receivePayout(false);
-				}
-				else {
+				} else {
 					player.getPlayerAccount().setCurrentWinStreak(0); // reset current Win streak
 				}
-				
+
 				player.getPlayerAccount().setBalance(player.getBalance());
-				System.out.println(player.getPlayerAccount().getBalance());
 
 				if (player.getCurrentHandIndex() != player.numOfHands() - 1) {
 					player.goToNextPlayerHand();// iterate to next player hand

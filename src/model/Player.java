@@ -26,7 +26,7 @@ public class Player {
 	 */
 	public Player(String name, boolean isPlayer, PlayerAccount player) {
 		playerAccount = player;
-		balance = 100.00;
+		balance = 1000.00;
 		playerName = name;
 		hand = new ArrayList<>();
 		BlackjackHand firstHand = new BlackjackHand();
@@ -67,9 +67,8 @@ public class Player {
 	 * Place the bets for this round of blackjack
 	 */
 	public void placeBet(double amount) {
-//		bet = amount;
 		balance -= amount;
-		 currentHand.setBet(amount);
+		currentHand.setBet(amount);
 	}
 
 	/**
@@ -77,15 +76,15 @@ public class Player {
 	 */
 	public void receivePayout(boolean draw) {
 		// Receive pay-out
-		
+
 		// update current win streak by adding 1
 		this.getPlayerAccount().setCurrentWinStreak(this.getPlayerAccount().getCurrentWinStreak() + 1);
-		
+
 		// update longest winStreak if necessary
-		if(this.getPlayerAccount().getCurrentWinStreak() > this.getPlayerAccount().getLongestWinStreak()) {
+		if (this.getPlayerAccount().getCurrentWinStreak() > this.getPlayerAccount().getLongestWinStreak()) {
 			this.getPlayerAccount().setLongestWinStreak(this.getPlayerAccount().getCurrentWinStreak());
 		}
-		
+
 		double handBet = currentHand.getBet();
 		if (currentHand.isDoubledDown()) {
 			handBet *= 2;
@@ -93,33 +92,32 @@ public class Player {
 		if (draw) {
 			balance += handBet;
 			roundWinnings += handBet;
-			
-			if(handBet > this.getPlayerAccount().getBiggestAmountWon()) {
+
+			if (handBet > this.getPlayerAccount().getBiggestAmountWon()) {
 				this.getPlayerAccount().setBiggestAmountWon(handBet); // setting the biggest amount won
 			}
-			
-			
+
 		} else if (currentHand.isBlackJack()) {
 			balance += handBet * 2.5;
 			roundWinnings += handBet * 2.5;
-			
-			if(handBet * 2.5 > this.getPlayerAccount().getBiggestAmountWon()) {
+
+			if (handBet * 2.5 > this.getPlayerAccount().getBiggestAmountWon()) {
 				this.getPlayerAccount().setBiggestAmountWon(handBet * 2.5); // setting the biggest amount won
 			}
-			
-			if(balance > this.getPlayerAccount().getHighestBalance()) {
+
+			if (balance > this.getPlayerAccount().getHighestBalance()) {
 				this.getPlayerAccount().setHighestBalance(balance); // setting new highest player balance
 			}
 
 		} else {
 			balance += handBet * 2;
 			roundWinnings += handBet * 2;
-			
-			if(handBet * 2 > this.getPlayerAccount().getBiggestAmountWon()) {
+
+			if (handBet * 2 > this.getPlayerAccount().getBiggestAmountWon()) {
 				this.getPlayerAccount().setBiggestAmountWon(handBet * 2); // setting the biggest amount won
 			}
-			
-			if(balance > this.getPlayerAccount().getHighestBalance()) {
+
+			if (balance > this.getPlayerAccount().getHighestBalance()) {
 				this.getPlayerAccount().setHighestBalance(balance); // setting new highest player balance
 			}
 		}
@@ -283,9 +281,10 @@ public class Player {
 	public boolean isFolded() {
 		return currentHand.folded();
 	}
-	
+
 	/**
 	 * Get the player's Balance
+	 * 
 	 * @return double player Balance
 	 */
 	public double getBalance() {
@@ -347,9 +346,10 @@ public class Player {
 	public int getCurrentHandIndex() {
 		return currentHandIndex;
 	}
-	
+
 	/**
 	 * Gets the player's account info
+	 * 
 	 * @return playerAccount
 	 */
 	public PlayerAccount getPlayerAccount() {

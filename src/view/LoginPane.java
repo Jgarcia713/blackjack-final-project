@@ -1,5 +1,8 @@
 package view;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -72,24 +75,21 @@ public class LoginPane extends Pane {
 		login.setOnAction(e -> {
 			String username = userField.getText();
 			String password = passField.getText();
-			//playerCollection.getPlayer("test").setLowestBalance(100.0);
-			if (username.length() > 0 && password.length() > 0) { // TODO integrate player account stuff for logging in
-				if(playerCollection.checkForUsername(username)) {
+			if (username.length() > 0 && password.length() > 0) {
+				if (playerCollection.checkForUsername(username)) {
 					// username exists
-					if(playerCollection.checkPassword(username, password)) {
+					if (playerCollection.checkPassword(username, password)) {
 						// password is correct
 						finalUsername = username;
 						this.showUserStats();
-					}
-					else {
+					} else {
 						// password is incorrect
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.setHeaderText("Account exists but password is incorrect");
 						alert.showAndWait();
 					}
-					
-				}
-				else {
+
+				} else {
 					// username doesn't exist
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setHeaderText("Player Account does not exist");
@@ -97,86 +97,100 @@ public class LoginPane extends Pane {
 				}
 			}
 		});
-		
+
 		startGame.setOnAction(e -> {
 			if (loginSuccessListener != null) { // Run the anonymous function passed in
 				loginSuccessListener.run();
 			}
 		});
-		
+
 		newAccount.setOnAction(e -> {
 			String username = userField.getText();
 			String password = passField.getText();
-			System.out.println(password);
 			// add Player
 			boolean isComplete = playerCollection.addPlayer(username, password);
-			if(isComplete) {
-				// new player created 
+			if (isComplete) {
+				// new player created
 				finalUsername = username;
 				this.showUserStats();
-			}
-			else {
+			} else {
 				// username already taken
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setHeaderText("Player username is already taken");
 				alert.showAndWait();
 			}
-			// TODO add implementation for creating a new account
 		});
 	}
 
-	// TODO Add user stat stuff here
 	private void showUserStats() {
 		gc.drawImage(background, 0, 0, canvas.getWidth(), canvas.getHeight());
 		gc.setGlobalAlpha(.6);
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		gc.setGlobalAlpha(1);
 		loginElements.setVisible(false);
-		
-		
+
 		PlayerAccount playerAccount = playerCollection.getPlayer(finalUsername);
-		Label balance = new Label("Balance: " + playerAccount.getBalance());
-		balance.setLayoutX(320);
-		balance.setLayoutY(100);
-		balance.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
-		
-		Label highestBalance = new Label("Highest Balance: " + playerAccount.getHighestBalance());
-		highestBalance.setLayoutX(320);
-		highestBalance.setLayoutY(250);
-		highestBalance.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
-		
-		Label lowestBalance = new Label("Lowest Balance: " + playerAccount.getLowestBalance());
-		lowestBalance.setLayoutX(320);
-		lowestBalance.setLayoutY(300);
-		lowestBalance.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
-		
-		Label biggestBet = new Label("Biggest Bet: " + playerAccount.getBiggestBet());
-		biggestBet.setLayoutX(320);
-		biggestBet.setLayoutY(350);
-		biggestBet.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
-		
-		Label biggestAmountWon = new Label("Biggest Amount Won: " + playerAccount.getBiggestAmountWon());
-		biggestAmountWon.setLayoutX(320);
-		biggestAmountWon.setLayoutY(400);
-		biggestAmountWon.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
-		
-		Label longestWinStreak = new Label("Longest Win Streak: " + playerAccount.getLongestWinStreak());
-		longestWinStreak.setLayoutX(320);
-		longestWinStreak.setLayoutY(450);
-		longestWinStreak.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
-		
-		Label password = new Label("Password: " + playerAccount.getPassword());
-		password.setLayoutX(320);
-		password.setLayoutY(200);
-		password.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
-		
-		Label username = new Label("Username: " + playerAccount.getUsername());
-		username.setLayoutX(320);
-		username.setLayoutY(150);
-		username.setStyle("-fx-font-size: 40; -fx-text-fill: white;");
-		
-		
-		userStats.getChildren().addAll(balance,highestBalance,lowestBalance,biggestBet,biggestAmountWon,longestWinStreak,password,username);
+		ArrayList<Integer> values = new ArrayList<Integer>();
+		values.add((playerAccount.getHighestBalance() + "").length());
+		values.add((playerAccount.getLowestBalance() + "").length());
+		values.add((playerAccount.getBiggestBet() + "").length());
+		values.add((playerAccount.getBiggestAmountWon() + "").length());
+		int max = Collections.max(values);
+
+		Label username = new Label("Welcome " + playerAccount.getUsername() + ",\nWould you care to play a game?");
+		username.setLayoutX(10);
+		username.setLayoutY(0);
+		username.setStyle("-fx-font-size: 46; -fx-text-fill: white; -fx-font-family: Consolas;");
+
+		Label stats = new Label("Your Play Stats:");
+		stats.setLayoutX(10);
+		stats.setLayoutY(170);
+		stats.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+
+		Label balance = new Label(
+				String.format("%-20s %" + max + ".1f", "Current Balance:", playerAccount.getBalance()));
+		balance.setLayoutX(10);
+		balance.setLayoutY(220);
+		balance.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+
+		Label highestBalance = new Label(
+				String.format("%-20s %" + max + ".1f", "Highest Balance:", playerAccount.getHighestBalance()));
+		highestBalance.setLayoutX(10);
+		highestBalance.setLayoutY(270);
+		highestBalance.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+
+		Label lowestBalance = new Label(
+				String.format("%-20s %" + max + ".1f", "Lowest Balance:", playerAccount.getLowestBalance()));
+		lowestBalance.setLayoutX(10);
+		lowestBalance.setLayoutY(320);
+		lowestBalance.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+
+		Label biggestBet = new Label(
+				String.format("%-20s %" + max + ".1f", "Biggest Bet:", playerAccount.getBiggestBet()));
+		biggestBet.setLayoutX(10);
+		biggestBet.setLayoutY(370);
+		biggestBet.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+
+		Label biggestAmountWon = new Label(
+				String.format("%-20s %" + max + ".1f", "Biggest Amount Won:", playerAccount.getBiggestAmountWon()));
+		biggestAmountWon.setLayoutX(10);
+		biggestAmountWon.setLayoutY(420);
+		biggestAmountWon.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+
+		Label longestWinStreak = new Label(String.format("%-20s %" + max + ".1f", "Longest Win Streak:",
+				playerAccount.getLongestWinStreak() * 1.0));
+		longestWinStreak.setLayoutX(10);
+		longestWinStreak.setLayoutY(470);
+		longestWinStreak.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+
+		Label currentWinStreak = new Label(String.format("%-20s %" + max + ".1f", "Current Win Streak:",
+				playerAccount.getCurrentWinStreak() * 1.0));
+		currentWinStreak.setLayoutX(10);
+		currentWinStreak.setLayoutY(520);
+		currentWinStreak.setStyle("-fx-font-size: 34; -fx-text-fill: white; -fx-font-family: Consolas;");
+
+		userStats.getChildren().addAll(balance, highestBalance, lowestBalance, biggestBet, biggestAmountWon,
+				longestWinStreak, currentWinStreak, stats, username);
 		userStats.setVisible(true);
 	}
 
@@ -236,7 +250,6 @@ public class LoginPane extends Pane {
 		startGame.setLayoutY(700);
 		startGame.setStyle("-fx-font-size: 15; -fx-font-weight: bold;");
 
-		
 		userStats = new Group();
 		userStats.getChildren().addAll(startGame);
 		userStats.setVisible(false);
@@ -252,6 +265,5 @@ public class LoginPane extends Pane {
 	public String getUsername() {
 		return userField.getText();
 	}
-	
 
 }
