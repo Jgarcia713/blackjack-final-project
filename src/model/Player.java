@@ -69,6 +69,9 @@ public class Player {
 	public void placeBet(double amount) {
 		balance -= amount;
 		currentHand.setBet(amount);
+		if(balance < this.playerAccount.getLowestBalance()) {
+			this.playerAccount.setLowestBalance(balance);
+		}
 	}
 
 	/**
