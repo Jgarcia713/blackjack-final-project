@@ -324,6 +324,7 @@ public class LoginPane extends Pane {
 		}
 		yAxis.setUpperBound(max + 10 * ("" + max).length());
 		yAxis.setLowerBound(min - 10 * ("" + min).length());
+		yAxis.setTickUnit((int) Math.abs(max - min) / 10);
 
 		// Add the series to the chart
 		lineChart.getData().add(series);
