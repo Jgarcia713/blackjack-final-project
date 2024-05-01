@@ -145,22 +145,21 @@ public class CardSprite {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		switch (card.getRank().getNum()) {
-		case 1, 14:
-			gc.drawImage(suitImage, position.getX() + 30, position.getY() + 55, 60, 60);
-			break;
-		case 2:
-			gc.drawImage(suitImage, position.getX() + 34.5, position.getY() + 35, 50, 50);
-			gc.save();
-			gc.rotate(180);
-			gc.drawImage(suitImage, -position.getX() - 85.5, -position.getY() - 140, 50, 50);
-			gc.restore();
-			break;
-		default:
-			gc.drawImage(suitImage, position.getX() + 30, position.getY() + 55, 60, 60);
+//		switch (card.getRank().getNum()) {
+//		case 1, 14:
+//			gc.drawImage(suitImage, position.getX() + 30, position.getY() + 55, 60, 60);
+//			break;
+//		case 2:
+//			gc.drawImage(suitImage, position.getX() + 34.5, position.getY() + 35, 50, 50);
+//			gc.save();
+//			gc.rotate(180);
+//			gc.drawImage(suitImage, -position.getX() - 85.5, -position.getY() - 140, 50, 50);
+//			gc.restore();
+//			break;
+//		default:
+		gc.drawImage(suitImage, position.getX() + 30, position.getY() + 55, 60, 60);
 
-
-		}
+//		}
 	}
 
 }
